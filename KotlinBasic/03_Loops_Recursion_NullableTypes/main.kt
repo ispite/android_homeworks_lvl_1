@@ -9,12 +9,17 @@ fun main() {
     val a = readLine()?.toIntOrNull() ?: return
     println("Наибольший общий делитель $sumPoint5 и $a = ${largestCommonDivisor(a, sumPoint5)}")
 
-//  функция с массивом возвращает значение [I@f6f4d33  как заставить её работать
-    print(loopForNumbers(n))
+/* то же самое только первая функция возращает массив */
+    val arrList = loopForNumbers(n).toList()
+    println("Число положительных чисел = ${positiveCount(arrList)}")
+    val sumPoint5arr = getSumOfNumbers(arrList)
+    println("Сумма положительных чисел = $sumPoint5arr")
+    print("Введите число для расчета наибольшего общего делителя: ")
+    val aArr = readLine()?.toIntOrNull() ?: return
+    println("Наибольший общий делитель $sumPoint5arr и $aArr = " +
+            "${largestCommonDivisor(aArr, sumPoint5arr)}")
 }
 
-//////////////////////////////////////////
-//функция с массивом
 fun loopForNumbers(n: Int): IntArray {
     val array = IntArray(n)
     var i = 0
@@ -25,7 +30,6 @@ fun loopForNumbers(n: Int): IntArray {
     }
     return array
 }
-/////////////////////////////////////////
 
 fun loopForNumbersList(n: Int): List<Int> {
     val array: MutableList<Int> = mutableListOf()
@@ -41,10 +45,6 @@ fun loopForNumbersList(n: Int): List<Int> {
 fun positiveCount(list: List<Int>): Int {
     var count = 0
     var i = 0
-////////////////////////////////////////
-//    Какой способ предпочтительнее или по желанию разработчика?
-//    while (i in 0 until list.size) {
-//    while (i in 0..list.size - 1) {
     while (i in list.indices) {
         if (list[i] > 0) count++
         i++
