@@ -3,21 +3,21 @@ fun main() {
     val n = readLine()?.toIntOrNull() ?: return
     val list = loopForNumbersList(n)
     println("Число положительных чисел = ${positiveCount(list)}")
-    val sumPoint5 = getSumOfNumbers(list)
-    println("Сумма положительных чисел = $sumPoint5")
+    val sumPoint = getSumOfNumbers(list)
+    println("Сумма положительных чисел = $sumPoint")
     print("Введите число для расчета наибольшего общего делителя: ")
     val a = readLine()?.toIntOrNull() ?: return
-    println("Наибольший общий делитель $sumPoint5 и $a = ${largestCommonDivisor(a, sumPoint5)}")
+    println("Наибольший общий делитель $sumPoint и $a = ${largestCommonDivisor(a, sumPoint)}")
 
 /* то же самое только первая функция возращает массив */
     val arrList = loopForNumbers(n).toList()
     println("Число положительных чисел = ${positiveCount(arrList)}")
-    val sumPoint5arr = getSumOfNumbers(arrList)
-    println("Сумма положительных чисел = $sumPoint5arr")
+    val sumPointarr = getSumOfNumbers(arrList)
+    println("Сумма положительных чисел = $sumPointarr")
     print("Введите число для расчета наибольшего общего делителя: ")
     val aArr = readLine()?.toIntOrNull() ?: return
-    println("Наибольший общий делитель $sumPoint5arr и $aArr = " +
-            "${largestCommonDivisor(aArr, sumPoint5arr)}")
+    println("Наибольший общий делитель $sumPointarr и $aArr = " +
+            "${largestCommonDivisor(aArr, sumPointarr)}")
 }
 
 fun loopForNumbers(n: Int): IntArray {
@@ -31,7 +31,7 @@ fun loopForNumbers(n: Int): IntArray {
     return array
 }
 
-fun loopForNumbersList(n: Int): List<Int> {
+/*fun loopForNumbersList(n: Int): List<Int> {
     val array: MutableList<Int> = mutableListOf()
     var i = 0
     while (i < n) {
@@ -40,6 +40,18 @@ fun loopForNumbersList(n: Int): List<Int> {
         i++
     }
     return array
+}*/
+
+fun loopForNumbersList(n: Int): List<Int> {
+    return mutableListOf<Int>().apply {
+        var i = 0
+        while (i < n) {
+            println("Введите число № ${i + 1}")
+            //array или it не работают =(
+            it.add(readLine()?.toIntOrNull() ?: continue)
+            i++
+        }
+    }
 }
 
 fun positiveCount(list: List<Int>): Int {
