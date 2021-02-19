@@ -47,8 +47,7 @@ fun loopForNumbersList(n: Int): List<Int> {
         var i = 0
         while (i < n) {
             println("Введите число № ${i + 1}")
-            //array или it не работают =(
-            it.add(readLine()?.toIntOrNull() ?: continue)
+            this.add(readLine()?.toIntOrNull() ?: continue)
             i++
         }
     }
