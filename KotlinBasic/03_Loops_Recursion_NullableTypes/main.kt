@@ -12,12 +12,12 @@ fun main() {
 /* то же самое только первая функция возращает массив */
     val arrList = loopForNumbers(n).toList()
     println("Число положительных чисел = ${positiveCount(arrList)}")
-    val sumPointarr = getSumOfNumbers(arrList)
-    println("Сумма положительных чисел = $sumPointarr")
+    val sumPointArr = getSumOfNumbers(arrList)
+    println("Сумма положительных чисел = $sumPointArr")
     print("Введите число для расчета наибольшего общего делителя: ")
     val aArr = readLine()?.toIntOrNull() ?: return
-    println("Наибольший общий делитель $sumPointarr и $aArr = " +
-            "${largestCommonDivisor(aArr, sumPointarr)}")
+    println("Наибольший общий делитель $sumPointArr и $aArr = " +
+            "${largestCommonDivisor(aArr, sumPointArr)}")
 }
 
 fun loopForNumbers(n: Int): IntArray {
@@ -31,25 +31,12 @@ fun loopForNumbers(n: Int): IntArray {
     return array
 }
 
-/*fun loopForNumbersList(n: Int): List<Int> {
-    val array: MutableList<Int> = mutableListOf()
+fun loopForNumbersList(n: Int): List<Int> = mutableListOf<Int>().apply {
     var i = 0
     while (i < n) {
         println("Введите число № ${i + 1}")
-        array.add(readLine()?.toIntOrNull() ?: continue)
+        this.add(readLine()?.toIntOrNull() ?: continue)
         i++
-    }
-    return array
-}*/
-
-fun loopForNumbersList(n: Int): List<Int> {
-    return mutableListOf<Int>().apply {
-        var i = 0
-        while (i < n) {
-            println("Введите число № ${i + 1}")
-            this.add(readLine()?.toIntOrNull() ?: continue)
-            i++
-        }
     }
 }
 
