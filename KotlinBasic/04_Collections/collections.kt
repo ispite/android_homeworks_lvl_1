@@ -1,14 +1,14 @@
 fun main() {
     print("Введите число повторов: ")
     val n = readLine()?.toIntOrNull() ?: return
-//    println(loopForPhoneList(n))
     val phoneList = loopForPhoneListString(n)
     println("Номера начинающиеся на +7 ${listSpecified(phoneList)}")
     println("Количество уникальных введённых номеров = ${sizeOfSet(phoneList)}")
     println("Длина всех введённых номеров = ${sumLengthPhones(phoneList)}")
     val testMap = createPhoneMap(phoneList)
-    printResult(testMap)
-//    printResultPair(testMap)
+    printResult(testMap)/*Печать результата с помощью entry*/
+    printResultPair(testMap)/*Печать результата с помощью пары ключ-значение*/
+    loopForPhoneList(n)/*Другой способ собрать список телефонов пользователей*/
 }
 
 fun loopForPhoneListString(n: Int): List<String> {
@@ -16,7 +16,7 @@ fun loopForPhoneListString(n: Int): List<String> {
     var i = 0
     var temp: String?
     while (i < n) {
-        println("Введите номер телефона № ${i + 1}")
+        print("Введите номер телефона № ${i + 1} ")
         temp = readLine()
         if (temp != null && temp.removePrefix("+").all() { it.isDigit() }) {
             phoneList.add(temp)
@@ -32,7 +32,7 @@ fun loopForPhoneList(n: Int): List<String> {
     val listString: MutableList<String> = mutableListOf()
     var i = 0
     while (i < n) {
-        println("Введите номер телефона № ${i + 1}")
+        print("Введите номер телефона № ${i + 1} ")
         list.add(readLine()?.toLongOrNull() ?: continue)
         listString.add(if (list[i] > 0) {
             '+' + list[i].toString()
