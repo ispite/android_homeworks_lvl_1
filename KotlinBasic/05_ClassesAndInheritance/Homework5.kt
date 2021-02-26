@@ -1,4 +1,4 @@
-import CAI.*
+import cai.*
 
 fun main() {
     val r = Room(11.0)
