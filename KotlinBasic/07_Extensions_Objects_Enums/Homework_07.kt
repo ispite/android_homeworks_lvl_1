@@ -14,6 +14,10 @@ fun main() {
     println("Валюта конвертированная в доллары: ${Currencies.RUS_ROUBLES.convertToUsd(15)}")
     println("Валюта конвертированная в доллары: ${Currencies.US_DOLLARS.convertToUsd(15)}")
     println("Валюта конвертированная в доллары: ${Currencies.EUROS.convertToUsd(15)}")
+
+    println(Currencies.RUS_ROUBLES.expandFunctionality)
+    println(Currencies.EUROS.expandFunctionality)
+    println(Currencies.US_DOLLARS.expandFunctionality)
 }
 
 val Currencies.expandFunctionality: Boolean

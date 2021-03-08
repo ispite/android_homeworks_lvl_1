@@ -44,7 +44,7 @@ sealed class Wallets {
             return sum
         }
 
-        /*override fun moneyInUSD() = Double.apply{
+/*        override fun moneyInUSD() = Double.apply{
             currencyRoubles.forEach{ (k, v) ->
                 this += k*v/73.98
             }
