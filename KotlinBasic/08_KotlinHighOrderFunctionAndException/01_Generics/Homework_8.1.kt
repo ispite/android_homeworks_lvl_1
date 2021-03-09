@@ -1,18 +1,18 @@
+import kotlin.reflect.full.isSubclassOf
+
 fun main() {
-    println(listOfNumbers(listOf(1, 2, 3, 4, 5)))
-    println(listOfNumbers(listOf("1", "2", "3", "4", "5")))
-    println(listOfNumbers(listOf("1", 2, "3", 4.0, "5")))
+    println(listOfNumbers(listOf(1, 2, 3, 4, 5))) //список целых чисел
+    println(listOfNumbers(listOf(1.0, 2.0, 3.0, 4.0, 5.0))) //список вещественных чисел
+    println(listOfNumbers(listOf(1.0, 2, 3.0, 4, 5.0))) //список вещественных и целых чисел
+    println(listOfNumbers(listOf("1", "2", "3", "4", "5"))) //список строк
+    println(listOfNumbers(listOf("1", 2, "3", 4.0, "5"))) //список разных типов
+
+
 }
 
-fun <T> listOfNumbers(list:List<T>):List<T>{
-    return if (list is List<Number>) {
-        list.slice(0..list.lastIndex step 2)
-    } else list
+inline fun <reified T> listOfNumbers(list:List<T>):List<T> {
+    return when {
+        T::class.isSubclassOf(Number::class) -> list.slice(0..list.lastIndex step 2)
+        else -> list
+    }
 }
-
-/*
-inline fun <reified T> listOfNumbers(list:List<T>):List<T>{
-    return if (list is List<Number>) {
-        list.slice(0..list.lastIndex step 2)
-    } else list
-}*/
