@@ -1,20 +1,18 @@
 package classes_08
 
 sealed class Result<T, R> {
-    data class Success<T>(val data:T): Result(){
+    data class Success<T, R>(val data: T) : Result<T, R>()
+
+    data class Error<T, R>(val exception: R) : Result<T, R>()
+
+    fun learningVariance(): Result<out Int, in String> {
+        return ResultObject
     }
 
-    data class Error<R>(val exception:R): Result(){
-    }
+    object ResultObject : Result<Int, String>()
+    object ResultObjectNumberString : Result<Number, String>()
+    object ResultObjectAnyString : Result<Any, String>()
+    object ResultObjectIntCharSequence : Result<Int, CharSequence>()
+    object ResultObjectIntAny : Result<Int, Any>()
 
-    fun qwe():Result<Int, String>{
-        var qwe = result
-        return
-    }
-
-    object result : Result<Int, String>()
-
-    //https://medium.com/androiddevelopers/sealed-with-a-class-a906f28ab7b5
-    //https://medium.com/android-dev-hacks/explore-kotlin-sealed-classes-7f54ddb74f28
-    //https://proandroiddev.com/understanding-generics-and-variance-in-kotlin-714c14564c47
 }

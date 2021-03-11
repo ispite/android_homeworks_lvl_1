@@ -1,4 +1,5 @@
 import classes_08.Queue
+import classes_08.Result
 import kotlin.reflect.full.isSubclassOf
 
 fun main() {
@@ -17,11 +18,26 @@ fun main() {
     println(queue.dequeue())
     println(queue.dequeue())
     println(queue.dequeue())
+
+//    val resultIntString = Result.ResultObject
+//    val checkMethod = resultIntString.learningVariance()
+//    var resultNumberString = Result.ResultObjectNumberString
+//    resultNumberString = checkMethod
+//    var resultAnyString = Result.ResultObjectAnyString
+//    resultAnyString = checkMethod
+//    var resultIntCharSequence = Result.ResultObjectIntCharSequence
+//    resultIntCharSequence = checkMethod
+//    var resultIntAny = Result.ResultObjectIntAny
+//    resultIntAny = checkMethod
 }
 
-inline fun <reified T> listOfNumbers(list:List<T>):List<T> {
+inline fun <reified T> listOfNumbers(list: List<T>): List<T> {
     return when {
         T::class.isSubclassOf(Number::class) -> list.slice(0..list.lastIndex step 2)
         else -> list
     }
+}
+
+fun learningVarianceExternal(): Result<out Int, in String> {
+    return Result.ResultObject
 }
