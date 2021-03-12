@@ -7,9 +7,9 @@ fun main() {
     wallet1.addMoney(Currencies.RUS_ROUBLES, 123.20)
     wallet2.addMoney(Currencies.RUS_ROUBLES, 100, 23)
     println("Деньги в долларах в кошельке №1: " +
-            "${wallet1.moneyInUSD2(CurrencyConverter.rusRoubleExchange, CurrencyConverter.euroExchange)}")
+            "${wallet1.moneyInUSD(CurrencyConverter.rusRoubleExchange, CurrencyConverter.euroExchange)}")
     println("Деньги в долларах в кошельке №2: " +
-            "${wallet2.moneyInUSD2(CurrencyConverter.rusRoubleExchange, CurrencyConverter.euroExchange)}")
+            "${wallet2.moneyInUSD(CurrencyConverter.rusRoubleExchange, CurrencyConverter.euroExchange)}")
 
     println("Валюта конвертированная в доллары: ${Currencies.RUS_ROUBLES.convertToUsd(15)}")
     println("Валюта конвертированная в доллары: ${Currencies.US_DOLLARS.convertToUsd(15)}")
@@ -20,16 +20,7 @@ fun main() {
     println(Currencies.US_DOLLARS.expandFunctionality)
 }
 
-val Currencies.expandFunctionality: Boolean
-    get() {
-        return this == Currencies.nationalCurrency
-    }
-
 object CurrencyConverter {
     const val rusRoubleExchange = 73.98
     const val euroExchange = 0.84
-}
-
-fun Currencies.convertToUsd(amount: Int): Double {
-    return amount / this.exchangeRate
 }

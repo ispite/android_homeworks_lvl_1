@@ -14,9 +14,12 @@ sealed class Wallets {
             }
         }
 
-        override fun moneyInUSD(): Double = currencyRoubles / 73.98 + currencyEuros / 0.84
+        //      конвертация валюты с помощью enum класса
+        override fun moneyInUSD(): Double = currencyRoubles / Currencies.RUS_ROUBLES.exchangeRate +
+                currencyEuros / Currencies.EUROS.exchangeRate
 
-        override fun moneyInUSD2(rusRoubleExchange: Double, euroExchange: Double): Double =
+        //      конвертация валюты с помощью передаваемых значений
+        override fun moneyInUSD(rusRoubleExchange: Double, euroExchange: Double): Double =
                 currencyRoubles / rusRoubleExchange + currencyEuros / euroExchange
     }
 
@@ -33,27 +36,20 @@ sealed class Wallets {
             }
         }
 
-        override fun moneyInUSD(): Double {
+        //      конвертация валюты с помощью enum класса
+        override fun moneyInUSD() = run {
             var sum = 0.0
             currencyRoubles.forEach { (k, v) ->
-                sum += k * v / 73.98
+                sum += k * v / Currencies.RUS_ROUBLES.exchangeRate
             }
             currencyEuros.forEach { (k, v) ->
-                sum += k * v / 0.84
+                sum += k * v / Currencies.EUROS.exchangeRate
             }
-            return sum
+            sum
         }
 
-/*        override fun moneyInUSD() = Double.apply{
-            currencyRoubles.forEach{ (k, v) ->
-                this += k*v/73.98
-            }
-            currencyEuros.forEach{ (k, v) ->
-                this += k*v/0.84
-            }
-        }*/
-
-        override fun moneyInUSD2(rusRoubleExchange: Double, euroExchange: Double): Double {
+        //      конвертация валюты с помощью передаваемых значений
+        override fun moneyInUSD(rusRoubleExchange: Double, euroExchange: Double) = run {
             var sum = 0.0
             currencyRoubles.forEach { (k, v) ->
                 sum += k * v / rusRoubleExchange
@@ -61,10 +57,10 @@ sealed class Wallets {
             currencyEuros.forEach { (k, v) ->
                 sum += k * v / euroExchange
             }
-            return sum
+            sum
         }
     }
 
     abstract fun moneyInUSD(): Double
-    abstract fun moneyInUSD2(rusRoubleExchange: Double, euroExchange: Double): Double
+    abstract fun moneyInUSD(rusRoubleExchange: Double, euroExchange: Double): Double
 }
