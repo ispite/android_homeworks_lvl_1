@@ -19,16 +19,15 @@ fun main() {
     println(queue.dequeue())
     println(queue.dequeue())
 
-//    val resultIntString = Result.ResultObject
-//    val checkMethod = resultIntString.learningVariance()
-//    var resultNumberString = Result.ResultObjectNumberString
-//    resultNumberString = checkMethod
-//    var resultAnyString = Result.ResultObjectAnyString
-//    resultAnyString = checkMethod
-//    var resultIntCharSequence = Result.ResultObjectIntCharSequence
-//    resultIntCharSequence = checkMethod
-//    var resultIntAny = Result.ResultObjectIntAny
-//    resultIntAny = checkMethod
+    val object1 = Result.Success<Int, String>(12)
+    object1.c1 = object1.returnedRandomResult()
+    object1.c2 = object1.returnedRandomResult()
+    object1.d1 = object1.returnedRandomResult()
+    object1.d2 = object1.returnedRandomResult()
+//    object1.e1 = object1.returnedRandomResult()
+//    object1.e2 = object1.returnedRandomResult()
+//    object1.f1 = object1.returnedRandomResult()
+//    object1.f2 = object1.returnedRandomResult()
 }
 
 inline fun <reified T> listOfNumbers(list: List<T>): List<T> {
@@ -36,8 +35,4 @@ inline fun <reified T> listOfNumbers(list: List<T>): List<T> {
         T::class.isSubclassOf(Number::class) -> list.slice(0..list.lastIndex step 2)
         else -> list
     }
-}
-
-fun learningVarianceExternal(): Result<out Int, in String> {
-    return Result.ResultObject
 }
