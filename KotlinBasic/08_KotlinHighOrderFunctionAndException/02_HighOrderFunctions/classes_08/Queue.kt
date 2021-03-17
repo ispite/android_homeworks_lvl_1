@@ -12,4 +12,8 @@ class Queue<T> {
             items.removeFirst()
         } else null
     }
+
+    fun filter(callbackFilter: () -> Unit){
+
+    }
 }
