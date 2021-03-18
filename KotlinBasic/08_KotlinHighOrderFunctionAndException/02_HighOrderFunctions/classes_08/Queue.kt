@@ -13,7 +13,11 @@ class Queue<T> {
         } else null
     }
 
-    fun filter(callbackFilter: () -> Unit){
+/*    fun filter(callbackFilter: (List<T>) -> List<T>):List<T>{
+        return callbackFilter(items)
+    }*/
 
+    fun filter(callbackFilter: () -> Unit):List<T>{
+        return items.filter { it == 'a' }
     }
 }

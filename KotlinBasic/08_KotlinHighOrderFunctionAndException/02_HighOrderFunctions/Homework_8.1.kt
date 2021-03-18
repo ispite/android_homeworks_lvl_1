@@ -43,6 +43,9 @@ fun main() {
 //    e2 = object1.returnedRandomResult()
 //    f1 = object1.returnedRandomResult()
 //    f2 = object1.returnedRandomResult()
+
+    println(queue.filter {  })
+
 }
 
 inline fun <reified T> listOfNumbers(list: List<T>): List<T> {
