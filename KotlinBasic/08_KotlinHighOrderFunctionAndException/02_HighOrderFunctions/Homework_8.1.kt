@@ -48,10 +48,6 @@ fun main() {
 //    e2 = object1.returnedRandomResult()
 //    f1 = object1.returnedRandomResult()
 //    f2 = object1.returnedRandomResult()
-//    var qwe = mutableListOf("sdf", "wer", "fhg")
-//    qwe.contains('q')
-//    println(queue)
-
 }
 
 inline fun <reified T> listOfNumbers(list: List<T>): List<T> {
