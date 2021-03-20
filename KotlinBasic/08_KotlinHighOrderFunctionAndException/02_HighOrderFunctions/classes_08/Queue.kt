@@ -15,6 +15,7 @@ class Queue<T> {
 
     fun filter(callbackFilter: () -> Unit): List<T> {
 //        items.slice(0..list.lastIndex) почему то не работают обычные функции
+        callbackFilter()
         return items.filter { it.toString().contains("a") } /*
  метод возвращает очередь
  безотносительно принимаемой функции и работает только со строками.
