@@ -13,11 +13,11 @@ class Queue<T> {
         } else null
     }
 
-/*    fun filter(callbackFilter: (List<T>) -> List<T>):List<T>{
-        return callbackFilter(items)
-    }*/
-
-    fun filter(callbackFilter: () -> Unit):List<T>{
-        return items.filter { it == 'a' }
+    fun filter(callbackFilter: () -> Unit): List<T> {
+//        items.slice(0..list.lastIndex) почему то не работают обычные функции
+        return items.filter { it.toString().contains("a") } /*
+ метод возвращает очередь
+ безотносительно принимаемой функции и работает только со строками.
+ */
     }
 }

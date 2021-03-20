@@ -14,6 +14,11 @@ fun main() {
     queue.enqueue("asdfgh")
     queue.enqueue("zxcvbn")
 
+    println(queue::filter { println("filtered queue") })
+//    println(queue::filter { queue.items }) очевидно недоступно, т.к. свойство приватное
+//    println(queue::filter {filter:String -> Unit }) какое должно быть лямбда выражение, чтобы его
+//    можно было использовать в методе класса? и как его в методе вызывать?
+    println()
     println(queue.dequeue())
     println(queue.dequeue())
     println(queue.dequeue())
@@ -43,8 +48,9 @@ fun main() {
 //    e2 = object1.returnedRandomResult()
 //    f1 = object1.returnedRandomResult()
 //    f2 = object1.returnedRandomResult()
-
-    println(queue.filter {  })
+//    var qwe = mutableListOf("sdf", "wer", "fhg")
+//    qwe.contains('q')
+//    println(queue)
 
 }
 
