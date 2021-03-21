@@ -29,12 +29,8 @@ class Wheel {
             } catch (t: Throwable) {
                 println("Exception message ${t.message}")
             }
-            value < 1.6 -> try {
-                TooLowPressure()
-            } catch (t: Throwable) {
-                println("Exception message ${t.message}")
-            }
-            value > 2.5 -> try {
+            value > 10.0 -> try {
+                println("BOOM!")
                 TooHighPressure()
             } catch (t: Throwable) {
                 println("Exception message ${t.message}")
@@ -48,17 +44,17 @@ class Wheel {
             in Double.MIN_VALUE..0.0 -> try {
                 IncorrectPressure()
             } catch (t: Throwable) {
-                println("Exception message ${t.message}")
+                println("Check pressure message ${t.message}")
             }
             in 0.0..1.6 -> try {
                 TooLowPressure()
             } catch (t: Throwable) {
-                println("Exception message ${t.message}")
+                println("Check pressure message ${t.message}")
             }
             in 2.5..Double.MAX_VALUE -> try {
                 TooHighPressure()
             } catch (t: Throwable) {
-                println("Exception message ${t.message}")
+                println("Check pressure message ${t.message}")
             }
 
         }

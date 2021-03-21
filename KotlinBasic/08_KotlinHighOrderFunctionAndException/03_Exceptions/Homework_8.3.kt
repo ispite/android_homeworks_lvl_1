@@ -6,6 +6,5 @@ fun main() {
     wheel.setPressure(-2.0)
     wheel.setPressure(2.0)
     wheel.setPressure(20.0)
-
     wheel.check()
 }
