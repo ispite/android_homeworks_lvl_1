@@ -23,40 +23,27 @@ class Wheel {
     }
 
     fun setPressure(value: Double): Any {
-        return when {
-            value < 0.0 -> try {
-                IncorrectPressure()
-            } catch (t: Throwable) {
-                println("Exception message ${t.message}")
+        return try {
+            return when {
+                value < 0.0 -> IncorrectPressure()
+                value > 10.0 -> { print("BOOM! ")
+                    TooHighPressure()}
+                else -> pressure = value
             }
-            value > 10.0 -> try {
-                println("BOOM!")
-                TooHighPressure()
-            } catch (t: Throwable) {
-                println("Exception message ${t.message}")
-            }
-            else -> pressure = value
+        } catch (t: Throwable) {
+            println("Set pressure message ${t.message}")
         }
     }
 
     fun check() {
-        when (pressure) {
-            in Double.MIN_VALUE..0.0 -> try {
-                IncorrectPressure()
-            } catch (t: Throwable) {
-                println("Check pressure message ${t.message}")
+        try {
+            when (pressure) {
+                in Double.MIN_VALUE..0.0 -> IncorrectPressure()
+                in 0.0..1.6 -> TooLowPressure()
+                in 2.5..Double.MAX_VALUE -> TooHighPressure()
             }
-            in 0.0..1.6 -> try {
-                TooLowPressure()
-            } catch (t: Throwable) {
-                println("Check pressure message ${t.message}")
-            }
-            in 2.5..Double.MAX_VALUE -> try {
-                TooHighPressure()
-            } catch (t: Throwable) {
-                println("Check pressure message ${t.message}")
-            }
-
+        } catch (t: Throwable) {
+            println("Check pressure message ${t.message}")
         }
     }
 }
