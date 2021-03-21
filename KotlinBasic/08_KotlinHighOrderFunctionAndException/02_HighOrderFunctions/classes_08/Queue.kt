@@ -13,12 +13,13 @@ class Queue<T> {
         } else null
     }
 
-    fun filter(callbackFilter: () -> Unit): List<T> {
-//        items.slice(0..list.lastIndex) почему то не работают обычные функции
-        callbackFilter()
-        return items.filter { it.toString().contains("a") } /*
- метод возвращает очередь
- безотносительно принимаемой функции и работает только со строками.
- */
+    fun filter(callbackFilter: (T) -> Boolean): List<T> {
+        val filteredQueue = mutableListOf<T>()
+        for (index in 0 until items.size) {
+            val element = items[index]
+            println(element)
+            if (callbackFilter(element)) filteredQueue.add(element)
+        }
+        return filteredQueue
     }
 }

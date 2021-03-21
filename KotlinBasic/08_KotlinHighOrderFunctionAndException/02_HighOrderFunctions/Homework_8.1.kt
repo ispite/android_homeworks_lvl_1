@@ -14,11 +14,7 @@ fun main() {
     queue.enqueue("asdfgh")
     queue.enqueue("zxcvbn")
 
-    println(queue::filter { println("filtered queue") })
-//    println(queue::filter { queue.items }) очевидно недоступно, т.к. свойство приватное
-//    println(queue::filter {filter:String -> Unit }) какое должно быть лямбда выражение, чтобы его
-//    можно было использовать в методе класса? и как его в методе вызывать?
-    println()
+    println(queue::filter { it in "qwerty"})
     println(queue.dequeue())
     println(queue.dequeue())
     println(queue.dequeue())
