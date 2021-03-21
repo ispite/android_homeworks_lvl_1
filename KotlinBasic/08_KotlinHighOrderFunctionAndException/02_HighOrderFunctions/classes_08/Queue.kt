@@ -17,7 +17,6 @@ class Queue<T> {
         val filteredQueue = mutableListOf<T>()
         for (index in 0 until items.size) {
             val element = items[index]
-            println(element)
             if (callbackFilter(element)) filteredQueue.add(element)
         }
         return filteredQueue
