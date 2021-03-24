@@ -4,33 +4,22 @@ class Wheel {
     var pressure = 0.0
         private set
 
-    class TooHighPressure : Exception() {
-        init {
-            throw Exception("Too High Pressure")
-        }
-    }
+    private var oldPressure = 0.0
 
-    class TooLowPressure : Exception() {
-        init {
-            throw Exception("Too Low Pressure")
-        }
-    }
+    class TooHighPressure(message: String) : Exception(message)
 
-    class IncorrectPressure : Exception() {
-        init {
-            throw Exception("Incorrect Pressure")
-        }
-    }
+    class TooLowPressure(message: String) : Exception(message)
 
-    private fun setPressure(value: Double): Any {
-        return when {
-            value < 0.0 -> IncorrectPressure()
-            value > 10.0 -> {
-                print("BOOM! ")
-                TooHighPressure()
-            }
-            else -> pressure = value
+    class IncorrectPressure(message: String) : Exception(message)
+
+    private fun setPressure(value: Double) {
+        oldPressure = pressure
+        pressure = value
+        if (pressure > 10) {
+            print("BOOM! ")
         }
+        check()
+        println("Success pressure set $pressure")
     }
 
     fun catchPressureException(value: Double): Boolean {
@@ -38,18 +27,23 @@ class Wheel {
             setPressure(value)
             return true
         } catch (t: Throwable) {
+            pressure = oldPressure
             println("Set pressure message ${t.message}")
         }
         return false
     }
 
-    fun check() {
+    private fun check() {
+        when (pressure) {
+            in -1 * Double.MAX_VALUE..-1 * Double.MIN_VALUE -> throw IncorrectPressure("Incorrect Pressure")
+            in 0.0..1.6 -> throw TooLowPressure("Too Low Pressure")
+            in 2.5..Double.MAX_VALUE -> throw TooHighPressure("Too High Pressure")
+        }
+    }
+
+    fun catchCheck() {
         try {
-            when (pressure) {
-                in Double.MIN_VALUE..0.0 -> IncorrectPressure()
-                in 0.0..1.6 -> TooLowPressure()
-                in 2.5..Double.MAX_VALUE -> TooHighPressure()
-            }
+            check()
         } catch (t: Throwable) {
             println("Check pressure message ${t.message}")
         }
