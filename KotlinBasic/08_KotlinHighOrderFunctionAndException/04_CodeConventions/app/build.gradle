@@ -1,6 +1,10 @@
+
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    //apply plugin: "org.jmailen.kotlinter"
+    id 'org.jmailen.kotlinter'
 }
 
 android {
