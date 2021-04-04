@@ -1,11 +1,13 @@
 package ru.skillbox.viewandlayout_10
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -50,10 +52,15 @@ class MainActivity : AppCompatActivity() {
             loginButton.isEnabled = flagCheckBox && flagEmail && flagPassword
         }
 
-        loginButton.setOnClickListener{
+        loginButton.setOnClickListener {
             loading()
         }
+
+        Glide.with(this)
+            .load("https://i.pinimg.com/736x/50/df/34/50df34b9e93f30269853b96b09c37e3b.jpg")
+            .into(imageView2)
     }
+
     private fun loading() {
         progressBar.visibility = View.VISIBLE
         loginButton.isEnabled = false
