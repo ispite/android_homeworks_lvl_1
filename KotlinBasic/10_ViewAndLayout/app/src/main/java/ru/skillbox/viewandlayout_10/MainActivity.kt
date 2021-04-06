@@ -1,12 +1,11 @@
 package ru.skillbox.viewandlayout_10
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
+import android.os.Looper
 import android.view.View
+import androidx.core.widget.doOnTextChanged
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -19,33 +18,15 @@ class MainActivity : AppCompatActivity() {
         var flagPassword = false
         var flagCheckBox = false
 
-        editTextTextEmailAddress.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //loginButton.isEnabled= s?.let { it.isNotEmpty() } ?: false
-                flagEmail = s?.isNotEmpty() ?: false
+        editTextTextEmailAddress.doOnTextChanged { text, _, _, _ ->
+                flagEmail = text?.isNotEmpty() ?: false
                 loginButton.isEnabled = flagCheckBox && flagEmail && flagPassword
-            }
+        }
 
-            override fun afterTextChanged(s: Editable?) {
-            }
-        })
-
-        editTextTextPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //loginButton.isEnabled= s?.let { it.isNotEmpty() } ?: false
-                flagPassword = s?.isNotEmpty() ?: false
-                loginButton.isEnabled = flagCheckBox && flagEmail && flagPassword
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
-        })
+        editTextTextPassword.doOnTextChanged { text, _, _, _ ->
+            flagPassword = text?.isNotEmpty() ?: false
+            loginButton.isEnabled = flagCheckBox && flagEmail && flagPassword
+        }
 
         checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
             flagCheckBox = isChecked
@@ -57,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         Glide.with(this)
-            .load("https://i.pinimg.com/736x/50/df/34/50df34b9e93f30269853b96b09c37e3b.jpg")
-            .into(imageView2)
+                .load("https://i.pinimg.com/736x/50/df/34/50df34b9e93f30269853b96b09c37e3b.jpg")
+                .into(imageView2)
     }
 
     private fun loading() {
@@ -67,13 +48,15 @@ class MainActivity : AppCompatActivity() {
         editTextTextEmailAddress.isEnabled = false
         editTextTextPassword.isEnabled = false
         checkBox.isEnabled = false
+        scrollView.isEnabled = false
 
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             progressBar.visibility = View.GONE
             loginButton.isEnabled = true
             editTextTextEmailAddress.isEnabled = true
             editTextTextPassword.isEnabled = true
             checkBox.isEnabled = true
+            scrollView.isEnabled = true
         }, 2000)
     }
 }

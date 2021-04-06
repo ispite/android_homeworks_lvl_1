@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/scrollView">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:id="@+id/editTextTextEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/defaultMargin"
             android:ems="10"
             android:hint="@string/email_input"
             android:inputType="textEmailAddress"
@@ -33,7 +34,7 @@
             android:id="@+id/editTextTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/defaultMargin"
             android:ems="10"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
@@ -44,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/defaultMargin"
             android:text="@string/agreements_accept"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
@@ -75,7 +76,7 @@
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/defaultMargin"
             app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
 
