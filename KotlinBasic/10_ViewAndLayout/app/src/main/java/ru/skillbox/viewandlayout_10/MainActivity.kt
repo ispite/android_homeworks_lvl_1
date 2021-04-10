@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
         var flagCheckBox = false
 
         editTextTextEmailAddress.doOnTextChanged { text, _, _, _ ->
-                flagEmail = text?.isNotEmpty() ?: false
-                loginButton.isEnabled = flagCheckBox && flagEmail && flagPassword
+            flagEmail = text?.isNotEmpty() ?: false
+            loginButton.isEnabled = flagCheckBox && flagEmail && flagPassword
         }
 
         editTextTextPassword.doOnTextChanged { text, _, _, _ ->
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             loginButton.isEnabled = flagCheckBox && flagEmail && flagPassword
         }
 
-        checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+        checkBox.setOnCheckedChangeListener { _, isChecked ->
             flagCheckBox = isChecked
             loginButton.isEnabled = flagCheckBox && flagEmail && flagPassword
         }
