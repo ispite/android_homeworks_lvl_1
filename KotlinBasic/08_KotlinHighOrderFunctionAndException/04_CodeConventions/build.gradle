@@ -31,8 +31,10 @@ task clean(type: Delete) {
 
 task installGitHook(type: Copy) {
     from new File(rootProject.rootDir, 'pre-commit')
-    into { new File(rootProject.rootDir, '.git/hooks') }
+    //into { new File(rootProject.rootDir, '.git/hooks') }
+    into { new File('D:\\AS_Denis\\Projects\\android_basic', '.git/hooks') }
+    //D:\AS_Denis\Projects\android_basic\.git\hooks
     fileMode 0777
 }
 
-tasks.getByPath(':app:preBuild').dependsOn installGitHook
+//tasks.getByPath(':app:preBuild').dependsOn installGitHook
