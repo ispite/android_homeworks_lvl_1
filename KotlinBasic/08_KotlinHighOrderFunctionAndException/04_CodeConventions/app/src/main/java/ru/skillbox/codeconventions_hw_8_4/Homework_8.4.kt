@@ -7,9 +7,9 @@ fun main() {
 
     wheel.catchCheck();
 
-    wheel.catchPressureException(-2.0);
+    wheel.catchPressureException(-2.0)
 
-    wheel.catchPressureException(2.0);
+    wheel.catchPressureException(2.0)
 
     wheel.catchPressureException(20.0);
 
