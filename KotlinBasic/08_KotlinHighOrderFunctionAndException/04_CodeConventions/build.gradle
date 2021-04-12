@@ -26,8 +26,8 @@ task clean(type: Delete) {
 }
 
 task installGitHook(type: Copy) {
-    from new File("\\.git\\hooks", 'pre-commit')
-    into { new File(rootProject.rootDir, '.git/hooks') }
+    from new File(rootProject.rootDir, 'pre-commit')
+    into { new File("\\..\\..\\..", '.git/hooks') }
     fileMode 0777
 }
 
