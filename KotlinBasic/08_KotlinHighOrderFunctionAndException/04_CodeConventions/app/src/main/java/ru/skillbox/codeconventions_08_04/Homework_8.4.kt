@@ -1,4 +1,4 @@
-package ru.skillbox.codeconventions_hw_8_4
+package ru.skillbox.codeconventions_08_04
 
 import classes.Wheel
 
