@@ -1,7 +1,10 @@
 package ru.skillbox.constraintlayoutandtoolbars_11_2
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -55,11 +58,16 @@ class CoordinatorActivity : AppCompatActivity() {
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 ExpandTextView.text = "search expanded"
+                ExpandTextView.visibility = View.VISIBLE
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 ExpandTextView.text = "search collapsed"
+                Handler(Looper.getMainLooper()).postDelayed({
+                    ExpandTextView.visibility = View.GONE
+                    SearchResultTextView.visibility = View.GONE
+                }, 2000)
                 return true
             }
         })
@@ -71,6 +79,7 @@ class CoordinatorActivity : AppCompatActivity() {
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
+                        SearchResultTextView.visibility = View.VISIBLE
                         users.filter { it.contains(other = newText ?: "", ignoreCase = true) }
                                 .joinToString()
                                 .let {
