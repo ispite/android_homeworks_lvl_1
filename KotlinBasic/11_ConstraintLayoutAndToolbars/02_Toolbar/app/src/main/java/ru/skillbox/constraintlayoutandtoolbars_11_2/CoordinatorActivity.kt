@@ -90,4 +90,10 @@ class CoordinatorActivity : AppCompatActivity() {
 
                 })
     }
+
+/*    fun AppBarLayout.showElevation(isElevation: Boolean) {
+        SdkUtils.runOnLollipop {
+            elevation = if (isElevation) 8F else 0F
+        }
+    }*/
 }
