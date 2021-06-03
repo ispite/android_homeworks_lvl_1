@@ -13,10 +13,10 @@ import kotlinx.android.synthetic.main.activity_coordinator.*
 class CoordinatorActivity : AppCompatActivity() {
 
     private val users = listOf(
-            "User1",
-            "User2",
-            "User3",
-            "Unknown"
+        "User1",
+        "User2",
+        "User3",
+        "Unknown"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,22 +73,22 @@ class CoordinatorActivity : AppCompatActivity() {
         })
 
         (searchItem.actionView as SearchView).setOnQueryTextListener(
-                object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        return true
-                    }
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return true
+                }
 
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        SearchResultTextView.visibility = View.VISIBLE
-                        users.filter { it.contains(other = newText ?: "", ignoreCase = true) }
-                                .joinToString()
-                                .let {
-                                    SearchResultTextView.text = it
-                                }
-                        return true
-                    }
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    SearchResultTextView.visibility = View.VISIBLE
+                    users.filter { it.contains(other = newText ?: "", ignoreCase = true) }
+                        .joinToString()
+                        .let {
+                            SearchResultTextView.text = it
+                        }
+                    return true
+                }
 
-                })
+            })
     }
 
 /*    fun AppBarLayout.showElevation(isElevation: Boolean) {
