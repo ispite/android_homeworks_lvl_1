@@ -5,4 +5,5 @@
     <string name="password_hint">Введите пароль</string>
     <string name="agreements_accept">Вы согласны на все наши условия!</string>
     <string name="login_button">Войти</string>
+    <string name="anr_button">ANR Button</string>
 </resources>
