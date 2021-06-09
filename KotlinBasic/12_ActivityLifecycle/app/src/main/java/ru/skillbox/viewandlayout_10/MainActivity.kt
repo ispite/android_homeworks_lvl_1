@@ -6,6 +6,8 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import androidx.core.view.doOnDetach
+import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         DebugLogger.d(tag, "onCreate was called")
 
+
         var flagEmail = false
         var flagPassword = false
         var flagCheckBox = false
@@ -27,6 +30,26 @@ class MainActivity : AppCompatActivity() {
         editTextTextEmailAddress.doOnTextChanged { text, _, _, _ ->
             flagEmail = text?.isNotEmpty() ?: false
             loginButton.isEnabled = flagCheckBox && flagEmail && flagPassword
+        }
+
+        editTextTextEmailAddress.onFocusChangeListener = View.OnFocusChangeListener { _, _ ->
+            if (!editTextTextEmailAddress.text.contains("@")) {
+                textView.text = "Логин должен содержать @ !"
+                flagEmail = false
+            } else {
+                textView.text = null
+                flagEmail = true
+            }
+        }
+
+        editTextTextPassword.onFocusChangeListener = View.OnFocusChangeListener { _, _ ->
+            if (editTextTextPassword.text.length < 8) {
+                textView2.text = "Пароль должен быть длинее 7 символов!"
+                flagPassword = false
+            } else {
+                textView2.text = null
+                flagPassword = true
+            }
         }
 
         editTextTextPassword.doOnTextChanged { text, _, _, _ ->
@@ -48,8 +71,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         Glide.with(this)
-                .load("https://i.pinimg.com/736x/50/df/34/50df34b9e93f30269853b96b09c37e3b.jpg")
-                .into(imageView2)
+            .load("https://i.pinimg.com/736x/50/df/34/50df34b9e93f30269853b96b09c37e3b.jpg")
+            .into(imageView2)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        textView.text = savedInstanceState.getString(KEY_TEXTVIEW)
+        textView2.text = savedInstanceState.getString(KEY_TEXTVIEW2)
     }
 
     override fun onStart() {
@@ -77,6 +106,17 @@ class MainActivity : AppCompatActivity() {
         DebugLogger.v(tag, "onDestroy was called")
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_TEXTVIEW, textView.text.toString())
+        outState.putString(KEY_TEXTVIEW2, textView2.text.toString())
+    }
+
+    companion object {
+        private const val KEY_TEXTVIEW = "textView"
+        private const val KEY_TEXTVIEW2 = "textView2"
+    }
+
     private fun loading() {
         progressBar.visibility = View.VISIBLE
         loginButton.isEnabled = false
@@ -97,23 +137,26 @@ class MainActivity : AppCompatActivity() {
 }
 
 object DebugLogger {
-    fun v(tag: String, message: String){
-        if(BuildConfig.DEBUG){
+    fun v(tag: String, message: String) {
+        if (BuildConfig.DEBUG) {
             Log.v(tag, message)
         }
     }
-    fun d(tag: String, message: String){
-        if(BuildConfig.DEBUG){
+
+    fun d(tag: String, message: String) {
+        if (BuildConfig.DEBUG) {
             Log.d(tag, message)
         }
     }
-    fun i(tag: String, message: String){
-        if(BuildConfig.DEBUG){
+
+    fun i(tag: String, message: String) {
+        if (BuildConfig.DEBUG) {
             Log.i(tag, message)
         }
     }
-    fun e(tag: String, message: String){
-        if(BuildConfig.DEBUG){
+
+    fun e(tag: String, message: String) {
+        if (BuildConfig.DEBUG) {
             Log.e(tag, message)
         }
     }
