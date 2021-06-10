@@ -6,12 +6,9 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import androidx.core.view.doOnDetach
-import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -108,8 +105,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(KEY_TEXTVIEW, textView.text.toString())
+        //outState.putString(KEY_TEXTVIEW, textView.text.toString())
         outState.putString(KEY_TEXTVIEW2, textView2.text.toString())
+
+
+        //Странный блок с 4м пунктом домашней работы
+        val formState1 = FormState(true, textView.text.toString())
+        outState.putString(KEY_TEXTVIEW, formState1.message)
     }
 
     companion object {
@@ -134,6 +136,12 @@ class MainActivity : AppCompatActivity() {
             scrollView.isEnabled = true
         }, 2000)
     }
+}
+
+data class FormState(
+    val valid: Boolean,
+    val message: String
+) {
 }
 
 object DebugLogger {
