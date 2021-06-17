@@ -29,23 +29,27 @@ class MainActivity : AppCompatActivity() {
             loginButton.isEnabled = flagCheckBox && flagEmail && flagPassword
         }
 
-        editTextTextEmailAddress.onFocusChangeListener = View.OnFocusChangeListener { _, _ ->
-            if (!editTextTextEmailAddress.text.contains("@")) {
-                textView.text = "Логин должен содержать @ !"
-                flagEmail = false
-            } else {
-                textView.text = null
-                flagEmail = true
+        editTextTextEmailAddress.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (!editTextTextEmailAddress.text.contains("@")) {
+                    textView.text = "Логин должен содержать @ !"
+                    flagEmail = false
+                } else {
+                    textView.text = null
+                    flagEmail = true
+                }
             }
         }
 
-        editTextTextPassword.onFocusChangeListener = View.OnFocusChangeListener { _, _ ->
-            if (editTextTextPassword.text.length < 8) {
-                textView2.text = "Пароль должен быть длинее 7 символов!"
-                flagPassword = false
-            } else {
-                textView2.text = null
-                flagPassword = true
+        editTextTextPassword.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (editTextTextPassword.text.length < 8) {
+                    textView2.text = "Пароль должен быть длинее 7 символов!"
+                    flagPassword = false
+                } else {
+                    textView2.text = null
+                    flagPassword = true
+                }
             }
         }
 
