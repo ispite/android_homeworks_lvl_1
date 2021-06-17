@@ -13,5 +13,5 @@ fun main() {
 
     wheel.catchPressureException(20.0);
 
-    wheel.catchCheck();
+    wheel.catchCheck()
 }
