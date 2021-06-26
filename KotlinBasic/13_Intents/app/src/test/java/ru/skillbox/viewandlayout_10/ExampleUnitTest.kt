@@ -1,7 +1,8 @@
-package ru.skillbox.codeconventions_08_04
+package ru.skillbox.viewandlayout_10
+
+import org.junit.Test
 
 import org.junit.Assert.*
-import org.junit.Test
 
 /**
  * Example local unit test, which will execute on the development machine (host).
