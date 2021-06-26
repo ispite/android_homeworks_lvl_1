@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.util.Patterns
 import android.view.View
+import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,9 +32,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         editTextTextEmailAddress.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(editTextTextEmailAddress.text).matches()
+
             if (!hasFocus) {
-                if (!editTextTextEmailAddress.text.contains("@")) {
-                    textView.text = "Логин должен содержать @ !"
+                if (!isEmailValid) {
+                    //textView.text = "Логин должен содержать @ !"
+                    toast("Введите корректный email")
                     flagEmail = false
                 } else {
                     textView.text = null
@@ -40,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
 
         editTextTextPassword.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -74,6 +80,10 @@ class MainActivity : AppCompatActivity() {
         Glide.with(this)
             .load("https://i.pinimg.com/736x/50/df/34/50df34b9e93f30269853b96b09c37e3b.jpg")
             .into(imageView2)
+    }
+
+    private fun toast(text:String){
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
