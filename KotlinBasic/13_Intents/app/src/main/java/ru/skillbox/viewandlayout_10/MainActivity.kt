@@ -1,5 +1,6 @@
 package ru.skillbox.viewandlayout_10
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -70,7 +71,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         loginButton.setOnClickListener {
-            loading()
+            //loading()
+            val activityClass = SecondActivity::class.java
+            val secondActivityIntent = Intent(
+                this,
+                activityClass
+            )
+
+            startActivity(secondActivityIntent)
         }
 
         ANR_Button.setOnClickListener {
