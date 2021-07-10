@@ -14,7 +14,7 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="70dp"
             android:contentDescription="@string/header_picture"
             android:scaleType="centerCrop"
             android:src="@drawable/welcome_picture"
@@ -34,7 +34,7 @@
             android:id="@+id/editTextTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="@dimen/defaultMargin"
             android:ems="10"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="@dimen/defaultMargin"
             android:text="@string/agreements_accept"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
@@ -54,7 +54,7 @@
             android:id="@+id/loginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="@dimen/defaultMargin"
             android:enabled="false"
             android:text="@string/login_button"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,18 +76,20 @@
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginTop="65dp"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+            android:layout_marginTop="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ANR_Button"
+            tools:layout_editor_absoluteX="0dp" />
 
         <Button
             android:id="@+id/ANR_Button"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:text="@string/anr_button"
-            app:layout_constraintBottom_toTopOf="@+id/imageView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
 
         <TextView
             android:id="@+id/textView"
@@ -95,6 +97,7 @@
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@color/red"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,10 +109,34 @@
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@color/red"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/checkBox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+
+        <EditText
+            android:id="@+id/editTextPhone"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="@string/editTextPhoneHint"
+            android:inputType="phone"
+            app:layout_constraintEnd_toStartOf="@+id/CallButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+
+        <Button
+            android:id="@+id/CallButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/CallButtonText"
+            app:layout_constraintBaseline_toBaselineOf="@+id/editTextPhone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/editTextPhone" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

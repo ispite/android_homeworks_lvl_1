@@ -1,7 +1,7 @@
 package ru.skillbox.viewandlayout_10
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +9,7 @@ import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
@@ -47,6 +48,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        CallButton.setOnClickListener {
+            val phoneNumber = editTextPhone.text.toString()
+            val isPhoneValid = Patterns.PHONE.matcher(editTextPhone.text).matches()
+
+            if (!isPhoneValid) {
+                val phoneIntent = Intent(Intent.ACTION_DIAL).apply {
+                    data = Uri.parse("tel:$phoneNumber")
+                }
+                if (intent.resolveActivity(packageManager) != null) {
+                    startActivity(phoneIntent)
+                } else {
+                    toast("Нет такого приложения")
+                }
+            }
+
+
+        }
 
         editTextTextPassword.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
