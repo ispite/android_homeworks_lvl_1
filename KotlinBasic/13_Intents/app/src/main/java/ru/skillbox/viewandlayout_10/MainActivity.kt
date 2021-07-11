@@ -1,5 +1,6 @@
 package ru.skillbox.viewandlayout_10
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -34,7 +35,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         editTextTextEmailAddress.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(editTextTextEmailAddress.text).matches()
+            val isEmailValid =
+                Patterns.EMAIL_ADDRESS.matcher(editTextTextEmailAddress.text).matches()
 
             if (!hasFocus) {
                 if (!isEmailValid) {
@@ -52,18 +54,20 @@ class MainActivity : AppCompatActivity() {
             val phoneNumber = editTextPhone.text.toString()
             val isPhoneValid = Patterns.PHONE.matcher(editTextPhone.text).matches()
 
-            if (!isPhoneValid) {
+            if (isPhoneValid) {
                 val phoneIntent = Intent(Intent.ACTION_DIAL).apply {
                     data = Uri.parse("tel:$phoneNumber")
                 }
+
                 if (intent.resolveActivity(packageManager) != null) {
-                    startActivity(phoneIntent)
+                    //startActivity(phoneIntent)
+                    startActivityForResult(phoneIntent, CALL_REQUEST_CODE)
+                    //getResultCall()
+
                 } else {
                     toast("Нет такого приложения")
                 }
             }
-
-
         }
 
         editTextTextPassword.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
@@ -108,8 +112,25 @@ class MainActivity : AppCompatActivity() {
             .into(imageView2)
     }
 
-    private fun toast(text:String){
+//    private fun getResultCall() {
+//
+//    }
+    private fun toast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == CALL_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                //val callResult = data?.getParcelableExtra("data") as? String
+                val callResult = data.toString()
+                textView3.text = callResult
+            } else {
+                toast("Звонок был отменён")
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -157,6 +178,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val KEY_TEXTVIEW = "textView"
         private const val KEY_TEXTVIEW2 = "textView2"
+        private const val CALL_REQUEST_CODE = 654
     }
 
     private fun loading() {

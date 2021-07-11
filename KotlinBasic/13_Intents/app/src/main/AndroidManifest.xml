@@ -18,11 +18,28 @@
         android:theme="@style/Theme.ViewAndLayout_10">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity android:name=".SecondActivity" />
+
+        <activity
+            android:name=".ThirdActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="skillbox.ru"
+                    android:pathPrefix="/course/" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>
