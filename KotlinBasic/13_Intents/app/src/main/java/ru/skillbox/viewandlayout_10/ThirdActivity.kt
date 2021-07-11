@@ -13,7 +13,7 @@ class ThirdActivity : AppCompatActivity(R.layout.activity_third_deeplink) {
     //https://skillbox.ru/course/profession-android-developer-2021/
 
     private fun handleIntentData() {
-        intent.data?.path?.let { pathName ->
+        intent.data?.host?.let { pathName ->
             //val path = lastSegmentName.joinToString()
             deepLinkPage.text = pathName
         }
