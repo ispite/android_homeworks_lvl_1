@@ -1,16 +1,11 @@
-package ru.skillbox.viewandlayout_10
+package ru.skillbox.fragments_14
 
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.util.Patterns
 import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,34 +30,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         editTextTextEmailAddress.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            val isEmailValid =
-                Patterns.EMAIL_ADDRESS.matcher(editTextTextEmailAddress.text).matches()
-
             if (!hasFocus) {
-                if (!isEmailValid) {
-                    //textView.text = "Логин должен содержать @ !"
-                    toast("Введите корректный email")
+                if (!editTextTextEmailAddress.text.contains("@")) {
+                    textView.text = "Логин должен содержать @ !"
                     flagEmail = false
                 } else {
                     textView.text = null
                     flagEmail = true
-                }
-            }
-        }
-
-        CallButton.setOnClickListener {
-            val phoneNumber = editTextPhone.text.toString()
-            val isPhoneValid = Patterns.PHONE.matcher(editTextPhone.text).matches()
-
-            if (isPhoneValid) {
-                val phoneIntent = Intent(Intent.ACTION_DIAL).apply {
-                    data = Uri.parse("tel:$phoneNumber")
-                }
-
-                if (intent.resolveActivity(packageManager) != null) {
-                    startActivityForResult(phoneIntent, CALL_REQUEST_CODE)
-                } else {
-                    toast("Нет такого приложения")
                 }
             }
         }
@@ -90,14 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         loginButton.setOnClickListener {
-            //loading()
-            val activityClass = SecondActivity::class.java
-            val secondActivityIntent = Intent(
-                this,
-                activityClass
-            )
-
-            startActivity(secondActivityIntent)
+            loading()
         }
 
         ANR_Button.setOnClickListener {
@@ -107,27 +74,6 @@ class MainActivity : AppCompatActivity() {
         Glide.with(this)
             .load("https://i.pinimg.com/736x/50/df/34/50df34b9e93f30269853b96b09c37e3b.jpg")
             .into(imageView2)
-    }
-
-//    private fun getResultCall() {
-//
-//    }
-    private fun toast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == CALL_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                //val callResult = data?.getParcelableExtra("data") as? String
-                val callResult = data.toString()
-                textView3.text = callResult
-            } else {
-                toast("Звонок был отменён")
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -175,7 +121,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val KEY_TEXTVIEW = "textView"
         private const val KEY_TEXTVIEW2 = "textView2"
-        private const val CALL_REQUEST_CODE = 654
     }
 
     private fun loading() {

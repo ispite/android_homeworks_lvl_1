@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">fragments_14</string>
+    <string name="header_picture">Header picture</string>
+    <string name="email_input">Введите email</string>
+    <string name="password_hint">Введите пароль</string>
+    <string name="agreements_accept">Вы согласны на все наши условия!</string>
+    <string name="login_button">Войти</string>
+    <string name="anr_button">ANR Button</string>
+</resources>
