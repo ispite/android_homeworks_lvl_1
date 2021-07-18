@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "ViewAndLayout_10"
+rootProject.name = "Fragments_14"
