@@ -1,8 +1,63 @@
 package ru.skillbox.fragments_14
 
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
 
 class ListFragment:Fragment(R.layout.fragment_list) {
+
+    /*override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+//        val recyclerView: RecyclerView = view?.findViewById(R.id.recyclerView) ?: true
+//        //val recyclerView: RecyclerView = inflater.inflate(R.layout.recyclerview_item)
+//        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        *//*val rootView = inflater.inflate(R.layout.recyclerview_item, container, false)
+        video_recyclerview = rootView.findViewById(R.id.id_of_video_recyclerview) as RecyclerView // Add this
+        video_recyclerview.layoutManager = LinearLayoutManager(activity)
+        video_recyclerview.adapter = MainAdapter()
+        return rootView*//*
+
+
+
+        //val rootView: View = inflater.inflate(R.layout.fragment_list, null)
+        //REFERENCE
+        //rv = rootView.findViewById<View>(R.id.intergalactic_RV) as RecyclerView
+        //LAYOUT MANAGER
+        //rv.setLayoutManager(LinearLayoutManager(activity))
+        //ADAPTER
+        //rv.setAdapter(MyAdapter(activity, spacecrafts))
+        //return rootView
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }*/
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val rootView = inflater.inflate(R.layout.fragment_list, container, false)
+        val video_recyclerview = rootView.findViewById(R.id.recyclerView) as RecyclerView
+        video_recyclerview.layoutManager = LinearLayoutManager(activity)
+        video_recyclerview.adapter = CustomRecyclerAdapter(fillList())
+        return rootView
+    }
+
+    private fun fillList(): List<String> {
+        val data = mutableListOf<String>()
+        (0..30).forEach { i -> data.add("\$i element") }
+        return data
+    }
 }
 
 //http://developer.alexanderklimov.ru/android/views/recyclerview-kot.php

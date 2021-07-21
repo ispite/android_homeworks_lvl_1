@@ -33,4 +33,10 @@ class MainFragment:Fragment(R.layout.fragment_main) {
             .commit()
     }
 
+    private fun showDetailFragment() {
+        childFragmentManager.beginTransaction()
+            .add(R.id.containerFragmentMain, DetailFragment())
+            .commit()
+    }
+
 }
