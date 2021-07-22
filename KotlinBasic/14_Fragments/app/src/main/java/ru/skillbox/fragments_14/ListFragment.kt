@@ -47,15 +47,15 @@ class ListFragment:Fragment(R.layout.fragment_list) {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_list, container, false)
-        val video_recyclerview = rootView.findViewById(R.id.recyclerView) as RecyclerView
-        video_recyclerview.layoutManager = LinearLayoutManager(activity)
-        video_recyclerview.adapter = CustomRecyclerAdapter(fillList())
+        val videoRecyclerView = rootView.findViewById(R.id.recyclerView) as RecyclerView
+        videoRecyclerView.layoutManager = LinearLayoutManager(activity)
+        videoRecyclerView.adapter = CustomRecyclerAdapter(fillList())
         return rootView
     }
 
     private fun fillList(): List<String> {
         val data = mutableListOf<String>()
-        (0..30).forEach { i -> data.add("\$i element") }
+        (1..30).forEach { i -> data.add("$i элемент") }
         return data
     }
 }
