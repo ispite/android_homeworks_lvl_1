@@ -3,21 +3,27 @@ package ru.skillbox.fragments_14
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.example_item.view.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.recyclerview_item.view.*
 
 class CustomRecyclerAdapter(
-    private val names: List<String>,
+    private val exampleList: List<ExampleItem>,
     private val listener: OnItemClickListener
     ):
     RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
     View.OnClickListener{
-        val bigText : TextView = itemView.textViewLarge
-        val smallText : TextView = itemView.textViewSmall
+        val imageView: ImageView = itemView.image_view
+        val textView1: TextView = itemView.text_view_1
+        val textView2: TextView = itemView.text_view_2
+
+        //val bigText : TextView = itemView.textViewLarge
+        //val smallText : TextView = itemView.textViewSmall
         //var largeTextView: TextView? = null
         //var smallTextView: TextView? = null
 
@@ -42,16 +48,22 @@ class CustomRecyclerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.recyclerview_item, parent, false)
+                .inflate(R.layout.example_item, parent, false)
         return MyViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bigText.text = names[position]
-        holder.smallText.text = "кот"
+        val currentItem = exampleList[position]
+
+        holder.imageView.setImageResource(currentItem.imageResource)
+        holder.textView1.text = currentItem.text1
+        holder.textView2.text = currentItem.text2
+
+        //holder.bigText.text = names[position]
+        //holder.smallText.text = "кот"
     }
 
-    override fun getItemCount() = names.size
+    override fun getItemCount() = exampleList.size
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)

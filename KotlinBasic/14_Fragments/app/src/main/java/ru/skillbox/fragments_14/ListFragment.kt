@@ -42,17 +42,20 @@ class ListFragment:Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnIte
         return super.onCreateView(inflater, container, savedInstanceState)
     }*/
 
-    val exampleList = fillList()
+    private val exampleList = generateDummyList(30)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //val exampleList = generateDummyList(30)
         val rootView = inflater.inflate(R.layout.fragment_list, container, false)
         val videoRecyclerView = rootView.findViewById(R.id.recyclerView) as RecyclerView
-        videoRecyclerView.layoutManager = LinearLayoutManager(activity)
+
         videoRecyclerView.adapter = CustomRecyclerAdapter(exampleList, this)
+        videoRecyclerView.layoutManager = LinearLayoutManager(activity)
+        videoRecyclerView.setHasFixedSize(true)
         return rootView
     }
 
@@ -72,6 +75,20 @@ class ListFragment:Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnIte
     private fun toast(text: String) {
         //Toast.makeText(this, text, 123).show()
         Toast.makeText(activity, text, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun generateDummyList(size: Int): List<ExampleItem> {
+        val list = ArrayList<ExampleItem>()
+        for (i in 0 until size) {
+            val drawable = when (i % 3) {
+                0 -> R.drawable.ic_android
+                1 -> R.drawable.ic_audio
+                else -> R.drawable.ic_sun
+            }
+            val item = ExampleItem(drawable, "Item $i", "Line 2")
+            list += item
+        }
+        return list
     }
 }
 
