@@ -3,6 +3,7 @@ package ru.skillbox.fragments_14
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class MainActivity : AppCompatActivity() {
@@ -72,7 +73,26 @@ class MainActivity : AppCompatActivity() {
         private const val KEY_TEXTVIEW2 = "textView2"
     }
 
+    /*override fun onBackPressed() {
+        super.onBackPressed()
+        supportFragmentManager.popBackStack()
+    }*/
 
+    override fun onBackPressed() {
+        // if there is a fragment and the back stack of this fragment is not empty,
+        // then emulate 'onBackPressed' behaviour, because in default, it is not working
+        val fm: FragmentManager = supportFragmentManager
+        for (frag in fm.fragments) {
+            if (frag.isVisible) {
+                val childFm: FragmentManager = frag.childFragmentManager
+                if (childFm.backStackEntryCount > 0) {
+                    childFm.popBackStack()
+                    return
+                }
+            }
+        }
+        super.onBackPressed()
+    }
 }
 
 data class FormState(

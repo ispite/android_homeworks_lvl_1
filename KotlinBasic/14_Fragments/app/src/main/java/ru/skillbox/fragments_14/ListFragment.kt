@@ -43,6 +43,7 @@ class ListFragment:Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnIte
     }*/
 
     private val exampleList = generateDummyList(30)
+    private val adapter = CustomRecyclerAdapter(exampleList, this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,18 +54,34 @@ class ListFragment:Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnIte
         val rootView = inflater.inflate(R.layout.fragment_list, container, false)
         val videoRecyclerView = rootView.findViewById(R.id.recyclerView) as RecyclerView
 
-        videoRecyclerView.adapter = CustomRecyclerAdapter(exampleList, this)
+        videoRecyclerView.adapter = adapter
         videoRecyclerView.layoutManager = LinearLayoutManager(activity)
         videoRecyclerView.setHasFixedSize(true)
         return rootView
     }
 
     override fun onItemClick(position: Int) {
-        toast("Item $position clicked")
+        //toast("Item $position clicked")
+
+        Toast.makeText(activity, "Text $position", Toast.LENGTH_LONG).show()
+
         val clickedItem = exampleList[position]
-        //clickedItem
-        //adapter.notifyItemChanged
+        //clickedItem.text1 = "Clicked"
+        adapter.notifyItemChanged(position)
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.containerFragmentMain, DetailFragment())
+            .addToBackStack("list")
+            .commit()
+
     }
+
+
+
+    /*private fun showDetailFragment(position:Int) {
+        childFragmentManager.beginTransaction()
+            .add(R.id.containerFragmentMain, DetailFragment())
+            .commit()
+    }*/
 
     private fun fillList(): List<String> {
         val data = mutableListOf<String>()
@@ -74,7 +91,7 @@ class ListFragment:Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnIte
 
     private fun toast(text: String) {
         //Toast.makeText(this, text, 123).show()
-        Toast.makeText(activity, text, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this.activity, text, Toast.LENGTH_LONG).show()
     }
 
     private fun generateDummyList(size: Int): List<ExampleItem> {
@@ -90,7 +107,11 @@ class ListFragment:Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnIte
         }
         return list
     }
+
+
 }
+
+//https://guides.codepath.com/android/creating-and-using-fragments
 
 //https://codinginflow.com/tutorials/android/simple-recyclerview-kotlin/part-4-click-handler
 //https://www.youtube.com/watch?v=wKFJsrdiGS8
