@@ -24,7 +24,12 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-
+    /*private fun showDetailFragment() {
+        val asd = DetailFragment.newInstance()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container, DetailFragment.newInstance(12))
+            .commit()
+    }*/
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)

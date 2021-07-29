@@ -6,37 +6,37 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageDetailView"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintEnd_toStartOf="@+id/textDetailView1"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textDetailView1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="asdasdasd"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        android:text="NULL"
+        app:layout_constraintBottom_toBottomOf="@+id/imageDetailView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="6"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/imageDetailView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textDetailView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="jhkhjkhjk"
+        android:text="NULL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/imageDetailView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

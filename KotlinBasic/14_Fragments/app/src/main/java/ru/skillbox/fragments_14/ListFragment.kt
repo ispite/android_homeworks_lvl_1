@@ -13,35 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ListFragment:Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnItemClickListener {
 
-    /*override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-//        val recyclerView: RecyclerView = view?.findViewById(R.id.recyclerView) ?: true
-//        //val recyclerView: RecyclerView = inflater.inflate(R.layout.recyclerview_item)
-//        recyclerView.layoutManager = LinearLayoutManager(context)
-
-        *//*val rootView = inflater.inflate(R.layout.recyclerview_item, container, false)
-        video_recyclerview = rootView.findViewById(R.id.id_of_video_recyclerview) as RecyclerView // Add this
-        video_recyclerview.layoutManager = LinearLayoutManager(activity)
-        video_recyclerview.adapter = MainAdapter()
-        return rootView*//*
-
-
-
-        //val rootView: View = inflater.inflate(R.layout.fragment_list, null)
-        //REFERENCE
-        //rv = rootView.findViewById<View>(R.id.intergalactic_RV) as RecyclerView
-        //LAYOUT MANAGER
-        //rv.setLayoutManager(LinearLayoutManager(activity))
-        //ADAPTER
-        //rv.setAdapter(MyAdapter(activity, spacecrafts))
-        //return rootView
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }*/
-
     private val exampleList = generateDummyList(30)
     private val adapter = CustomRecyclerAdapter(exampleList, this)
 
@@ -69,7 +40,7 @@ class ListFragment:Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnIte
         //clickedItem.text1 = "Clicked"
         adapter.notifyItemChanged(position)
         parentFragmentManager.beginTransaction()
-            .replace(R.id.containerFragmentMain, DetailFragment())
+            .replace(R.id.containerFragmentMain, DetailFragment.newInstance(position))
             .addToBackStack("list")
             .commit()
 

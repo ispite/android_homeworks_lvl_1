@@ -33,11 +33,11 @@ class MainFragment:Fragment(R.layout.fragment_main) {
             .commit()
     }
 
-    private fun showDetailFragment() {
+    /*private fun showDetailFragment() {
         childFragmentManager.beginTransaction()
             .replace(R.id.containerFragmentMain, DetailFragment())
             .commit()
-    }
+    }*/
 
 
 

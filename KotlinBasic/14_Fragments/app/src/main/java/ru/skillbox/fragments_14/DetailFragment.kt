@@ -4,11 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 class DetailFragment:Fragment(R.layout.fragment_detail) {
+
+    companion object {
+        private const val KEY_NUMBER = "key_number"
+        fun newInstance(number: Int): DetailFragment {
+            return DetailFragment().withArguments{
+                putInt(KEY_NUMBER, number)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,10 +26,24 @@ class DetailFragment:Fragment(R.layout.fragment_detail) {
     ): View? {
         val list = generateDetailDummyList(30)
         val item = list[1]
-        imageView3.setImageResource(item.imageResource)
+        //imageView3.setImageResource(R.drawable.ic_android)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+//        val list = generateDetailDummyList(30)
+//        val item = list[1]
+//        imageDetailView.setImageResource(R.drawable.ic_android)
+        //imageView3.setImageResource(R.drawable.ic_android)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        //val textView = requireView().findViewById<TextView>(R.id.textDetailView1)
+        textDetailView1.text = requireArguments().getInt(KEY_NUMBER).toString()
+    }
     /*class DetailHolder(item: View) {
         val imageView: ImageView =itemView.image_view
     }*/
@@ -39,4 +62,6 @@ class DetailFragment:Fragment(R.layout.fragment_detail) {
         }
         return list
     }
+
+
 }
