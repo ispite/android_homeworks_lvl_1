@@ -24,13 +24,6 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    /*private fun showDetailFragment() {
-        val asd = DetailFragment.newInstance()
-        supportFragmentManager.beginTransaction()
-            .add(R.id.container, DetailFragment.newInstance(12))
-            .commit()
-    }*/
-
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         textView.text = savedInstanceState.getString(KEY_TEXTVIEW)
@@ -64,11 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        //outState.putString(KEY_TEXTVIEW, textView.text.toString())
         outState.putString(KEY_TEXTVIEW2, textView2.text.toString())
-
-
-        //Странный блок с 4м пунктом домашней работы
         val formState1 = FormState(true, textView.text.toString())
         outState.putString(KEY_TEXTVIEW, formState1.message)
     }
@@ -77,11 +66,6 @@ class MainActivity : AppCompatActivity() {
         private const val KEY_TEXTVIEW = "textView"
         private const val KEY_TEXTVIEW2 = "textView2"
     }
-
-    /*override fun onBackPressed() {
-        super.onBackPressed()
-        supportFragmentManager.popBackStack()
-    }*/
 
     override fun onBackPressed() {
         // if there is a fragment and the back stack of this fragment is not empty,

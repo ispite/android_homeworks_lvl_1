@@ -4,28 +4,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 
-class MainFragment:Fragment(R.layout.fragment_main) {
+
+class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val tagFragment = "MainFragment"
+    private var isTwoPane = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        showListFragment()
+        determinePaneLayout()
+
+        /*if (isTwoPane)  {
+            showListFragment()
+        }*/
+
+        val screenType = getString(R.string.screen_type)
+        if (screenType == "phone") {
+            showListFragment()
+        }
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
-
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_main)
-        DebugLogger.d(tagFragment, "onCreate was called")
-
-        showListFragment()
-    }*/
 
     private fun showListFragment() {
         childFragmentManager.beginTransaction()
@@ -33,12 +38,11 @@ class MainFragment:Fragment(R.layout.fragment_main) {
             .commit()
     }
 
-    /*private fun showDetailFragment() {
-        childFragmentManager.beginTransaction()
-            .replace(R.id.containerFragmentMain, DetailFragment())
-            .commit()
-    }*/
-
-
-
+    private fun determinePaneLayout() {
+        val fragmentItemDetail = view?.findViewById<FrameLayout>(R.id.fragmentItemsList)
+        // If there is a second pane for details
+        if (fragmentItemDetail != null) {
+            isTwoPane = true
+        }
+    }
 }

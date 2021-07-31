@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-class ListFragment:Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnItemClickListener {
+class ListFragment : Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnItemClickListener {
 
     private val exampleList = generateDummyList(30)
     private val adapter = CustomRecyclerAdapter(exampleList, this)
@@ -21,56 +21,37 @@ class ListFragment:Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnIte
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //val exampleList = generateDummyList(30)
         val rootView = inflater.inflate(R.layout.fragment_list, container, false)
-        val videoRecyclerView = rootView.findViewById(R.id.recyclerView) as RecyclerView
-
-        videoRecyclerView.adapter = adapter
-        videoRecyclerView.layoutManager = LinearLayoutManager(activity)
-        videoRecyclerView.setHasFixedSize(true)
+        val listView = rootView.findViewById(R.id.recyclerView) as RecyclerView
+        listView.adapter = adapter
+        listView.layoutManager = LinearLayoutManager(activity)
+        listView.setHasFixedSize(true)
         return rootView
     }
 
     override fun onItemClick(position: Int) {
-        //toast("Item $position clicked")
-
-        Toast.makeText(activity, "Text $position", Toast.LENGTH_LONG).show()
-
-        val clickedItem = exampleList[position]
-        //clickedItem.text1 = "Clicked"
+        //НЕ РАБОТАЕТ в режиме телефона, НЕ ПОНИМАЮ ПОЧЕМУ?
+        Toast.makeText(activity, "Item ${position + 1}", Toast.LENGTH_SHORT).show()
+        //toast("SDFSDFSDF")
+        ////////////////////////////////////
         adapter.notifyItemChanged(position)
         parentFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right)
             .replace(R.id.containerFragmentMain, DetailFragment.newInstance(position))
-            .addToBackStack("list")
+            .addToBackStack(null)
             .commit()
-
-    }
-
-
-
-    /*private fun showDetailFragment(position:Int) {
-        childFragmentManager.beginTransaction()
-            .add(R.id.containerFragmentMain, DetailFragment())
-            .commit()
-    }*/
-
-    private fun fillList(): List<String> {
-        val data = mutableListOf<String>()
-        (1..30).forEach { i -> data.add("$i элемент") }
-        return data
     }
 
     private fun toast(text: String) {
-        //Toast.makeText(this, text, 123).show()
         Toast.makeText(this.activity, text, Toast.LENGTH_LONG).show()
     }
 
     private fun generateDummyList(size: Int): List<ExampleItem> {
         val list = ArrayList<ExampleItem>()
-        for (i in 0 until size) {
+        for (i in 1 until size) {
             val drawable = when (i % 3) {
-                0 -> R.drawable.ic_android
-                1 -> R.drawable.ic_audio
+                1 -> R.drawable.ic_android
+                2 -> R.drawable.ic_audio
                 else -> R.drawable.ic_sun
             }
             val item = ExampleItem(drawable, "Item $i", "Line 2")
@@ -78,10 +59,9 @@ class ListFragment:Fragment(R.layout.fragment_list), CustomRecyclerAdapter.OnIte
         }
         return list
     }
-
-
 }
 
+//https://guides.codepath.com/android/Flexible-User-Interfaces
 //https://guides.codepath.com/android/creating-and-using-fragments
 
 //https://codinginflow.com/tutorials/android/simple-recyclerview-kotlin/part-4-click-handler

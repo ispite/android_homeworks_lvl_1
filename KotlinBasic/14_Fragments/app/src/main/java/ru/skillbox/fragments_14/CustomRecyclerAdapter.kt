@@ -13,19 +13,14 @@ import kotlinx.android.synthetic.main.recyclerview_item.view.*
 class CustomRecyclerAdapter(
     private val exampleList: List<ExampleItem>,
     private val listener: OnItemClickListener
-    ):
+) :
     RecyclerView.Adapter<CustomRecyclerAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-    View.OnClickListener{
+        View.OnClickListener {
         val imageView: ImageView = itemView.image_view
         val textView1: TextView = itemView.text_view_1
         val textView2: TextView = itemView.text_view_2
-
-        //val bigText : TextView = itemView.textViewLarge
-        //val smallText : TextView = itemView.textViewSmall
-        //var largeTextView: TextView? = null
-        //var smallTextView: TextView? = null
 
         init {
             itemView.setOnClickListener(this)
@@ -36,13 +31,7 @@ class CustomRecyclerAdapter(
             if (position != RecyclerView.NO_POSITION) {
                 listener.onItemClick(position)
             }
-
         }
-
-        /*init {
-            largeTextView = itemView.findViewById(R.id.textViewLarge)
-            smallTextView = itemView.findViewById(R.id.textViewSmall)
-        }*/
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -58,9 +47,6 @@ class CustomRecyclerAdapter(
         holder.imageView.setImageResource(currentItem.imageResource)
         holder.textView1.text = currentItem.text1
         holder.textView2.text = currentItem.text2
-
-        //holder.bigText.text = names[position]
-        //holder.smallText.text = "кот"
     }
 
     override fun getItemCount() = exampleList.size
