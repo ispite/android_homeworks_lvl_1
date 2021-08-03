@@ -1,6 +1,7 @@
 package ru.skillbox.viewandlayout_10
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -52,16 +53,16 @@ class MainActivity : AppCompatActivity() {
 
         CallButton.setOnClickListener {
             val phoneNumber = editTextPhone.text.toString()
+            //phoneNumber = binding.etPhoneNumber.text.toString()
             val isPhoneValid = Patterns.PHONE.matcher(editTextPhone.text).matches()
 
             if (isPhoneValid) {
                 val phoneIntent = Intent(Intent.ACTION_DIAL).apply {
                     data = Uri.parse("tel:$phoneNumber")
                 }
-
-                if (intent.resolveActivity(packageManager) != null) {
-                    startActivityForResult(phoneIntent, CALL_REQUEST_CODE)
-                } else {
+                try {
+                    startActivity(phoneIntent)
+                } catch (ex: ActivityNotFoundException) {
                     toast("Нет такого приложения")
                 }
             }
