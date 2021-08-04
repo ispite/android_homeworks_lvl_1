@@ -8,13 +8,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <fragment
-        android:id="@+id/fragmentItemsList"
-        android:name="ru.skillbox.fragments_14.ListFragment"
-        android:layout_height="match_parent"
+
+    <FrameLayout
+        android:id="@+id/containerFragmentMain1"
         android:layout_width="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <fragment
+            android:id="@+id/fragmentItemsList"
+            android:name="ru.skillbox.fragments_14.ListFragment"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/containerFragmentMain"
