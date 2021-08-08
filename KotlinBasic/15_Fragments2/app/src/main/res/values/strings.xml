@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">Fragments_15</string>
-    <string name="onboarding_text_1">TEXT 1</string>
-    <string name="onboarding_text_2">TEXT 2</string>
-    <string name="onboarding_text_3">TEXT 3</string>
-    <string name="onboarding_text_4">TEXT 4</string>
-    <string name="onboarding_text_5">TEXT 5</string>
-    <string name="onboarding_text_6">TEXT 6</string>
+    <string name="article_caption_1">С руками нигде не пропадешь</string>
+    <string name="article_caption_2">Не всякий умен, кто с головою</string>
+    <string name="article_caption_3">Бейсбол или теннис</string>
+    <string name="article_caption_4">Как не закружиться на велотреке</string>
+    <string name="article_caption_5">Вдох, выдох</string>
+    <string name="article_caption_6">Белый - хит сезона!</string>
+    <string name="article_text_1">Aenean auctor consectetur elit, sed sagittis dui scelerisque ac. Donec porta mi ac ligula aliquam sollicitudin. Proin mattis turpis enim, quis fermentum sem pretium gravida. Aliquam erat volutpat. Integer commodo libero est. Vestibulum semper, eros sit amet ultricies posuere, lorem magna tincidunt lacus, non vehicula nisi velit eget lectus. Duis.</string>
+    <string name="article_text_2">Maecenas sit amet mauris lorem. Vivamus maximus elit ipsum, et ornare urna gravida et. Praesent ex ante, mollis tincidunt rhoncus vitae, accumsan nec tellus. Vivamus tellus nibh, molestie eu laoreet ac, tempus in augue. Cras vestibulum nunc sed lectus ultrices dapibus. Pellentesque porttitor est in gravida semper. Ut pretium interdum.</string>
+    <string name="article_text_3">Nullam non imperdiet libero. Sed quis mauris vitae purus euismod finibus sodales nec augue. Aenean elementum arcu ut placerat vulputate. Nunc aliquam elit ut elit hendrerit auctor. Curabitur imperdiet ac velit in imperdiet. Sed et nibh ligula. Aliquam pellentesque mauris non dolor sollicitudin, quis sollicitudin quam dapibus. Nam placerat hendrerit.</string>
+    <string name="article_text_4">Proin quis velit sed massa lacinia pretium. Suspendisse vulputate euismod metus ut imperdiet. Mauris aliquam consequat mollis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In sed mollis tortor. Duis non nisl dictum, consequat metus sit amet, eleifend sem. In ultrices ligula at enim viverra.</string>
+    <string name="article_text_5">Phasellus augue nunc, laoreet a suscipit at, consequat vel magna. Etiam ac arcu ac velit luctus vehicula. Nullam pretium orci dui, id ultrices magna sollicitudin et. Nullam ac justo laoreet, lobortis nunc et, lobortis nisl. Phasellus eu elit nisl. Curabitur quis odio eget lorem luctus dapibus a varius lorem. Nunc.</string>
+    <string name="article_text_6">Fusce sit amet ligula ac ipsum molestie fermentum ut eget elit. Donec ligula nulla, consectetur in eros eget, blandit consequat mi. Morbi porta ut ligula mattis aliquam. Proin lacinia aliquam magna, in congue sem placerat ut. Suspendisse tincidunt, dui ac hendrerit tempus, ante ligula auctor dui, sollicitudin hendrerit nisl justo.</string>
 </resources>

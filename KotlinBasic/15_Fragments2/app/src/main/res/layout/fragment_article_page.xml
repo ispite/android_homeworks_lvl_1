@@ -15,11 +15,20 @@
         android:scaleType="centerCrop" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewCaption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         tools:text="@tools:sample/full_names"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="3dp"
+        tools:text="@tools:sample/lorem/random"
         android:textSize="20sp" />
 
 </LinearLayout>
