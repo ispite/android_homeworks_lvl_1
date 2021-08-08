@@ -1,9 +1,12 @@
 package ru.skillbox.fragments_15
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_tabs.*
 
 class TabsActivity : AppCompatActivity(R.layout.activity_tabs) {
@@ -54,9 +57,16 @@ class TabsActivity : AppCompatActivity(R.layout.activity_tabs) {
 
         showTabsWithArticles()
 
+        //val dotsIndicator = findViewById<WormDotsIndicator>(R.id.dots_indicator)
+        //dotsIndicator.setViewPager2(viewPager)
+
         showFilterDialog.setOnClickListener {
             showDialogFragment()
         }
+
+        val depthTransformation = DepthTransformation()
+
+        viewPager.setPageTransformer(depthTransformation)
     }
 
     private fun showDialogFragment() {
@@ -93,3 +103,6 @@ class TabsActivity : AppCompatActivity(R.layout.activity_tabs) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 }
+
+//https://github.com/dipanshukr/Viewpager-Transformation
+//https://github.com/tommybuonomo/dotsindicator
