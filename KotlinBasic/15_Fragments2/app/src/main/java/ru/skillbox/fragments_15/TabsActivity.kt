@@ -57,8 +57,8 @@ class TabsActivity : AppCompatActivity(R.layout.activity_tabs) {
 
         showTabsWithArticles()
 
-        //val dotsIndicator = findViewById<WormDotsIndicator>(R.id.dots_indicator)
-        //dotsIndicator.setViewPager2(viewPager)
+        val dotsIndicator = findViewById<WormDotsIndicator>(R.id.dots_indicator)
+        dotsIndicator.setViewPager2(viewPager)
 
         showFilterDialog.setOnClickListener {
             showDialogFragment()
@@ -86,6 +86,9 @@ class TabsActivity : AppCompatActivity(R.layout.activity_tabs) {
 
         val adapter = ArticleAdapter(articles2, this)
         viewPager.adapter = adapter
+
+//        val dotsIndicator = findViewById<WormDotsIndicator>(R.id.dots_indicator)
+//        dotsIndicator.setViewPager2(viewPager)
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = getString(articles2[position].articleCaption)
