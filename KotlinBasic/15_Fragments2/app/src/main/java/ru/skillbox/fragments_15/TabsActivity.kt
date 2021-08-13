@@ -53,20 +53,11 @@ class TabsActivity : AppCompatActivity(R.layout.activity_tabs) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val adapter = ArticleAdapter(articles, this)
-        viewPager.adapter = adapter
-
         showTabsWithArticles()
-
-        val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
-        dotsIndicator.setViewPager2(viewPager)
-
         showFilterDialog.setOnClickListener {
             showDialogFragment()
         }
-
         val depthTransformation = DepthTransformation()
-
         viewPager.setPageTransformer(depthTransformation)
     }
 
@@ -88,8 +79,8 @@ class TabsActivity : AppCompatActivity(R.layout.activity_tabs) {
         val adapter = ArticleAdapter(articles2, this)
         viewPager.adapter = adapter
 
-//        val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
-//        dotsIndicator.setViewPager2(viewPager)
+        val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
+        dotsIndicator.setViewPager2(viewPager)
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = getString(articles2[position].articleCaption)
