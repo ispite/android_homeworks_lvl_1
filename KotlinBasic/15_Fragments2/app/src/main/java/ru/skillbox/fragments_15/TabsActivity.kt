@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import kotlinx.android.synthetic.main.activity_tabs.*
 
@@ -57,7 +58,7 @@ class TabsActivity : AppCompatActivity(R.layout.activity_tabs) {
 
         showTabsWithArticles()
 
-        val dotsIndicator = findViewById<WormDotsIndicator>(R.id.dots_indicator)
+        val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
         dotsIndicator.setViewPager2(viewPager)
 
         showFilterDialog.setOnClickListener {
@@ -87,7 +88,7 @@ class TabsActivity : AppCompatActivity(R.layout.activity_tabs) {
         val adapter = ArticleAdapter(articles2, this)
         viewPager.adapter = adapter
 
-//        val dotsIndicator = findViewById<WormDotsIndicator>(R.id.dots_indicator)
+//        val dotsIndicator = findViewById<DotsIndicator>(R.id.dots_indicator)
 //        dotsIndicator.setViewPager2(viewPager)
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
