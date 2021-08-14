@@ -14,5 +14,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/brandTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        tools:text="Volkswagen"
+        app:layout_constraintStart_toEndOf="@id/imageOfVehicleImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"
+        />
+
+    <TextView
+        android:id="@+id/modelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        tools:text="Passat B6"
+        app:layout_constraintStart_toStartOf="@id/brandTextView"
+        app:layout_constraintEnd_toEndOf="@id/brandTextView"
+        app:layout_constraintTop_toBottomOf="@id/brandTextView"
+        android:layout_marginStart="16dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
