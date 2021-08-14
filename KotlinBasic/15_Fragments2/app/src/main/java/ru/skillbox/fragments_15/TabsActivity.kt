@@ -93,10 +93,6 @@ class TabsActivity : AppCompatActivity(R.layout.activity_tabs) {
             }
         }.attach()
     }
-
-    private fun toast(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
-    }
 }
 
 //https://github.com/dipanshukr/Viewpager-Transformation
