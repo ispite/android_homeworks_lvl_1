@@ -50,13 +50,23 @@ class VehicleListFragment:Fragment(R.layout.fragment_vehicle_list) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initList()
+//        initList()
+        initListVehicles()
     }
 
     private fun initList(){
         //vehicleAdapter = VehicleAdapter{position -> {} }
         with(vehicleList) {
             adapter = CarAdapter(cars + cars + cars + cars + cars + cars + cars + cars + cars + cars)
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+        }
+    }
+
+    private fun initListVehicles(){
+        vehicleAdapter = VehicleAdapter{position -> {} }
+        with(vehicleList) {
+            adapter = vehicleAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }

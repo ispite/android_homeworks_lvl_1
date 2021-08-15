@@ -34,7 +34,7 @@ class CarAdapter(
 
             Glide.with(itemView)
                 .load(car.image)
-                .placeholder(R.drawable.ic_baseline_image)
+                .placeholder(R.drawable.ic_image)
                 .into(pictureImageView)
         }
     }

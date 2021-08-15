@@ -1,6 +1,5 @@
 package ru.skillbox.a16_lists_1
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -76,7 +75,7 @@ class VehicleAdapter(
 
             Glide.with(itemView)
                 .load(image)
-                .placeholder(R.drawable.ic_baseline_image)
+                .placeholder(R.drawable.ic_image)
                 .into(pictureImageView)
         }
     }
@@ -85,9 +84,9 @@ class VehicleAdapter(
         view: View,
         onItemClick: (position: Int) -> Unit
     ):BaseVehicleHolder(view, onItemClick){
-        init {
+        /*init {
             view.findViewById<TextView>(R.id.selfDrivingLevelTextView).isVisible = false
-        }
+        }*/
 
         fun bind(vehicle: Vehicle.Car) {
             bindMainInfo(vehicle.brand, vehicle.model, vehicle.image)
