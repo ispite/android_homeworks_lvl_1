@@ -7,7 +7,7 @@ sealed class Vehicle {
         val image: String
     ):Vehicle()
 
-    data class selfDrivingCar(
+    data class SelfDrivingCar(
         val brand: String,
         val model: String,
         val image: String,
