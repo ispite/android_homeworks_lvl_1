@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
@@ -15,7 +16,11 @@ class VehicleAdapter(
     private var vehicles: List<Vehicle> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        TODO("Not yet implemented")
+        return when(viewType) {
+            TYPE_CAR -> CarHolder(parent.inflate(R.layout.item_car), onItemClick)
+            TYPE_SELFDRIVINGCAR -> SelfDrivingCarHolder(parent.inflate(R.layout.item_selfdrivingcar), onItemClick)
+            else -> error("INCORRECT VIEWTYPE=$viewType")
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -26,7 +31,19 @@ class VehicleAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        when (holder) {
+            is CarHolder -> {
+                val vehicle = vehicles[position].let { it as? Vehicle.Car }
+                    ?: error("Vehicle at position =$position is not a CAR")
+                holder.bind(vehicle)
+            }
+            is SelfDrivingCarHolder -> {
+                val vehicle = vehicles[position].let { it as? Vehicle.SelfDrivingCar }
+                    ?: error("Vehicle at position =$position is not a Self Driving CAR")
+                holder.bind(vehicle)
+            }
+            else -> error("Incorrect view holder = $holder")
+        }
     }
 
     override fun getItemCount(): Int = vehicles.size
@@ -61,6 +78,31 @@ class VehicleAdapter(
                 .load(image)
                 .placeholder(R.drawable.ic_baseline_image)
                 .into(pictureImageView)
+        }
+    }
+
+    class CarHolder(
+        view: View,
+        onItemClick: (position: Int) -> Unit
+    ):BaseVehicleHolder(view, onItemClick){
+        init {
+            view.findViewById<TextView>(R.id.selfDrivingLevelTextView).isVisible = false
+        }
+
+        fun bind(vehicle: Vehicle.Car) {
+            bindMainInfo(vehicle.brand, vehicle.model, vehicle.image)
+        }
+    }
+
+    class SelfDrivingCarHolder(
+        view: View,
+        onItemClick: (position: Int) -> Unit
+    ):BaseVehicleHolder(view, onItemClick){
+        private val selfDrivingLevelView: TextView = view.findViewById(R.id.selfDrivingLevelTextView)
+
+        fun bind(vehicle: Vehicle.SelfDrivingCar){
+            bindMainInfo(vehicle.brand, vehicle.model, vehicle.image)
+            selfDrivingLevelView.text = "Уровень автопилота: ${vehicle.selfDrivingLevel.toString()}"
         }
     }
 

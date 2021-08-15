@@ -33,24 +33,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/selfDrivingLevelTextView"
         app:layout_constraintEnd_toEndOf="@id/brandTextView"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/imageOfVehicleImageView"
         app:layout_constraintTop_toBottomOf="@+id/brandTextView"
         tools:text="Passat B6" />
 
-    <TextView
-        android:id="@+id/selfDrivingLevelTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="4th"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/brandTextView"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@id/imageOfVehicleImageView"
-        app:layout_constraintTop_toBottomOf="@+id/modelTextView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
