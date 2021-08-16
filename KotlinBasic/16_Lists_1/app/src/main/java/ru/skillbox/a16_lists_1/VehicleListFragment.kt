@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.fragment_vehicle_list.*
 
 class VehicleListFragment:Fragment(R.layout.fragment_vehicle_list) {
 
-    private val vehicles = listOf(
+    private var vehicles = listOf(
         Vehicle.Car(
             brand = "Volkswagen",
             model = "Passat b6",
@@ -16,7 +16,7 @@ class VehicleListFragment:Fragment(R.layout.fragment_vehicle_list) {
         Vehicle.SelfDrivingCar(
             brand = "Volvo",
             model = "S60",
-            image = "http://autodd.b-cdn.net/wp-content/uploads/2019/07/volvo-s60_13.jpg",
+            image = "https://autoiwc.ru/images/volvo/volvo-s60.jpg",
             selfDrivingLevel = 4
         ),
         Vehicle.Car(
@@ -52,6 +52,8 @@ class VehicleListFragment:Fragment(R.layout.fragment_vehicle_list) {
         super.onActivityCreated(savedInstanceState)
 //        initList()
         initListVehicles()
+        addFAB.setOnClickListener { addVehicle() }
+        vehicleAdapter?.updateVehicles(vehicles)
     }
 
     private fun initList(){
@@ -70,5 +72,11 @@ class VehicleListFragment:Fragment(R.layout.fragment_vehicle_list) {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
+    }
+
+    private fun addVehicle() {
+        val newVehicle = vehicles.random()
+        vehicles = listOf(newVehicle) + vehicles
+        vehicleAdapter?.updateVehicles(vehicles)
     }
 }
