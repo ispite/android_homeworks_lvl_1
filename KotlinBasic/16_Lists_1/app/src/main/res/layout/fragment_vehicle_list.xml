@@ -17,8 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingBottom="80dp"
-        android:clipToPadding="false"
-        />
+        android:clipToPadding="false" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addFABManual"
@@ -29,8 +28,7 @@
         android:backgroundTint="@color/addCross"
         app:tint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/addFAB"
-        />
+        app:layout_constraintBottom_toTopOf="@id/addFAB" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addFAB"
@@ -41,8 +39,7 @@
         android:layout_margin="16dp"
         android:backgroundTint="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

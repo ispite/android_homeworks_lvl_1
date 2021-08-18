@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 
 class CarAdapter(
     private val cars: List<Car>
-): RecyclerView.Adapter<CarAdapter.Holder>() {
+) : RecyclerView.Adapter<CarAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(parent.inflate(R.layout.item_car))
@@ -22,7 +22,7 @@ class CarAdapter(
 
     override fun getItemCount(): Int = cars.size
 
-    class Holder(view: View): RecyclerView.ViewHolder(view) {
+    class Holder(view: View) : RecyclerView.ViewHolder(view) {
 
         private val brandTextView: TextView = view.findViewById(R.id.brandTextView)
         private val modelTextView: TextView = view.findViewById(R.id.modelTextView)

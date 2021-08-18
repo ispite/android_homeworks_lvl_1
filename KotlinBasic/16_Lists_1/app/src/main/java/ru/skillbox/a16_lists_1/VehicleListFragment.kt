@@ -61,8 +61,10 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list) {
 //        initList()
         initListVehicles()
         addFAB.setOnClickListener { addVehicle() }
-        addFABManual.setOnClickListener { NewVehicleDialogFragment()
-            .show(childFragmentManager, "DIALOG")}
+        addFABManual.setOnClickListener {
+            NewVehicleDialogFragment()
+                .show(childFragmentManager, "DIALOG")
+        }
         vehicleAdapter?.updateVehicles(vehicles)
         vehicleAdapter?.notifyItemRangeInserted(0, vehicles.size)
     }
@@ -104,17 +106,35 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list) {
         vehicleList.scrollToPosition(0)
     }
 
-    private fun addVehicleManual() {
-        AlertDialog.Builder(requireContext())
-            .setView(R.layout.dialog_add_vehicle)
-            .setPositiveButton("ok") { _,_, ->
-//                brandEditText.text.toString()
-                Toast.makeText(requireContext(), brandEditText.text.toString(), Toast.LENGTH_SHORT).show()
+    fun addVehicleManual(brand: String, model: String, image: String, selfDrivingLevel: String) {
+        //val newVehicle : Vehicle
+        //newVehicle.
+        //var newVehicleCar1 : Vehicle.Car
+        val newVehicleCar1 = Vehicle.Car(brand = "asdasd", model = "sdfsdf", image = "sdfsdfsdf")
+        val newVehicle = when (selfDrivingLevel.toInt()) {
+            in 1..5 -> Vehicle.SelfDrivingCar(
+                brand = brand,
+                model = model,
+                image = image,
+                selfDrivingLevel.toInt()
+            )
+            else -> Vehicle.Car(brand = brand, model = model, image = image)
+        }
+        vehicles = listOf(newVehicle) + vehicles
+        vehicleAdapter?.updateVehicles(vehicles)
+        vehicleAdapter?.notifyItemInserted(0)
+        vehicleList.scrollToPosition(0)
 
-//                modelEditText.text.toString()
-//                URLEditText.text.toString()
-//                SelfDrivingLevelEditText.text.toString()
-            }
-            .show()
+        /* AlertDialog.Builder(requireContext())
+                .setView(R.layout.dialog_add_vehicle)
+                .setPositiveButton("ok") { _,_, ->
+    //                brandEditText.text.toString()
+                    Toast.makeText(requireContext(), brandEditText.text.toString(), Toast.LENGTH_SHORT).show()
+
+    //                modelEditText.text.toString()
+    //                URLEditText.text.toString()
+    //                SelfDrivingLevelEditText.text.toString()
+                }
+                .show()*/
     }
 }
