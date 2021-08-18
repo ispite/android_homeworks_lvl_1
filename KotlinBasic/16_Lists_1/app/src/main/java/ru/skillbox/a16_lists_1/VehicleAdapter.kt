@@ -49,7 +49,6 @@ class VehicleAdapter(
 
     fun updateVehicles(newVehicles: List<Vehicle>){
         vehicles = newVehicles
-        notifyDataSetChanged()
     }
 
     abstract class BaseVehicleHolder(

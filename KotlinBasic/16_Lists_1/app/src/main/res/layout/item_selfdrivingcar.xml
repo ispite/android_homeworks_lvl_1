@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:background="@color/grey">
+    android:background="@color/grey"
+    android:foreground="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/imageOfVehicleImageView"

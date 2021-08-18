@@ -1,11 +1,15 @@
 package ru.skillbox.a16_lists_1
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.dialog_add_vehicle.*
 import kotlinx.android.synthetic.main.fragment_vehicle_list.*
+import java.text.FieldPosition
 
-class VehicleListFragment:Fragment(R.layout.fragment_vehicle_list) {
+class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list) {
 
     private var vehicles = listOf(
         Vehicle.Car(
@@ -45,28 +49,40 @@ class VehicleListFragment:Fragment(R.layout.fragment_vehicle_list) {
         )
     )
 
+//    БЫЛО
+//    private var vehicleAdapter: VehicleAdapter? = null
 
-    private var vehicleAdapter: VehicleAdapter? = null
+    //    СТАЛО
+    private var vehicleAdapter by AutoClearedValue<VehicleAdapter>(this)
+    //vehicleAdapter = VehicleAdapter
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 //        initList()
         initListVehicles()
         addFAB.setOnClickListener { addVehicle() }
+        addFABManual.setOnClickListener { NewVehicleDialogFragment()
+            .show(childFragmentManager, "DIALOG")}
         vehicleAdapter?.updateVehicles(vehicles)
+        vehicleAdapter?.notifyItemRangeInserted(0, vehicles.size)
     }
 
-    private fun initList(){
-        //vehicleAdapter = VehicleAdapter{position -> {} }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        //vehicleAdapter = null
+    }
+
+    private fun initList() {
         with(vehicleList) {
-            adapter = CarAdapter(cars + cars + cars + cars + cars + cars + cars + cars + cars + cars)
+            adapter =
+                CarAdapter(cars + cars + cars + cars + cars + cars + cars + cars + cars + cars)
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
     }
 
-    private fun initListVehicles(){
-        vehicleAdapter = VehicleAdapter{position -> {} }
+    private fun initListVehicles() {
+        vehicleAdapter = VehicleAdapter { position -> deleteVehicle(position) }
         with(vehicleList) {
             adapter = vehicleAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -74,9 +90,31 @@ class VehicleListFragment:Fragment(R.layout.fragment_vehicle_list) {
         }
     }
 
+    private fun deleteVehicle(position: Int) {
+        vehicles = vehicles.filterIndexed { index, vehicle -> index != position }
+        vehicleAdapter?.updateVehicles(vehicles)
+        vehicleAdapter?.notifyItemRemoved(position)
+    }
+
     private fun addVehicle() {
         val newVehicle = vehicles.random()
         vehicles = listOf(newVehicle) + vehicles
         vehicleAdapter?.updateVehicles(vehicles)
+        vehicleAdapter?.notifyItemInserted(0)
+        vehicleList.scrollToPosition(0)
+    }
+
+    private fun addVehicleManual() {
+        AlertDialog.Builder(requireContext())
+            .setView(R.layout.dialog_add_vehicle)
+            .setPositiveButton("ok") { _,_, ->
+//                brandEditText.text.toString()
+                Toast.makeText(requireContext(), brandEditText.text.toString(), Toast.LENGTH_SHORT).show()
+
+//                modelEditText.text.toString()
+//                URLEditText.text.toString()
+//                SelfDrivingLevelEditText.text.toString()
+            }
+            .show()
     }
 }
