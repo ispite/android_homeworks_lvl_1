@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.dialog_add_vehicle.*
 import kotlinx.android.synthetic.main.fragment_vehicle_list.*
 import java.text.FieldPosition
 
-class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list) {
+class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicleDialogFragment.NewVehicleDialogListener {
 
     private var vehicles = listOf(
         Vehicle.Car(
@@ -106,7 +106,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list) {
         vehicleList.scrollToPosition(0)
     }
 
-    fun addVehicleManual(brand: String, model: String, image: String, selfDrivingLevel: String) {
+    /*fun addVehicleManual(brand: String, model: String, image: String, selfDrivingLevel: String) {
         //val newVehicle : Vehicle
         //newVehicle.
         //var newVehicleCar1 : Vehicle.Car
@@ -125,7 +125,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list) {
         vehicleAdapter?.notifyItemInserted(0)
         vehicleList.scrollToPosition(0)
 
-        /* AlertDialog.Builder(requireContext())
+        *//* AlertDialog.Builder(requireContext())
                 .setView(R.layout.dialog_add_vehicle)
                 .setPositiveButton("ok") { _,_, ->
     //                brandEditText.text.toString()
@@ -135,6 +135,10 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list) {
     //                URLEditText.text.toString()
     //                SelfDrivingLevelEditText.text.toString()
                 }
-                .show()*/
+                .show()*//*
+    }*/
+
+    override fun passArguments(brand: String?, model: String?, URL: String?, SDL: String?) {
+        Toast.makeText(context, brand, Toast.LENGTH_SHORT).show()
     }
 }

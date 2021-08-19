@@ -2,33 +2,53 @@ package ru.skillbox.a16_lists_1
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View
+import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.dialog_add_vehicle.*
+import java.lang.ClassCastException
 
 class NewVehicleDialogFragment : DialogFragment() {
+    private var listener: NewVehicleDialogListener? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val inflater = requireParentFragment().layoutInflater
+        val view: View = inflater.inflate(R.layout.dialog_add_vehicle, null)
+
+        val brandEditText = view.findViewById<EditText>(R.id.brandEditText)
+        val modelEditText = view.findViewById<EditText>(R.id.modelEditText)
+        val URLEditText = view.findViewById<EditText>(R.id.URLEditText)
+        val SDLEditText = view.findViewById<EditText>(R.id.SelfDrivingLevelEditText)
 
         return AlertDialog.Builder(requireContext())
-            .setView(R.layout.dialog_add_vehicle)
-            .setPositiveButton("ok") { _, _ ->
-                (requireParentFragment() as VehicleListFragment).addVehicleManual(
+            .setView(view)
+            .setNegativeButton("Cancel") {_, _, ->}
+            .setPositiveButton("Ok") { _, _ ->
+                listener!!.passArguments(
                     brandEditText.text.toString(),
                     modelEditText.text.toString(),
                     URLEditText.text.toString(),
-                    SelfDrivingLevelEditText.text.toString()
+                    SDLEditText.text.toString()
                 )
-
-//                brandEditText.text.toString()
-                //Toast.makeText(requireContext(), brandEditText.text.toString(), Toast.LENGTH_SHORT).show()
-
-//                modelEditText.text.toString()
-//                URLEditText.text.toString()
-//                SelfDrivingLevelEditText.text.toString()
             }
-            .show()
+            //.show()
+            .create()
+    }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = try {
+            context as NewVehicleDialogListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException(
+                context.toString() + "must implement ExampleDialogListener"
+            )
+        }
+    }
+
+    interface NewVehicleDialogListener {
+        fun passArguments(brand: String?, model: String?, URL: String?, SDL: String?)
     }
 }
