@@ -2,6 +2,7 @@ package ru.skillbox.a16_lists_1
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +10,7 @@ import kotlinx.android.synthetic.main.dialog_add_vehicle.*
 import kotlinx.android.synthetic.main.fragment_vehicle_list.*
 import java.text.FieldPosition
 
-class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list) {
+class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicleDialogFragment.OnDataPass {
 
     private var vehicles = listOf(
         Vehicle.Car(
@@ -137,4 +138,9 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list) {
                 }
                 .show()*/
     }
+
+    override fun onDataPass(brand: String, model: String, URL: String, SDL: String) {
+        Log.d("LOG","hello " + brand)
+    }
+
 }
