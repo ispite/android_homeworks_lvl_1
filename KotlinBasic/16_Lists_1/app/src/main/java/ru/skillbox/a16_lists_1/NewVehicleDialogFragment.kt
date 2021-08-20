@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
-import kotlinx.android.synthetic.main.dialog_add_vehicle.*
-import java.lang.ClassCastException
 
 class NewVehicleDialogFragment : DialogFragment() {
     private var listener: NewVehicleDialogListener? = null
@@ -27,20 +25,19 @@ class NewVehicleDialogFragment : DialogFragment() {
             .setNegativeButton("Cancel") {_, _, ->}
             .setPositiveButton("Ok") { _, _ ->
                 listener!!.passArguments(
-                    brandEditText.text.toString(),
-                    modelEditText.text.toString(),
-                    URLEditText.text.toString(),
-                    SDLEditText.text.toString()
+                    brandEditText!!.text.toString(),
+                    modelEditText!!.text.toString(),
+                    URLEditText!!.text.toString(),
+                    SDLEditText!!.text.toString()
                 )
             }
-            //.show()
             .create()
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = try {
-            requireParentFragment() as NewVehicleDialogListener
+            parentFragment as NewVehicleDialogListener
         } catch (e: ClassCastException) {
             throw ClassCastException(
                 context.toString() + "must implement ExampleDialogListener"
@@ -49,6 +46,6 @@ class NewVehicleDialogFragment : DialogFragment() {
     }
 
     interface NewVehicleDialogListener {
-        fun passArguments(brand: String, model: String, URL: String, SDL: String)
+        fun passArguments(brand: String?, model: String?, URL: String?, SDL: String?)
     }
 }

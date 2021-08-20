@@ -1,13 +1,11 @@
 package ru.skillbox.a16_lists_1
 
-import android.app.AlertDialog
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.dialog_add_vehicle.*
 import kotlinx.android.synthetic.main.fragment_vehicle_list.*
-import java.text.FieldPosition
 
 class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicleDialogFragment.NewVehicleDialogListener {
 
@@ -58,20 +56,14 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicle
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        initList()
         initListVehicles()
         addFAB.setOnClickListener { addVehicle() }
         addFABManual.setOnClickListener {
             NewVehicleDialogFragment()
                 .show(childFragmentManager, "DIALOG")
         }
-        vehicleAdapter?.updateVehicles(vehicles)
-        vehicleAdapter?.notifyItemRangeInserted(0, vehicles.size)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //vehicleAdapter = null
+        vehicleAdapter.updateVehicles(vehicles)
+        vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
     }
 
     private fun initList() {
@@ -94,52 +86,41 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicle
 
     private fun deleteVehicle(position: Int) {
         vehicles = vehicles.filterIndexed { index, vehicle -> index != position }
-        vehicleAdapter?.updateVehicles(vehicles)
-        vehicleAdapter?.notifyItemRemoved(position)
+        vehicleAdapter.updateVehicles(vehicles)
+        vehicleAdapter.notifyItemRemoved(position)
+        if (vehicles.isEmpty()) {
+            emptyListNotification.visibility = View.VISIBLE
+        }
     }
 
     private fun addVehicle() {
         val newVehicle = vehicles.random()
         vehicles = listOf(newVehicle) + vehicles
-        vehicleAdapter?.updateVehicles(vehicles)
-        vehicleAdapter?.notifyItemInserted(0)
+        vehicleAdapter.updateVehicles(vehicles)
+        vehicleAdapter.notifyItemInserted(0)
         vehicleList.scrollToPosition(0)
     }
 
-    fun addVehicleManual(brand: String, model: String, image: String, selfDrivingLevel: String) {
-        //val newVehicle : Vehicle
-        //newVehicle.
-        //var newVehicleCar1 : Vehicle.Car
-        val newVehicleCar1 = Vehicle.Car(brand = "asdasd", model = "sdfsdf", image = "sdfsdfsdf")
-        val newVehicle = when (selfDrivingLevel.toInt()) {
+    private fun addVehicleManual(brand: String?, model: String?, image: String?, selfDrivingLevel: String?) {
+        val newVehicle = when (selfDrivingLevel?.toIntOrNull()) {
             in 1..5 -> Vehicle.SelfDrivingCar(
-                brand = brand,
-                model = model,
-                image = image,
-                selfDrivingLevel.toInt()
+                brand = brand!!,
+                model = model!!,
+                image = image!!,
+                selfDrivingLevel!!.toInt()
             )
-            else -> Vehicle.Car(brand = brand, model = model, image = image)
+            else -> Vehicle.Car(brand = brand!!, model = model!!, image = image!!)
         }
         vehicles = listOf(newVehicle) + vehicles
-        vehicleAdapter?.updateVehicles(vehicles)
-        vehicleAdapter?.notifyItemInserted(0)
+        vehicleAdapter.updateVehicles(vehicles)
+        vehicleAdapter.notifyItemInserted(0)
         vehicleList.scrollToPosition(0)
-
-        /* AlertDialog.Builder(requireContext())
-                .setView(R.layout.dialog_add_vehicle)
-                .setPositiveButton("ok") { _,_, ->
-    //                brandEditText.text.toString()
-                    Toast.makeText(requireContext(), brandEditText.text.toString(), Toast.LENGTH_SHORT).show()
-
-    //                modelEditText.text.toString()
-    //                URLEditText.text.toString()
-    //                SelfDrivingLevelEditText.text.toString()
-                }
-                .show()*/
+        if (vehicles.isNotEmpty()) {
+            emptyListNotification.visibility = View.GONE
+        }
     }
 
-
-    override fun passArguments(brand: String, model: String, URL: String, SDL: String) {
+    override fun passArguments(brand: String?, model: String?, URL: String?, SDL: String?) {
         Toast.makeText(context, brand, Toast.LENGTH_SHORT).show()
         addVehicleManual(brand, model, URL, SDL)
     }

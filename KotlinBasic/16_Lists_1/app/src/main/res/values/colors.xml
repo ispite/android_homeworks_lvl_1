@@ -10,5 +10,6 @@
     <color name="grey">#AFAFAF</color>
     <color name="green">#6FB105</color>
     <color name="addCross">#0D17CC</color>
+    <color name="red">#FF0000</color>
 
 </resources>
