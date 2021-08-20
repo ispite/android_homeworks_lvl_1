@@ -22,7 +22,7 @@ class NewVehicleDialogFragment : DialogFragment() {
 
         return AlertDialog.Builder(requireContext())
             .setView(view)
-            .setNegativeButton("Cancel") {_, _, ->}
+            .setNegativeButton("Cancel") { _, _ -> }
             .setPositiveButton("Ok") { _, _ ->
                 listener!!.passArguments(
                     brandEditText!!.text.toString(),

@@ -7,7 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_vehicle_list.*
 
-class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicleDialogFragment.NewVehicleDialogListener {
+class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
+    NewVehicleDialogFragment.NewVehicleDialogListener {
 
     private var vehicles = listOf(
         Vehicle.Car(
@@ -78,7 +79,12 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicle
         vehicleList.scrollToPosition(0)
     }
 
-    private fun addVehicleManual(brand: String?, model: String?, image: String?, selfDrivingLevel: String?) {
+    private fun addVehicleManual(
+        brand: String?,
+        model: String?,
+        image: String?,
+        selfDrivingLevel: String?
+    ) {
         val newVehicle = when (selfDrivingLevel?.toIntOrNull()) {
             in 1..5 -> Vehicle.SelfDrivingCar(
                 brand = brand!!,
