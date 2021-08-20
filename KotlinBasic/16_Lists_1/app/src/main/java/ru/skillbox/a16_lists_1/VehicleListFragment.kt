@@ -49,8 +49,8 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicle
         )
     )
 
-//    БЫЛО
-//    private var vehicleAdapter: VehicleAdapter? = null
+    //    БЫЛО
+    //    private var vehicleAdapter: VehicleAdapter? = null
 
     //    СТАЛО
     private var vehicleAdapter by AutoClearedValue<VehicleAdapter>(this)
@@ -106,7 +106,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicle
         vehicleList.scrollToPosition(0)
     }
 
-    /*fun addVehicleManual(brand: String, model: String, image: String, selfDrivingLevel: String) {
+    fun addVehicleManual(brand: String, model: String, image: String, selfDrivingLevel: String) {
         //val newVehicle : Vehicle
         //newVehicle.
         //var newVehicleCar1 : Vehicle.Car
@@ -125,7 +125,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicle
         vehicleAdapter?.notifyItemInserted(0)
         vehicleList.scrollToPosition(0)
 
-        *//* AlertDialog.Builder(requireContext())
+        /* AlertDialog.Builder(requireContext())
                 .setView(R.layout.dialog_add_vehicle)
                 .setPositiveButton("ok") { _,_, ->
     //                brandEditText.text.toString()
@@ -135,10 +135,12 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicle
     //                URLEditText.text.toString()
     //                SelfDrivingLevelEditText.text.toString()
                 }
-                .show()*//*
-    }*/
+                .show()*/
+    }
 
-    override fun passArguments(brand: String?, model: String?, URL: String?, SDL: String?) {
+
+    override fun passArguments(brand: String, model: String, URL: String, SDL: String) {
         Toast.makeText(context, brand, Toast.LENGTH_SHORT).show()
+        addVehicleManual(brand, model, URL, SDL)
     }
 }

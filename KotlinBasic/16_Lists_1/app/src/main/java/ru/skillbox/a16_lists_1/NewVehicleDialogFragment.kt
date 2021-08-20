@@ -40,7 +40,7 @@ class NewVehicleDialogFragment : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = try {
-            context as NewVehicleDialogListener
+            requireParentFragment() as NewVehicleDialogListener
         } catch (e: ClassCastException) {
             throw ClassCastException(
                 context.toString() + "must implement ExampleDialogListener"
@@ -49,6 +49,6 @@ class NewVehicleDialogFragment : DialogFragment() {
     }
 
     interface NewVehicleDialogListener {
-        fun passArguments(brand: String?, model: String?, URL: String?, SDL: String?)
+        fun passArguments(brand: String, model: String, URL: String, SDL: String)
     }
 }
