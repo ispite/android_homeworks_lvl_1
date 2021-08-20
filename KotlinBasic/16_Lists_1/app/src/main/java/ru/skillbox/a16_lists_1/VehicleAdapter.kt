@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
@@ -87,9 +86,6 @@ class VehicleAdapter(
         view: View,
         onItemClick: (position: Int) -> Unit
     ) : BaseVehicleHolder(view, onItemClick) {
-        /*init {
-            view.findViewById<TextView>(R.id.selfDrivingLevelTextView).isVisible = false
-        }*/
 
         fun bind(vehicle: Vehicle.Car) {
             bindMainInfo(vehicle.brand, vehicle.model, vehicle.image)

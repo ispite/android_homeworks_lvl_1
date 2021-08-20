@@ -33,20 +33,6 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicle
             selfDrivingLevel = 4
         )
     )
-
-    private val cars = listOf(
-        Car(
-            brand = "Volkswagen",
-            model = "Passat b6",
-            image = "https://ekb.explorer-russia.ru/gallery/auto/modification/3615.jpg"
-        ),
-        Car(
-            brand = "BMW",
-            model = "3 series",
-            image = "https://www.carpixel.net/w/e42a7b718cbd375a65f82c97de695dd3/bmw-3-series-wallpaper-hd-81853.jpg"
-        )
-    )
-
     //    БЫЛО
     //    private var vehicleAdapter: VehicleAdapter? = null
 
@@ -64,15 +50,6 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list), NewVehicle
         }
         vehicleAdapter.updateVehicles(vehicles)
         vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
-    }
-
-    private fun initList() {
-        with(vehicleList) {
-            adapter =
-                CarAdapter(cars + cars + cars + cars + cars + cars + cars + cars + cars + cars)
-            layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(true)
-        }
     }
 
     private fun initListVehicles() {
