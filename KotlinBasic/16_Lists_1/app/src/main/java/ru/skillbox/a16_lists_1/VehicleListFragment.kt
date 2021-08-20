@@ -53,6 +53,12 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
         vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val listState = vehicleList.layoutManager?.onSaveInstanceState()
+        outState.putParcelable(KEY_LISTVEHICLE, listState)
+    }
+
     private fun initListVehicles() {
         vehicleAdapter = VehicleAdapter { position -> deleteVehicle(position) }
         with(vehicleList) {
@@ -106,5 +112,9 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     override fun passArguments(brand: String?, model: String?, URL: String?, SDL: String?) {
         Toast.makeText(context, brand, Toast.LENGTH_SHORT).show()
         addVehicleManual(brand, model, URL, SDL)
+    }
+
+    companion object {
+        private const val KEY_LISTVEHICLE = "LISTVEHICLE"
     }
 }

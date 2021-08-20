@@ -2,6 +2,7 @@ package ru.skillbox.a16_lists_1
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 
 //https://ekb.explorer-russia.ru/gallery/auto/modification/3615.jpg
 //http://autodd.b-cdn.net/wp-content/uploads/2019/07/volvo-s60_13.jpg
@@ -19,5 +20,10 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.container, VehicleListFragment())
                 .commit()
         }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
     }
 }
