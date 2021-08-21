@@ -1,13 +1,16 @@
 package ru.skillbox.a16_lists_1
 
-sealed class Vehicle {
-    data class Car(
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize sealed class Vehicle : Parcelable {
+    @Parcelize class Car(
         var brand: String,
         val model: String,
         val image: String
     ) : Vehicle()
 
-    data class SelfDrivingCar(
+    @Parcelize data class SelfDrivingCar(
         val brand: String,
         val model: String,
         val image: String,

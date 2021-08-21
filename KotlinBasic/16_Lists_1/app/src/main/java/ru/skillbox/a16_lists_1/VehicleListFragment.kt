@@ -1,6 +1,8 @@
 package ru.skillbox.a16_lists_1
 
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -49,14 +51,31 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
             NewVehicleDialogFragment()
                 .show(childFragmentManager, "DIALOG")
         }
-        vehicleAdapter.updateVehicles(vehicles)
-        vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
+        if (savedInstanceState == null) {
+            Log.d("State", "Create list")
+            vehicleAdapter.updateVehicles(vehicles)
+            vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
+        } else {
+            Log.d("State", "start restoring")
+            val listState : Parcelable? = savedInstanceState.getParcelable(KEY_LISTSTATE)
+            //vehicles =
+            if (listState != null) {
+                Log.d("State", "listState != null")
+                vehicleList.layoutManager?.onRestoreInstanceState(listState)
+                vehicleAdapter.notifyDataSetChanged()
+            }
+        }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        Log.d("State", "start saving")
         val listState = vehicleList.layoutManager?.onSaveInstanceState()
-        outState.putParcelable(KEY_LISTVEHICLE, listState)
+        outState.putParcelable(KEY_LISTSTATE, listState)
+//        outState.putParcelable(KEY_LISTVEHICLE, vehicles)
+//        outState.putParcelableArray(KEY_LISTVEHICLE, vehicles)
+//        outState.putParcelableArrayList(KEY_LISTVEHICLE, vehicles)
     }
 
     private fun initListVehicles() {
@@ -115,6 +134,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     }
 
     companion object {
+        private const val KEY_LISTSTATE = "LISTSTATE"
         private const val KEY_LISTVEHICLE = "LISTVEHICLE"
     }
 }
