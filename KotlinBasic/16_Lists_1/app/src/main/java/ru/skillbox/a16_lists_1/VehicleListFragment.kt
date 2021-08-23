@@ -8,11 +8,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_vehicle_list.*
+//import java.util.ArrayList
+import kotlin.collections.ArrayList
 
 class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     NewVehicleDialogFragment.NewVehicleDialogListener {
 
-    private var vehicles = listOf(
+    private var vehicles = arrayListOf(
         Vehicle.Car(
             brand = "Volkswagen",
             model = "Passat b6",
@@ -43,29 +45,40 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     private var vehicleAdapter by AutoClearedValue<VehicleAdapter>(this)
     //vehicleAdapter = VehicleAdapter
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        initListVehicles()
-        addFAB.setOnClickListener { addVehicle() }
-        addFABManual.setOnClickListener {
-            NewVehicleDialogFragment()
-                .show(childFragmentManager, "DIALOG")
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         if (savedInstanceState == null) {
+            initListVehicles()
+            addFAB.setOnClickListener { addVehicle() }
+            addFABManual.setOnClickListener {
+                NewVehicleDialogFragment()
+                    .show(childFragmentManager, "DIALOG")
+            }
             Log.d("State", "Create list")
             vehicleAdapter.updateVehicles(vehicles)
             vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
         } else {
             Log.d("State", "start restoring")
             val listState : Parcelable? = savedInstanceState.getParcelable(KEY_LISTSTATE)
+            val vehiclesInstance : Parcelable? = savedInstanceState.getParcelable(KEY_LISTVEHICLE)
             //vehicles =
             if (listState != null) {
+                initListVehicles()
+                addFAB.setOnClickListener { addVehicle() }
+                addFABManual.setOnClickListener {
+                    NewVehicleDialogFragment()
+                        .show(childFragmentManager, "DIALOG")
+                }
+
                 Log.d("State", "listState != null")
+                vehicles = savedInstanceState.getParcelableArrayList<Vehicle>(KEY_LISTVEHICLE) as ArrayList<Vehicle>
+                vehicleAdapter.updateVehicles(vehicles)
+                vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
                 vehicleList.layoutManager?.onRestoreInstanceState(listState)
                 vehicleAdapter.notifyDataSetChanged()
             }
         }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -75,7 +88,9 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
         outState.putParcelable(KEY_LISTSTATE, listState)
 //        outState.putParcelable(KEY_LISTVEHICLE, vehicles)
 //        outState.putParcelableArray(KEY_LISTVEHICLE, vehicles)
-//        outState.putParcelableArrayList(KEY_LISTVEHICLE, vehicles)
+        Log.d("State", "PUT PARCEL")
+        outState.putParcelableArrayList(KEY_LISTVEHICLE, vehicles as ArrayList<out Parcelable>)
+        Log.d("State", "PARCEL PUTED")
     }
 
     private fun initListVehicles() {
@@ -88,7 +103,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     }
 
     private fun deleteVehicle(position: Int) {
-        vehicles = vehicles.filterIndexed { index, vehicle -> index != position }
+        vehicles = vehicles.filterIndexed { index, vehicle -> index != position } as ArrayList<Vehicle>
         vehicleAdapter.updateVehicles(vehicles)
         vehicleAdapter.notifyItemRemoved(position)
         if (vehicles.isEmpty()) {
@@ -98,7 +113,8 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
 
     private fun addVehicle() {
         val newVehicle = vehicles.random()
-        vehicles = listOf(newVehicle) + vehicles
+        //vehicles = listOf(newVehicle) + vehicles
+        vehicles = (listOf(newVehicle) + vehicles) as ArrayList<Vehicle>
         vehicleAdapter.updateVehicles(vehicles)
         vehicleAdapter.notifyItemInserted(0)
         vehicleList.scrollToPosition(0)
@@ -119,7 +135,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
             )
             else -> Vehicle.Car(brand = brand!!, model = model!!, image = image!!)
         }
-        vehicles = listOf(newVehicle) + vehicles
+        vehicles = (listOf(newVehicle) + vehicles) as ArrayList<Vehicle>
         vehicleAdapter.updateVehicles(vehicles)
         vehicleAdapter.notifyItemInserted(0)
         vehicleList.scrollToPosition(0)
