@@ -61,8 +61,6 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
         } else {
             Log.d("State", "start restoring")
             val listState : Parcelable? = savedInstanceState.getParcelable(KEY_LISTSTATE)
-            val vehiclesInstance : Parcelable? = savedInstanceState.getParcelable(KEY_LISTVEHICLE)
-            //vehicles =
             if (listState != null) {
                 initListVehicles()
                 addFAB.setOnClickListener { addVehicle() }
@@ -70,13 +68,11 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
                     NewVehicleDialogFragment()
                         .show(childFragmentManager, "DIALOG")
                 }
-
                 Log.d("State", "listState != null")
                 vehicles = savedInstanceState.getParcelableArrayList<Vehicle>(KEY_LISTVEHICLE) as ArrayList<Vehicle>
                 vehicleAdapter.updateVehicles(vehicles)
                 vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
                 vehicleList.layoutManager?.onRestoreInstanceState(listState)
-                vehicleAdapter.notifyDataSetChanged()
             }
         }
     }
