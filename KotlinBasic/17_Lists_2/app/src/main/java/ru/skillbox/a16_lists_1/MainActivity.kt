@@ -20,6 +20,12 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.container, VehicleListFragment())
                 .commit()
         }
+
+/*        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, MainFragment())
+                .commit()
+        }*/
     }
 
 }
