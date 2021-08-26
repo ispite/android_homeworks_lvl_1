@@ -18,14 +18,22 @@ class MainFragment: FragmentActivity(R.layout.fragment_main) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.fragment_main)
 
-        adapter = ListFragmentAdapter(this)
+        val fragmentAdapter = ListFragmentAdapter(supportFragmentManager)
+
+        viewPager.adapter = fragmentAdapter
+
+        //viewPager.adapter = fragmentAdapter
+
+        tabLayout.setupWithViewPager(viewPager)
+
+        /*adapter = ListFragmentAdapter(this)
         viewPager = findViewById(R.id.viewPager)
         viewPager.adapter = adapter
 
         tabLayout = findViewById(R.id.tabLayout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = "TAB ${(position + 1)}"
-        }.attach()
+        }.attach()*/
     }
 
 /*    fun showTabsWithArticles(typeOfArticles: ArticleTypes = ArticleTypes.EVERYTHING) {

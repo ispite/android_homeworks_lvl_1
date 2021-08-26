@@ -1,26 +1,64 @@
 package ru.skillbox.a16_lists_1
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class ListFragmentAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
-    override fun getItemCount(): Int = 100
+class ListFragmentAdapter(fragment: FragmentManager) : FragmentPagerAdapter(fragment) {
 
-    override fun createFragment(position: Int): Fragment {
-        val fragment = LinearFragment()
-        fragment.arguments = Bundle().apply {
-            putInt(ARG_OBJECT, position + 1)
+    override fun getItem(position: Int): Fragment {
+        return when (position) {
+            0 -> {
+                LinearFragment()
+            }
+            1 -> GridFragment()
+            else -> {
+                return StaggeredGridFragment()
+            }
         }
-        return fragment
+    }
+
+    override fun getCount(): Int {
+        return 3
+    }
+
+    override fun getPageTitle(position: Int): CharSequence {
+        return when (position) {
+            0 -> "First Tab"
+            1 -> "Second Tab"
+            else -> {
+                return "Third Tab"
+            }
+        }
     }
 
 }
+
+/*class ListFragmentAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
+    override fun getItemCount(): Int = 3
+
+    override fun createFragment(position: Int): Fragment {
+        //val fragment = LinearFragment()
+        *//*val fragment1 = LinearFragment()
+        val fragment2 = LinearFragment()
+        val fragment3 = LinearFragment()*//*
+        *//*fragment.arguments = Bundle().apply {
+            putInt(LinearFragment.ARG_OBJECT, position + 1)
+        }*//*
+        //return fragment
+        return when (position) {
+            0 -> LinearFragment()
+            1 -> GridFragment()
+            2 -> StaggeredGridFragment()
+            else -> { throw error("wrong position")  }
+        }
+
+    }
+
+}*/
 
 /*class SampleFragmentPagerAdapter(fm: FragmentManager?, private val context: Context) :
     FragmentPagerAdapter(fm!!) {

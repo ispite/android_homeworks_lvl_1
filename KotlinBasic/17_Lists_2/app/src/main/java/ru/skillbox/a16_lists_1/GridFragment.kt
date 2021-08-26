@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_linear.*
 
-class LinearFragment : Fragment(R.layout.fragment_linear) {
+class GridFragment:Fragment() {
 
     private var vehicleImages = arrayListOf(
         "https://ekb.explorer-russia.ru/gallery/auto/modification/3615.jpg",
@@ -19,14 +19,6 @@ class LinearFragment : Fragment(R.layout.fragment_linear) {
         "https://topgearrussia.ru/data/topgear/upload/2012-08/23/image-45f06bb6.jpg",
         "https://s0.rbk.ru/v6_top_pics/resized/1440xH/media/img/3/64/754788601082643.jpeg"
     )
-
-/*    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_linear, container, false)
-    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -43,10 +35,7 @@ class LinearFragment : Fragment(R.layout.fragment_linear) {
         }
         setHasFixedSize(true)
         //addItemDecoration(ItemOffsetDecoration(requireContext()))
-        layoutManager = LinearLayoutManager(requireContext())
+        layoutManager = GridLayoutManager(requireContext(),3)
     }
 
-    companion object {
-        val ARG_OBJECT = "object"
-    }
 }
