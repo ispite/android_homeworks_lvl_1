@@ -10,21 +10,23 @@ import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment: FragmentActivity(R.layout.fragment_main) {
 
-    private lateinit var adapter: ListFragmentAdapter
+/*    private lateinit var adapter: ListFragmentAdapter
     private lateinit var viewPager: ViewPager2
-    private lateinit var tabLayout: TabLayout
+    private lateinit var tabLayout: TabLayout*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.fragment_main)
 
-        val fragmentAdapter = ListFragmentAdapter(supportFragmentManager)
+        showFragments()
 
-        viewPager.adapter = fragmentAdapter
+//        val fragmentAdapter = ListFragmentAdapter(supportFragmentManager)
+
+//        viewPager.adapter = fragmentAdapter
 
         //viewPager.adapter = fragmentAdapter
 
-        tabLayout.setupWithViewPager(viewPager)
+//        tabLayout.setupWithViewPager(viewPager)
 
         /*adapter = ListFragmentAdapter(this)
         viewPager = findViewById(R.id.viewPager)
@@ -34,6 +36,15 @@ class MainFragment: FragmentActivity(R.layout.fragment_main) {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = "TAB ${(position + 1)}"
         }.attach()*/
+    }
+
+    fun showFragments() {
+        val adapter = ListFragmentAdapter(this)
+        viewPager.adapter = adapter
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position->
+            tab.text = "1"
+        }.attach()
     }
 
 /*    fun showTabsWithArticles(typeOfArticles: ArticleTypes = ArticleTypes.EVERYTHING) {

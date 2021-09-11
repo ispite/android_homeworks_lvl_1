@@ -3,22 +3,20 @@ package ru.skillbox.a16_lists_1
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_car_image.*
 import kotlinx.android.synthetic.main.item_car_image.view.*
 
-class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
+class ImageAdapter_2 : RecyclerView.Adapter<ImageAdapter_2.ViewHolder>() {
 
     private var images: List<String> = emptyList()
-    private var listItem: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             parent.inflate(
-                listItem
+                R.layout.item_car_image_2
             )
         )
     }
@@ -32,10 +30,6 @@ class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
     fun setImages(newImages: List<String>) {
         images = newImages
         notifyDataSetChanged()
-    }
-
-    fun setListItem(@LayoutRes listItemFun:  Int) {
-        listItem = listItemFun
     }
 
     class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),

@@ -7,7 +7,21 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class ListFragmentAdapter(fragment: FragmentManager) : FragmentPagerAdapter(fragment) {
+class ListFragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
+    override fun getItemCount(): Int {
+        return 3
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> LinearFragment()
+            1 -> GridFragment()
+            else -> StaggeredGridFragment()
+        }
+    }
+}
+
+/*class ListFragmentAdapter(fragment: FragmentManager) : FragmentPagerAdapter(fragment) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
@@ -35,7 +49,7 @@ class ListFragmentAdapter(fragment: FragmentManager) : FragmentPagerAdapter(frag
         }
     }
 
-}
+}*/
 
 /*class ListFragmentAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 3

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_linear.*
 
-class GridFragment:Fragment() {
+class GridFragment:Fragment(R.layout.fragment_grid) {
 
     private var vehicleImages = arrayListOf(
         "https://ekb.explorer-russia.ru/gallery/auto/modification/3615.jpg",
@@ -32,6 +32,7 @@ class GridFragment:Fragment() {
     private fun initList() = with(imageList) {
         adapter = ImageAdapter().apply {
             setImages(vehicleImages + vehicleImages + vehicleImages + vehicleImages)
+            setListItem(R.layout.item_car_image)
         }
         setHasFixedSize(true)
         //addItemDecoration(ItemOffsetDecoration(requireContext()))
