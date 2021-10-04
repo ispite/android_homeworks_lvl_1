@@ -14,7 +14,8 @@ class ListFragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(act
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> LinearFragment()
+//            0 -> LinearFragment()
+            0 -> VehicleListFragment()
             1 -> GridFragment()
             else -> StaggeredGridFragment()
         }

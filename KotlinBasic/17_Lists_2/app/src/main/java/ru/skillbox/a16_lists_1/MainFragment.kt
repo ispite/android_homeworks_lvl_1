@@ -39,11 +39,20 @@ class MainFragment: FragmentActivity(R.layout.fragment_main) {
     }
 
     fun showFragments() {
-        val adapter = ListFragmentAdapter(this)
+//        val adapter = ListFragmentAdapter(this)
+//        viewPager.adapter = adapter
+        val tabs = arrayOf<Int>(0, 1, 2)
+        val adapter = TabLayoutAdapter(tabs, this)
         viewPager.adapter = adapter
 
+
+        val tabNames = arrayOf(
+            "Linear tab",
+            "Grid tab",
+            "Staggered Grid tab"
+        )
         TabLayoutMediator(tabLayout, viewPager) { tab, position->
-            tab.text = "1"
+            tab.text = tabNames[position]
         }.attach()
     }
 
