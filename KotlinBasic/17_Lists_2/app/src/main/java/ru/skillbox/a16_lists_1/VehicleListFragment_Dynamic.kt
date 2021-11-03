@@ -109,7 +109,7 @@ class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
                     .show(childFragmentManager, "DIALOG")
             }
             Log.d("State", "Create list")
-            vehicleAdapter.updateVehicles(vehicles)
+            vehicleAdapter.items = vehicles
 //            vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
         } else {
             Log.d("State", "start restoring")
@@ -124,7 +124,7 @@ class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
                 Log.d("State", "listState != null")
                 vehicles =
                     savedInstanceState.getParcelableArrayList<Vehicle>(KEY_LISTVEHICLE) as ArrayList<Vehicle>
-                vehicleAdapter.updateVehicles(vehicles)
+                vehicleAdapter.items = vehicles
 //                vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
                 vehicleList.layoutManager?.onRestoreInstanceState(listState)
             }
@@ -227,7 +227,7 @@ class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
     private fun deleteVehicle(position: Int) {
         vehicles =
             vehicles.filterIndexed { index, vehicle -> index != position } as ArrayList<Vehicle>
-        vehicleAdapter.updateVehicles(vehicles)
+        vehicleAdapter.items = vehicles
 //        vehicleAdapter.notifyItemRemoved(position)
         if (vehicles.isEmpty()) {
             emptyListNotification.visibility = View.VISIBLE
@@ -243,7 +243,7 @@ class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
         }
         //vehicles = listOf(newVehicle) + vehicles
         vehicles = (listOf(newVehicle) + vehicles) as ArrayList<Vehicle>
-        vehicleAdapter.updateVehicles(vehicles)
+        vehicleAdapter.items = vehicles
 //        vehicleAdapter.notifyItemInserted(0)
         vehicleList.scrollToPosition(0)
     }
@@ -271,7 +271,7 @@ class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
             )
         }
         vehicles = (listOf(newVehicle) + vehicles) as ArrayList<Vehicle>
-        vehicleAdapter.updateVehicles(vehicles)
+        vehicleAdapter.items = vehicles
 //        vehicleAdapter.notifyItemInserted(0)
         vehicleList.scrollToPosition(0)
         if (vehicles.isNotEmpty()) {
