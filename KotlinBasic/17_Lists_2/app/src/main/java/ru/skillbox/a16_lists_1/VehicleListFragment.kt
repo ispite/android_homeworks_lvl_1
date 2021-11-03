@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.fragment_vehicle_list.*
 //import java.util.ArrayList
 import kotlin.collections.ArrayList
 
+/*
 class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     NewVehicleDialogFragment.NewVehicleDialogListener {
 
@@ -117,6 +118,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     }
 
     private fun addVehicleManual(
+        id : String?,
         brand: String?,
         model: String?,
         image: String?,
@@ -124,12 +126,13 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     ) {
         val newVehicle = when (selfDrivingLevel?.toIntOrNull()) {
             in 1..5 -> Vehicle.SelfDrivingCar(
+                id = id!!.toLong(),
                 brand = brand!!,
                 model = model!!,
                 image = image!!,
                 selfDrivingLevel!!.toInt()
             )
-            else -> Vehicle.Car(brand = brand!!, model = model!!, image = image!!)
+            else -> Vehicle.Car(id = id!!.toLong(), brand = brand!!, model = model!!, image = image!!)
         }
         vehicles = (listOf(newVehicle) + vehicles) as ArrayList<Vehicle>
         vehicleAdapter.updateVehicles(vehicles)
@@ -140,13 +143,13 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
         }
     }
 
-    override fun passArguments(brand: String?, model: String?, URL: String?, SDL: String?) {
+    override fun passArguments(id: String?, brand: String?, model: String?, URL: String?, SDL: String?) {
         Toast.makeText(context, brand, Toast.LENGTH_SHORT).show()
-        addVehicleManual(brand, model, URL, SDL)
+        addVehicleManual(id, brand, model, URL, SDL)
     }
 
     companion object {
         private const val KEY_LISTSTATE = "LISTSTATE"
         private const val KEY_LISTVEHICLE = "LISTVEHICLE"
     }
-}
+}*/

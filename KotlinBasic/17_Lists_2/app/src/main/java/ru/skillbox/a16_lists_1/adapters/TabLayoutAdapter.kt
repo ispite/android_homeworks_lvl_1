@@ -1,8 +1,9 @@
-package ru.skillbox.a16_lists_1
+package ru.skillbox.a16_lists_1.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import ru.skillbox.a16_lists_1.VehicleListFragment_Dynamic
 
 class TabLayoutAdapter(
     val tabs: Array<Int>,

@@ -10,37 +10,59 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator
 import kotlinx.android.synthetic.main.fragment_vehicle_list.*
+import ru.skillbox.a16_lists_1.adapters.VehicleAdapter_Dynamic
 //import java.util.ArrayList
 import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
     NewVehicleDialogFragment.NewVehicleDialogListener {
 
-    private var vehicles = arrayListOf(
+    /*private var vehicles = arrayListOf(
         Vehicle.Car(
+            id = 1,
             brand = "Volkswagen",
             model = "Passat b6",
             image = "https://ekb.explorer-russia.ru/gallery/auto/modification/3615.jpg"
         ),
         Vehicle.SelfDrivingCar(
+            id = 2,
             brand = "Volvo",
             model = "S60",
             image = "https://autoiwc.ru/images/volvo/volvo-s60.jpg",
             selfDrivingLevel = 4
         ),
         Vehicle.Car(
+            id = 3,
             brand = "BMW",
             model = "3 series",
             image = "https://www.carpixel.net/w/e42a7b718cbd375a65f82c97de695dd3/bmw-3-series-wallpaper-hd-81853.jpg"
         ),
         Vehicle.SelfDrivingCar(
+            id = 4,
             brand = "Tesla",
             model = "Model 3",
             image = "https://pbs.twimg.com/media/DytoztBWoAAbR2r.jpg",
             selfDrivingLevel = 4
+        ),
+        Vehicle.Car(
+            id = 5,
+            brand = "Audi",
+            model = "A8",
+            image = "https://s0.rbk.ru/v6_top_pics/resized/1440xH/media/img/3/64/754788601082643.jpeg"
+        ),
+        Vehicle.SelfDrivingCar(
+            id = 6,
+            brand = "Lamborghini",
+            model = "Aventador",
+            image = "https://topgearrussia.ru/data/topgear/upload/2012-08/23/image-45f06bb6.jpg",
+            selfDrivingLevel = 4
         )
-    )
+    )*/
+
+    private var vehicles = generateVehicles(1000)
     //    БЫЛО
     //    private var vehicleAdapter: VehicleAdapter? = null
 
@@ -88,7 +110,7 @@ class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
             }
             Log.d("State", "Create list")
             vehicleAdapter.updateVehicles(vehicles)
-            vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
+//            vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
         } else {
             Log.d("State", "start restoring")
             val listState: Parcelable? = savedInstanceState.getParcelable(KEY_LISTSTATE)
@@ -103,8 +125,63 @@ class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
                 vehicles =
                     savedInstanceState.getParcelableArrayList<Vehicle>(KEY_LISTVEHICLE) as ArrayList<Vehicle>
                 vehicleAdapter.updateVehicles(vehicles)
-                vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
+//                vehicleAdapter.notifyItemRangeInserted(0, vehicles.size)
                 vehicleList.layoutManager?.onRestoreInstanceState(listState)
+            }
+        }
+    }
+
+    private fun generateVehicles(count: Int): List<Vehicle> {
+        val brands = listOf(
+            "Volkswagen",
+            "Volvo",
+            "BMW",
+            "Tesla",
+            "Audi",
+            "Lamborghini"
+        )
+
+        val models = listOf(
+            "Passat b6",
+            "S60",
+            "3 series",
+            "Model 3",
+            "A8",
+            "Aventador"
+        )
+
+        val images = listOf(
+            "https://ekb.explorer-russia.ru/gallery/auto/modification/3615.jpg",
+            "https://autoiwc.ru/images/volvo/volvo-s60.jpg",
+            "https://www.carpixel.net/w/e42a7b718cbd375a65f82c97de695dd3/bmw-3-series-wallpaper-hd-81853.jpg",
+            "https://pbs.twimg.com/media/DytoztBWoAAbR2r.jpg",
+            "https://s0.rbk.ru/v6_top_pics/resized/1440xH/media/img/3/64/754788601082643.jpeg",
+            "https://topgearrussia.ru/data/topgear/upload/2012-08/23/image-45f06bb6.jpg"
+        )
+
+        return (0..count).map {
+            val id = it.toLong()
+            val brand = brands.random()
+            val model = models.random()
+            val image = images.random()
+            val selfDrivingLevel = Random.nextInt(1,4)
+            val isSelfDrivingCar = Random.nextBoolean()
+
+            if (isSelfDrivingCar) {
+                Vehicle.SelfDrivingCar(
+                    id = id,
+                    brand = brand,
+                    model = model,
+                    image = image,
+                    selfDrivingLevel = selfDrivingLevel
+                )
+            } else {
+                Vehicle.Car(
+                    id = id,
+                    brand = brand,
+                    model = model,
+                    image = image
+                )
             }
         }
     }
@@ -131,11 +208,11 @@ class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
                 0 -> layoutManager = LinearLayoutManager(requireContext())
                 1 -> layoutManager = GridLayoutManager(requireContext(),3)
                 2 -> {
-/*                    val dividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+                    val dividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
 
                     addItemDecoration(dividerItemDecoration)
                     addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL))
-                    addItemDecoration(ItemOffsetDecoration(requireContext()))*/
+                    addItemDecoration(ItemOffsetDecoration(requireContext()))
                     layoutManager =
                         StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
                 }
@@ -143,6 +220,7 @@ class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
 
 //            layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
+            itemAnimator = FlipInTopXAnimator()
         }
     }
 
@@ -150,22 +228,28 @@ class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
         vehicles =
             vehicles.filterIndexed { index, vehicle -> index != position } as ArrayList<Vehicle>
         vehicleAdapter.updateVehicles(vehicles)
-        vehicleAdapter.notifyItemRemoved(position)
+//        vehicleAdapter.notifyItemRemoved(position)
         if (vehicles.isEmpty()) {
             emptyListNotification.visibility = View.VISIBLE
         }
     }
 
     private fun addVehicle() {
-        val newVehicle = vehicles.random()
+        val newVehicle = vehicles.random().let {
+            when(it) {
+                is Vehicle.Car -> it.copy(id = Random.nextLong())
+                is Vehicle.SelfDrivingCar -> it.copy(id = Random.nextLong())
+            }
+        }
         //vehicles = listOf(newVehicle) + vehicles
         vehicles = (listOf(newVehicle) + vehicles) as ArrayList<Vehicle>
         vehicleAdapter.updateVehicles(vehicles)
-        vehicleAdapter.notifyItemInserted(0)
+//        vehicleAdapter.notifyItemInserted(0)
         vehicleList.scrollToPosition(0)
     }
 
     private fun addVehicleManual(
+        id: String?,
         brand: String?,
         model: String?,
         image: String?,
@@ -173,25 +257,31 @@ class VehicleListFragment_Dynamic : Fragment(R.layout.fragment_vehicle_list),
     ) {
         val newVehicle = when (selfDrivingLevel?.toIntOrNull()) {
             in 1..5 -> Vehicle.SelfDrivingCar(
+                id!!.toLong(),
                 brand = brand!!,
                 model = model!!,
                 image = image!!,
                 selfDrivingLevel!!.toInt()
             )
-            else -> Vehicle.Car(brand = brand!!, model = model!!, image = image!!)
+            else -> Vehicle.Car(
+                id = id!!.toLong(),
+                brand = brand!!,
+                model = model!!,
+                image = image!!
+            )
         }
         vehicles = (listOf(newVehicle) + vehicles) as ArrayList<Vehicle>
         vehicleAdapter.updateVehicles(vehicles)
-        vehicleAdapter.notifyItemInserted(0)
+//        vehicleAdapter.notifyItemInserted(0)
         vehicleList.scrollToPosition(0)
         if (vehicles.isNotEmpty()) {
             emptyListNotification.visibility = View.GONE
         }
     }
 
-    override fun passArguments(brand: String?, model: String?, URL: String?, SDL: String?) {
+    override fun passArguments(id: String?, brand: String?, model: String?, URL: String?, SDL: String?) {
         Toast.makeText(context, brand, Toast.LENGTH_SHORT).show()
-        addVehicleManual(brand, model, URL, SDL)
+        addVehicleManual(id, brand, model, URL, SDL)
     }
 
     companion object {

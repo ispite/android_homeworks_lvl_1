@@ -1,10 +1,7 @@
 package ru.skillbox.a16_lists_1
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class ListFragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
@@ -15,7 +12,7 @@ class ListFragmentAdapter(activity: FragmentActivity) : FragmentStateAdapter(act
     override fun createFragment(position: Int): Fragment {
         return when (position) {
 //            0 -> LinearFragment()
-            0 -> VehicleListFragment()
+            0 -> VehicleListFragment_Dynamic()
             1 -> GridFragment()
             else -> StaggeredGridFragment()
         }
