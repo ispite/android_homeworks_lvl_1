@@ -9,7 +9,7 @@ import ru.skillbox.a16_lists_1.inflate
 
 class SelfDrivigCarAdapterDelegate(
     private val onItemClick: (position: Int) -> Unit
-): AbsListItemAdapterDelegate<Vehicle.SelfDrivingCar, Vehicle, SelfDrivigCarAdapterDelegate.SelfDrivingCarHolder>(){
+) : AbsListItemAdapterDelegate<Vehicle.SelfDrivingCar, Vehicle, SelfDrivigCarAdapterDelegate.SelfDrivingCarHolder>() {
 
     override fun isForViewType(item: Vehicle, items: MutableList<Vehicle>, position: Int): Boolean {
         return item is Vehicle.SelfDrivingCar
@@ -34,12 +34,10 @@ class SelfDrivigCarAdapterDelegate(
         view: View,
         onItemClick: (position: Int) -> Unit
     ) : BaseVehicleHolder(view, onItemClick) {
-/*        private val selfDrivingLevelView: TextView =
-            view.findViewById(R.id.selfDrivingLevelTextView)*/
+
 
         fun bind(vehicle: Vehicle.SelfDrivingCar) {
-            bindMainInfo(/*vehicle.brand, vehicle.model,*/ vehicle.image)
-/*            selfDrivingLevelView.text = "Уровень автопилота: ${vehicle.selfDrivingLevel.toString()}"*/
+            bindMainInfo(vehicle.image)
         }
     }
 

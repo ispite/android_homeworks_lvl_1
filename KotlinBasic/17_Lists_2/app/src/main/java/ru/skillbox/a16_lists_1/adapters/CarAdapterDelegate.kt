@@ -9,7 +9,7 @@ import ru.skillbox.a16_lists_1.inflate
 
 class CarAdapterDelegate(
     private val onItemClick: (position: Int) -> Unit
-): AbsListItemAdapterDelegate<Vehicle.Car, Vehicle, CarAdapterDelegate.CarHolder>() {
+) : AbsListItemAdapterDelegate<Vehicle.Car, Vehicle, CarAdapterDelegate.CarHolder>() {
 
     override fun isForViewType(item: Vehicle, items: MutableList<Vehicle>, position: Int): Boolean {
         return item is Vehicle.Car
@@ -33,7 +33,7 @@ class CarAdapterDelegate(
     ) : BaseVehicleHolder(view, onItemClick) {
 
         fun bind(vehicle: Vehicle.Car) {
-            bindMainInfo(/*vehicle.brand, vehicle.model,*/ vehicle.image)
+            bindMainInfo(vehicle.image)
         }
     }
 
