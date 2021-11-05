@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     NewVehicleDialogFragment.NewVehicleDialogListener {
 
-    private var vehicles = generateVehicles(1000)
+    private var vehicles = generateVehicles(8)
     private var vehicleAdapter by AutoClearedValue<VehicleAdapter>(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,9 +75,9 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
         )
 
         val images = listOf(
-            "https://ekb.explorer-russia.ru/gallery/auto/modification/3615.jpg",
-            "https://autoiwc.ru/images/volvo/volvo-s60.jpg",
-            "https://www.carpixel.net/w/e42a7b718cbd375a65f82c97de695dd3/bmw-3-series-wallpaper-hd-81853.jpg",
+            "https://naked-science.ru/wp-content/uploads/2020/07/record-skyline-building-skyscraper-cityscape-vehicle-836758-pxhere.com_.jpg", //"https://ekb.explorer-russia.ru/gallery/auto/modification/3615.jpg"
+            "https://life-globe.com/image/cache/catalog/italia/bologna/dve-bashni-bologni/le-due-torri-bologna-600x917.jpg", //"https://autoiwc.ru/images/volvo/volvo-s60.jpg"
+            "https://img.tourister.ru/files/1/5/8/8/0/7/5/8/original.jpg", //"https://www.carpixel.net/w/e42a7b718cbd375a65f82c97de695dd3/bmw-3-series-wallpaper-hd-81853.jpg"
             "https://pbs.twimg.com/media/DytoztBWoAAbR2r.jpg",
             "https://s0.rbk.ru/v6_top_pics/resized/1440xH/media/img/3/64/754788601082643.jpeg",
             "https://topgearrussia.ru/data/topgear/upload/2012-08/23/image-45f06bb6.jpg"
@@ -142,6 +142,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
                             // Triggered only when new data needs to be appended to the list
                             // Add whatever code is needed to append new items to the bottom of the list
                             loadNextDataFromApi(page)
+
                         }
                     }
                     // Adds the scroll listener to RecyclerView
@@ -173,6 +174,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     }
 
     fun loadNextDataFromApi(offset: Int) {
+        vehicleAdapter.items = vehicleAdapter.items + generateVehicles(offset)
         // Send an API request to retrieve appropriate paginated data
         //  --> Send the request including an offset value (i.e `page`) as a query parameter.
         //  --> Deserialize and construct new model objects from the API response
