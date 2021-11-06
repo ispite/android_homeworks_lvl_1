@@ -8,18 +8,20 @@ import ru.skillbox.a16_lists_1.Vehicle
 import ru.skillbox.a16_lists_1.inflate
 
 class SelfDrivigCarAdapterDelegate(
-    private val onItemClick: (position: Int) -> Unit
+    private val onItemClick: (position: Int) -> Unit,
+    var tabNumber: Int
 ) : AbsListItemAdapterDelegate<Vehicle.SelfDrivingCar, Vehicle, SelfDrivigCarAdapterDelegate.SelfDrivingCarHolder>() {
+
+    //var tabNumber: Int
 
     override fun isForViewType(item: Vehicle, items: MutableList<Vehicle>, position: Int): Boolean {
         return item is Vehicle.SelfDrivingCar
     }
 
     override fun onCreateViewHolder(parent: ViewGroup): SelfDrivingCarHolder {
-        return SelfDrivingCarHolder(
-            parent.inflate(R.layout.item_car_image),
-            onItemClick
-        )
+        return if (tabNumber==2) {
+            SelfDrivingCarHolder(parent.inflate(R.layout.item_car_image_2), onItemClick)
+        } else SelfDrivingCarHolder(parent.inflate(R.layout.item_car_image), onItemClick)
     }
 
     override fun onBindViewHolder(

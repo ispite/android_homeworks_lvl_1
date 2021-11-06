@@ -8,15 +8,20 @@ import ru.skillbox.a16_lists_1.Vehicle
 import ru.skillbox.a16_lists_1.inflate
 
 class CarAdapterDelegate(
-    private val onItemClick: (position: Int) -> Unit
+    private val onItemClick: (position: Int) -> Unit,
+    var tabNumber: Int
 ) : AbsListItemAdapterDelegate<Vehicle.Car, Vehicle, CarAdapterDelegate.CarHolder>() {
+
+    //var tabNumber: Int
 
     override fun isForViewType(item: Vehicle, items: MutableList<Vehicle>, position: Int): Boolean {
         return item is Vehicle.Car
     }
 
     override fun onCreateViewHolder(parent: ViewGroup): CarHolder {
-        return CarHolder(parent.inflate(R.layout.item_car_image), onItemClick)
+        return if (tabNumber==2) {
+            CarHolder(parent.inflate(R.layout.item_car_image_2), onItemClick)
+        } else CarHolder(parent.inflate(R.layout.item_car_image), onItemClick)
     }
 
     override fun onBindViewHolder(

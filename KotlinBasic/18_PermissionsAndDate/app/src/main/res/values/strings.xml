@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">18_PermissionsAndDate</string>
+    <string name="get_location_permission">Get location permission</string>
 </resources>

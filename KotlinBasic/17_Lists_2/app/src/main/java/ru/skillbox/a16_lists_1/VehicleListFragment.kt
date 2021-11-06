@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     NewVehicleDialogFragment.NewVehicleDialogListener {
 
-    private var vehicles = generateVehicles(8)
+    private var vehicles = generateVehicles(24)
     private var vehicleAdapter by AutoClearedValue<VehicleAdapter>(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -124,7 +124,8 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
 
     private fun initListVehicles() {
         val args = requireArguments()
-        vehicleAdapter = VehicleAdapter { position -> deleteVehicle(position) }
+        //vehicleAdapter = VehicleAdapter { position -> deleteVehicle(position) }
+        vehicleAdapter = VehicleAdapter({ position -> deleteVehicle(position) }, args.getInt(KEY_TABNUMBER))
         with(vehicleList) {
             adapter = vehicleAdapter
             when (args.getInt(KEY_TABNUMBER)) {
@@ -153,7 +154,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
                     layoutManager = GridLayoutManager(requireContext(), 3)
                 }
                 2 -> {
-                    val dividerItemDecoration =
+/*                    val dividerItemDecoration =
                         DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
                     addItemDecoration(dividerItemDecoration)
                     addItemDecoration(
@@ -161,7 +162,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
                             requireContext(),
                             DividerItemDecoration.HORIZONTAL
                         )
-                    )
+                    )*/
                     addItemDecoration(ItemOffsetDecoration(requireContext()))
                     layoutManager =
                         StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
