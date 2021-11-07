@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -16,6 +15,7 @@ import ru.skillbox.a16_lists_1.adapters.VehicleAdapter
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 import androidx.recyclerview.widget.RecyclerView
+import ru.skillbox.a16_lists_1.adapters.VehicleAdapter.MyObject.newInstance
 
 
 class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
@@ -124,8 +124,8 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
 
     private fun initListVehicles() {
         val args = requireArguments()
-        //vehicleAdapter = VehicleAdapter { position -> deleteVehicle(position) }
-        vehicleAdapter = VehicleAdapter({ position -> deleteVehicle(position) }, args.getInt(KEY_TABNUMBER))
+//        vehicleAdapter = VehicleAdapter({ position -> deleteVehicle(position) }, args.getInt(KEY_TABNUMBER))
+        vehicleAdapter = VehicleAdapter { position -> deleteVehicle(position) }.newInstance(args.getInt(KEY_TABNUMBER))
         with(vehicleList) {
             adapter = vehicleAdapter
             when (args.getInt(KEY_TABNUMBER)) {
@@ -143,7 +143,6 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
                             // Triggered only when new data needs to be appended to the list
                             // Add whatever code is needed to append new items to the bottom of the list
                             loadNextDataFromApi(page)
-
                         }
                     }
                     // Adds the scroll listener to RecyclerView
@@ -151,24 +150,21 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
                     /////
                 }
                 1 -> {
-                    layoutManager = GridLayoutManager(requireContext(), 3)
+                    //возможный вариант решения от alexdomih канал:Профессия Android-разработчик 2020 (Skillbox)
+                    layoutManager = GridLayoutManager(requireContext(), 3)/*.apply {
+                        spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                            override fun getSpanSize(position: Int): Int {
+                                return if (position % 4 == 1 || position % 4 == 2) 2 else 1
+                            }
+                        }
+                    }*/
                 }
                 2 -> {
-/*                    val dividerItemDecoration =
-                        DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-                    addItemDecoration(dividerItemDecoration)
-                    addItemDecoration(
-                        DividerItemDecoration(
-                            requireContext(),
-                            DividerItemDecoration.HORIZONTAL
-                        )
-                    )*/
                     addItemDecoration(ItemOffsetDecoration(requireContext()))
                     layoutManager =
                         StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
                 }
             }
-
             setHasFixedSize(true)
             itemAnimator = FlipInTopXAnimator()
         }
@@ -257,4 +253,34 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
             }
         }
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
