@@ -4,6 +4,7 @@ import org.threeten.bp.Instant
 
 data class Location(
     val id: Long,
+    val address: String,
     val picture: String,
     val accuracy: String,
     val speed: String,

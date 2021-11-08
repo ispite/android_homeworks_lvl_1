@@ -12,17 +12,21 @@ import android.location.Geocoder
 import com.bumptech.glide.Glide
 import java.util.*
 
-class LocationAdapter:androidx.recyclerview.widget.ListAdapter<Location, LocationAdapter.Holder> (LocationDiffUtilCallback()){
+class LocationAdapter(
+    private val onItemClick: (position: Int) -> Unit
+) : androidx.recyclerview.widget.ListAdapter<Location, LocationAdapter.Holder>(
+    LocationDiffUtilCallback()
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(parent.inflate(R.layout.item_location))
+        return Holder(parent.inflate(R.layout.item_location), onItemClick)
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class LocationDiffUtilCallback: DiffUtil.ItemCallback<Location>() {
+    class LocationDiffUtilCallback : DiffUtil.ItemCallback<Location>() {
         override fun areItemsTheSame(oldItem: Location, newItem: Location): Boolean {
             return oldItem.id == newItem.id
         }
@@ -33,17 +37,24 @@ class LocationAdapter:androidx.recyclerview.widget.ListAdapter<Location, Locatio
     }
 
     class Holder(
-        override val containerView: View
-    ): RecyclerView.ViewHolder(containerView), LayoutContainer {
+        override val containerView: View,
+        onItemClick: (position: Int) -> Unit
+    ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+        init {
+            containerView.setOnClickListener {
+                onItemClick(adapterPosition)
+            }
+        }
+
         //val geocoder = Geocoder(this, Locale.ENGLISH)
         //val asdad = geocoder.getFromLocation()
         private val formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/YY")
             .withZone(ZoneId.systemDefault())
 
-        fun bind(location: Location){
-            placeNameTextView.text = "There must be an Address"
-            accuracyTextView.text = location.accuracy
-            speedTextView.text = location.speed
+        fun bind(location: Location) {
+            placeNameTextView.text = location.address
+            accuracyTextView.text = "Accuracy: " + location.accuracy
+            speedTextView.text = "Speed: " + location.speed
             timeDateTextView.text = formatter.format(location.wasIn)
 
             Glide.with(itemView)
