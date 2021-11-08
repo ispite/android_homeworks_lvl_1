@@ -46,8 +46,6 @@ class LocationAdapter(
             }
         }
 
-        //val geocoder = Geocoder(this, Locale.ENGLISH)
-        //val asdad = geocoder.getFromLocation()
         private val formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/YY")
             .withZone(ZoneId.systemDefault())
 

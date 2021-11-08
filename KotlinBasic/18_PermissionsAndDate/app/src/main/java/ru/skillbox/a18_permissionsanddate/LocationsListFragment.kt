@@ -54,7 +54,7 @@ class LocationsListFragment : Fragment(R.layout.fragment_locations_list) {
                         //l= Перечень слоев, определяющих тип карты: map (схема), sat (спутник) и sat,skl (гибрид).
                         //z= Уровень масштабирования карты (0-17)
                         //"https://static-maps.yandex.ru/1.x/?ll=40.621400,56.218300&size=200,200&z=10&l=map"
-                        address = listAddresses.get(0).getAddressLine(0),
+                        address = listAddresses[0].getAddressLine(0),
                         picture = "https://static-maps.yandex.ru/1.x/?ll=${it.longitude},${it.latitude}&size=200,200&z=10&l=map",
                         accuracy = it.accuracy.toString(),
                         speed = it.speed.toString(),
@@ -95,6 +95,6 @@ class LocationsListFragment : Fragment(R.layout.fragment_locations_list) {
     }
 
     private fun setTimeDate(position: Int) {
-        // TODO: 08.11.2021
+        toast("asdfasdasdasd")
     }
 }
