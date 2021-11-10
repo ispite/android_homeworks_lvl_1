@@ -11,7 +11,7 @@ android {
     }
     defaultConfig {
         applicationId "ru.skillbox.a18_permissionsanddate"
-        minSdk 23
+        minSdk 22
         targetSdk 30
         versionCode 1
         versionName "1.0"

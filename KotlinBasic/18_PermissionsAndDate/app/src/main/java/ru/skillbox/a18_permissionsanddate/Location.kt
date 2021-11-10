@@ -8,5 +8,5 @@ data class Location(
     val picture: String,
     val accuracy: String,
     val speed: String,
-    val wasIn: Instant
+    var wasIn: Instant
 )
