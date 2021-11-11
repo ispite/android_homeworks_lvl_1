@@ -19,12 +19,15 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Looper
+import android.os.Parcelable
 import com.google.android.gms.location.*
 import com.google.android.gms.common.ConnectionResult
 
 import com.google.android.gms.common.GoogleApiAvailability
 import androidx.core.content.pm.PackageInfoCompat
 import com.google.android.gms.common.GooglePlayServicesUtil
+import kotlin.collections.ArrayList
+import android.app.Activity
 
 
 class LocationsListFragment : Fragment(R.layout.fragment_locations_list) {
@@ -33,45 +36,78 @@ class LocationsListFragment : Fragment(R.layout.fragment_locations_list) {
     private var locationAdapter: LocationAdapter? = null
     private var selectedLocationInstant: Instant? = null
 
+    fun isGooglePlayServicesAvailable123123(activity: Activity?): Boolean {
+        val googleApiAvailability = GoogleApiAvailability.getInstance()
+        val status = googleApiAvailability.isGooglePlayServicesAvailable(activity)
+        if (status != ConnectionResult.SUCCESS) {
+            if (googleApiAvailability.isUserResolvableError(status)) {
+                googleApiAvailability.getErrorDialog(activity, status, 2404).show()
+            }
+            return false
+        }
+        return true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initList()
 
-        when (isGooglePlayServicesAvailable(requireContext())) {
-            1 -> {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("У Вас отсутствуют Google Play Services!")
-                    .setCancelable(false)
-                    .show()
+        if (savedInstanceState == null) {
+            initList()
+            when (isGooglePlayServicesAvailable(requireContext())) {
+                ConnectionResult.SERVICE_MISSING -> {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("У Вас отсутствуют Google Play Services!")
+                        .setCancelable(false)
+                        .show()
+                }
+                ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED -> {
+                    val googleApiAvailability = GoogleApiAvailability.getInstance()
+                    val status =
+                        googleApiAvailability.isGooglePlayServicesAvailable(requireContext())
+                    googleApiAvailability.getErrorDialog(requireParentFragment(), status, 2404)
+                        .show()
+                    toast("Надо обновиться")
+                }
             }
-            2 -> {
-                GooglePlayServicesUtil.getErrorDialog(
-                    isGooglePlayServicesAvailable(requireContext()),
-                    requireActivity(),
-                    0
-                ).show();
 
-                //val googleAPI = GoogleApiAvailability.getInstance()
-                //googleAPI.getErrorDialog(this, isGooglePlayServicesAvailable(requireContext()), PLAY_SERVICES_RESOLUTION_REQUEST).show()
-                //googleAPI.getErrorDialog(this, isGooglePlayServicesAvailable(requireContext()), PLAY_SERVICES_RESOLUTION_REQUEST).show()
-                toast("Надо обновиться")
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+            getLocationUpdates()
+            getLocationButton.setOnClickListener {
+
+                showLocationInfo()
+            }
+
+        } else {
+            val liststate: Parcelable? = savedInstanceState.getParcelable(KEY_LISTSTATE)
+            if (liststate != null) {
+                initList()
+
+                locations =
+                    savedInstanceState.getParcelableArrayList<Location>(KEY_LISTLOCATIONS) as ArrayList<Location>
+                locationAdapter?.submitList(locations)
+                locationAdapter?.notifyDataSetChanged()
+
+                fusedLocationClient =
+                    LocationServices.getFusedLocationProviderClient(requireContext())
+                getLocationUpdates()
+                getLocationButton.setOnClickListener {
+                    showLocationInfo()
+                }
             }
         }
+    }
 
-/*        val v2: Int = requireContext().packageManager.getPackageInfo(
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val listState = locationsListRecyclerView.layoutManager?.onSaveInstanceState()
+        outState.putParcelable(KEY_LISTSTATE, listState)
+        outState.putParcelableArrayList(KEY_LISTLOCATIONS, locations as ArrayList<out Parcelable>)
+    }
+
+    /*        val v2: Int = requireContext().packageManager.getPackageInfo(
             GoogleApiAvailability.GOOGLE_PLAY_SERVICES_PACKAGE,
             0
         ).versionCode*/
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        getLocationUpdates()
-        getLocationButton.setOnClickListener {
-            //showLocationInfo()
-            //locationNotificationTextView.visibility = View.GONE
-            //initList()
-            showLocationInfo()
-        }
-    }
 
     private fun initList() = with(locationsListRecyclerView) {
         //locationNotificationTextView.visibility = View.GONE
@@ -231,7 +267,7 @@ class LocationsListFragment : Fragment(R.layout.fragment_locations_list) {
         //toast("Запрос выполнен")
     }
 
-    fun isGooglePlayServicesAvailable(context: Context): Int {
+    private fun isGooglePlayServicesAvailable(context: Context): Int {
         val googleApiAvailability = GoogleApiAvailability.getInstance()
         //return resultCode == ConnectionResult.SUCCESS
         return googleApiAvailability.isGooglePlayServicesAvailable(context)
@@ -245,6 +281,13 @@ class LocationsListFragment : Fragment(R.layout.fragment_locations_list) {
             )
         )
     }
+
+
+    companion object {
+        private const val KEY_LISTSTATE = "LISTSTATE"
+        private const val KEY_LISTLOCATIONS = "LISTLOCATIONS"
+    }
+
 }
 
 /*        val googleAPI = GoogleApiAvailability.getInstance()
