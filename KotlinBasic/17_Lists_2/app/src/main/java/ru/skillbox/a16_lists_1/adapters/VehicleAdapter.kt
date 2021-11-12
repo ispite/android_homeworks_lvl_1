@@ -5,19 +5,16 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import ru.skillbox.a16_lists_1.Vehicle
 
 class VehicleAdapter(
-    private val onItemClick: (position: Int) -> Unit
+    onItemClick: (position: Int) -> Unit
 ) : AsyncListDifferDelegationAdapter<Vehicle>(VehiclesDiffUtilCallback()) {
 
-     private var tabNumber : Int = 0
-         get() {
-            TODO()
-        }
+    private var tabNumber: Int = 0
         set(value) {
             if (value in 0..2) field = value
         }
 
     init {
-        delegatesManager.addDelegate(CarAdapterDelegate(onItemClick, tabNumber) )
+        delegatesManager.addDelegate(CarAdapterDelegate(onItemClick, tabNumber))
             .addDelegate(SelfDrivigCarAdapterDelegate(onItemClick, tabNumber))
     }
 
@@ -35,18 +32,15 @@ class VehicleAdapter(
         }
     }
 
-    companion object MyObject{
-        private const val TYPE_CAR = 1
-        private const val TYPE_SELFDRIVINGCAR = 2
+    companion object {
 
-        fun VehicleAdapter.newInstance(passedTabNumber:Int):VehicleAdapter {
-            tabNumber = passedTabNumber
-            return VehicleAdapter
+        fun VehicleAdapter.newInstance(
+            onItemClick: (position: Int) -> Unit,
+            passedTabNumber: Int
+        ): VehicleAdapter {
+            val v = VehicleAdapter(onItemClick)
+            v.tabNumber = passedTabNumber;
+            return v
         }
-
-        fun newInstance2(passedTabNumber:Int):VehicleAdapter {
-            MyObject.tabNumber = passedTabNumber
-            return VehicleAdapter
-            }
     }
 }

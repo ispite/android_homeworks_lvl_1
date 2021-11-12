@@ -15,13 +15,13 @@ import ru.skillbox.a16_lists_1.adapters.VehicleAdapter
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 import androidx.recyclerview.widget.RecyclerView
-import ru.skillbox.a16_lists_1.adapters.VehicleAdapter.MyObject.newInstance
+import ru.skillbox.a16_lists_1.adapters.VehicleAdapter.Companion.newInstance
 
 
 class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     NewVehicleDialogFragment.NewVehicleDialogListener {
 
-    private var vehicles = generateVehicles(24)
+    private var vehicles = generateVehicles(2)
     private var vehicleAdapter by AutoClearedValue<VehicleAdapter>(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -125,7 +125,11 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     private fun initListVehicles() {
         val args = requireArguments()
 //        vehicleAdapter = VehicleAdapter({ position -> deleteVehicle(position) }, args.getInt(KEY_TABNUMBER))
-        vehicleAdapter = VehicleAdapter { position -> deleteVehicle(position) }.newInstance(args.getInt(KEY_TABNUMBER))
+        vehicleAdapter =
+            VehicleAdapter { position -> deleteVehicle(position) }.newInstance({ position ->
+                deleteVehicle(position)
+            }, args.getInt(KEY_TABNUMBER))
+        //vehicleAdapter = VehicleAdapter.newInstance({ position -> deleteVehicle(position) }, args.getInt(KEY_TABNUMBER))
         with(vehicleList) {
             adapter = vehicleAdapter
             when (args.getInt(KEY_TABNUMBER)) {
@@ -158,11 +162,42 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
                             }
                         }
                     }*/
+                    scrollListener = object :
+                        EndlessRecyclerViewScrollListener(layoutManager as GridLayoutManager) {
+                        override fun onLoadMore(
+                            page: Int,
+                            totalItemsCount: Int,
+                            view: RecyclerView?
+                        ) {
+                            // Triggered only when new data needs to be appended to the list
+                            // Add whatever code is needed to append new items to the bottom of the list
+                            loadNextDataFromApi(page)
+                        }
+                    }
+                    // Adds the scroll listener to RecyclerView
+                    vehicleList.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener)
+                    /////
                 }
                 2 -> {
                     addItemDecoration(ItemOffsetDecoration(requireContext()))
                     layoutManager =
                         StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+
+                    scrollListener = object :
+                        EndlessRecyclerViewScrollListener(layoutManager as StaggeredGridLayoutManager) {
+                        override fun onLoadMore(
+                            page: Int,
+                            totalItemsCount: Int,
+                            view: RecyclerView?
+                        ) {
+                            // Triggered only when new data needs to be appended to the list
+                            // Add whatever code is needed to append new items to the bottom of the list
+                            loadNextDataFromApi(page)
+                        }
+                    }
+                    // Adds the scroll listener to RecyclerView
+                    vehicleList.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener)
+                    /////
                 }
             }
             setHasFixedSize(true)
@@ -171,7 +206,9 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     }
 
     fun loadNextDataFromApi(offset: Int) {
-        vehicleAdapter.items = vehicleAdapter.items + generateVehicles(offset)
+        if (vehicleAdapter.items.count() < 10) {
+            vehicleAdapter.items = vehicleAdapter.items + generateVehicles(offset)
+        }
         // Send an API request to retrieve appropriate paginated data
         //  --> Send the request including an offset value (i.e `page`) as a query parameter.
         //  --> Deserialize and construct new model objects from the API response
