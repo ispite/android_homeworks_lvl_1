@@ -44,8 +44,9 @@ class VehicleAdapter(
             return VehicleAdapter
         }
 
-//        fun newInstance2(passedTabNumber:Int):VehicleAdapter {
-//            MyObject.tabNumber = passedTabNumber
-//            return VehicleAdapter
+        fun newInstance2(passedTabNumber:Int):VehicleAdapter {
+            MyObject.tabNumber = passedTabNumber
+            return VehicleAdapter
+            }
     }
 }

@@ -209,7 +209,14 @@ class LocationsListFragment : Fragment(R.layout.fragment_locations_list) {
                         locationResult.lastLocation
                     // use your location object
                     // get latitude , longitude and other info from this
-                    setNewLocation(location)
+                    if (locations.isNotEmpty()) {
+                        val lastLocationLatitude = locations.last().latitude
+                        val lastLocationLongitude = locations.last().longitude
+                        if (lastLocationLatitude != location.latitude || lastLocationLongitude != location.longitude) {
+                            setNewLocation(location)
+                        }
+                    } else setNewLocation(location)
+                    //setNewLocation(location)
                 }
             }
         }
@@ -253,6 +260,8 @@ class LocationsListFragment : Fragment(R.layout.fragment_locations_list) {
             //l= Перечень слоев, определяющих тип карты: map (схема), sat (спутник) и sat,skl (гибрид).
             //z= Уровень масштабирования карты (0-17)
             //"https://static-maps.yandex.ru/1.x/?ll=40.621400,56.218300&size=200,200&z=10&l=map"
+            latitude = location.latitude,
+            longitude = location.longitude,
             address = listAddresses[0].getAddressLine(0),
             picture = "https://static-maps.yandex.ru/1.x/?ll=${location.longitude},${location.latitude}&size=150,150&z=10&l=map",
             accuracy = location.accuracy.toString(),

@@ -7,6 +7,8 @@ import org.threeten.bp.Instant
 @Parcelize
 data class Location(
     val id: Long,
+    val latitude: Double,
+    val longitude: Double,
     val address: String,
     val picture: String,
     val accuracy: String,

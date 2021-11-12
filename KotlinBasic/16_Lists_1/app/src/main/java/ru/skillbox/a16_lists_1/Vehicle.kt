@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 sealed class Vehicle : Parcelable {
-    @Parcelize class Car(
+    @Parcelize data class Car(
         var brand: String,
         val model: String,
         val image: String
