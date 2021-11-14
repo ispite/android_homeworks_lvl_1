@@ -1,19 +1,35 @@
-package ru.skillbox.a16_lists_1
+package ru.skillbox.a16_lists_1.adapters
 
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.DiffUtil
+import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import ru.skillbox.a16_lists_1.Vehicle
 
 class VehicleAdapter(
     private val onItemClick: (position: Int) -> Unit
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : AsyncListDifferDelegationAdapter<Vehicle>(VehiclesDiffUtilCallback()) {
 
     private var vehicles: List<Vehicle> = emptyList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    init {
+        delegatesManager.addDelegate(CarAdapterDelegate(onItemClick))
+            .addDelegate(SelfDrivigCarAdapterDelegate(onItemClick))
+    }
+
+    class VehiclesDiffUtilCallback : DiffUtil.ItemCallback<Vehicle>() {
+        override fun areItemsTheSame(oldItem: Vehicle, newItem: Vehicle): Boolean {
+            return when {
+                oldItem is Vehicle.Car && newItem is Vehicle.Car -> oldItem.id == newItem.id
+                oldItem is Vehicle.SelfDrivingCar && newItem is Vehicle.SelfDrivingCar -> oldItem.id == newItem.id
+                else -> false
+            }
+        }
+
+        override fun areContentsTheSame(oldItem: Vehicle, newItem: Vehicle): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+/*    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_CAR -> CarHolder(parent.inflate(R.layout.item_car), onItemClick)
             TYPE_SELFDRIVINGCAR -> SelfDrivingCarHolder(
@@ -22,16 +38,16 @@ class VehicleAdapter(
             )
             else -> error("INCORRECT VIEWTYPE=$viewType")
         }
-    }
+    }*/
 
-    override fun getItemViewType(position: Int): Int {
+/*    override fun getItemViewType(position: Int): Int {
         return when (vehicles[position]) {
             is Vehicle.Car -> TYPE_CAR
             is Vehicle.SelfDrivingCar -> TYPE_SELFDRIVINGCAR
         }
-    }
+    }*/
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+/*    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is CarHolder -> {
                 val vehicle = vehicles[position].let { it as? Vehicle.Car }
@@ -45,15 +61,15 @@ class VehicleAdapter(
             }
             else -> error("Incorrect view holder = $holder")
         }
-    }
+    }*/
 
-    override fun getItemCount(): Int = vehicles.size
+/*    override fun getItemCount(): Int = vehicles.size*/
 
-    fun updateVehicles(newVehicles: List<Vehicle>) {
+/*    fun updateVehicles(newVehicles: List<Vehicle>) {
         vehicles = newVehicles
-    }
+    }*/
 
-    abstract class BaseVehicleHolder(
+/*    abstract class BaseVehicleHolder(
         view: View,
         onItemClick: (position: Int) -> Unit
     ) : RecyclerView.ViewHolder(view) {
@@ -80,9 +96,9 @@ class VehicleAdapter(
                 .placeholder(R.drawable.ic_image)
                 .into(pictureImageView)
         }
-    }
+    }*/
 
-    class CarHolder(
+/*    class CarHolder(
         view: View,
         onItemClick: (position: Int) -> Unit
     ) : BaseVehicleHolder(view, onItemClick) {
@@ -90,9 +106,9 @@ class VehicleAdapter(
         fun bind(vehicle: Vehicle.Car) {
             bindMainInfo(vehicle.brand, vehicle.model, vehicle.image)
         }
-    }
+    }*/
 
-    class SelfDrivingCarHolder(
+/*    class SelfDrivingCarHolder(
         view: View,
         onItemClick: (position: Int) -> Unit
     ) : BaseVehicleHolder(view, onItemClick) {
@@ -103,10 +119,10 @@ class VehicleAdapter(
             bindMainInfo(vehicle.brand, vehicle.model, vehicle.image)
             selfDrivingLevelView.text = "Уровень автопилота: ${vehicle.selfDrivingLevel.toString()}"
         }
-    }
+    }*/
 
-    companion object {
+/*    companion object {
         private const val TYPE_CAR = 1
         private const val TYPE_SELFDRIVINGCAR = 2
-    }
+    }*/
 }

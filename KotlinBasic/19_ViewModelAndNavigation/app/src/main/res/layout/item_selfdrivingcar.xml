@@ -48,12 +48,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="4th"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/brandTextView"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modelTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/modelTextView"
+        tools:text="4th"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

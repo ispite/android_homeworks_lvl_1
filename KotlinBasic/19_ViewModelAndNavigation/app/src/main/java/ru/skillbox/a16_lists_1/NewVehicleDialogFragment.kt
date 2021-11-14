@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
+import kotlin.random.Random
 
 class NewVehicleDialogFragment : DialogFragment() {
     private var listener: NewVehicleDialogListener? = null
@@ -25,6 +26,7 @@ class NewVehicleDialogFragment : DialogFragment() {
             .setNegativeButton("Cancel") { _, _ -> }
             .setPositiveButton("Ok") { _, _ ->
                 listener!!.passArguments(
+                    Random.nextLong(),
                     brandEditText!!.text.toString(),
                     modelEditText!!.text.toString(),
                     URLEditText!!.text.toString(),
@@ -46,6 +48,6 @@ class NewVehicleDialogFragment : DialogFragment() {
     }
 
     interface NewVehicleDialogListener {
-        fun passArguments(brand: String?, model: String?, URL: String?, SDL: String?)
+        fun passArguments(id: Long, brand: String?, model: String?, URL: String?, SDL: String?)
     }
 }
