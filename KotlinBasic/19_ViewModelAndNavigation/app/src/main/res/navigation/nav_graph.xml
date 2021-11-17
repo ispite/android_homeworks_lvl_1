@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/vehicleListFragment">
+
+    <fragment
+        android:id="@+id/vehicleListFragment"
+        android:name="ru.skillbox.a16_lists_1.VehicleListFragment"
+        tools:layout="@layout/fragment_vehicle_list"
+        android:label="VehicleListFragment" >
+        <action
+            android:id="@+id/action_vehicleListFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        tools:layout="@layout/fragment_details"
+        android:name="ru.skillbox.a16_lists_1.DetailsFragment"
+        android:label="DetailsFragment" >
+        <argument
+            android:name="vehicleID"
+            app:argType="long" />
+    </fragment>
+
+</navigation>

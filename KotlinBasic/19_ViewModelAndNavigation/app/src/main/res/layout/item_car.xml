@@ -15,7 +15,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@sample/car_photos" />
 
     <TextView
         android:id="@+id/brandTextView"
@@ -28,7 +28,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/imageOfVehicleImageView"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Volkswagen" />
+        tools:text="@sample/car_brands" />
 
     <TextView
         android:id="@+id/modelTextView"
@@ -40,7 +40,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/imageOfVehicleImageView"
         app:layout_constraintTop_toBottomOf="@+id/brandTextView"
-        tools:text="Passat B6" />
+        tools:text="@sample/car_models" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

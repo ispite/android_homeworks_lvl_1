@@ -9,23 +9,30 @@ import ru.skillbox.a16_lists_1.R
 
 abstract class BaseVehicleHolder(
     view: View,
-    onItemClick: (position: Int) -> Unit
+    onItemClick: (id: Long) -> Unit
 ) : RecyclerView.ViewHolder(view) {
+
     private val brandTextView: TextView = view.findViewById(R.id.brandTextView)
     private val modelTextView: TextView = view.findViewById(R.id.modelTextView)
     private val pictureImageView: ImageView = view.findViewById(R.id.imageOfVehicleImageView)
 
+    private var currentID: Long? = null
+
     init {
         view.setOnClickListener {
-            onItemClick(adapterPosition)
+            currentID?.let {
+                onItemClick(it)
+            }
         }
     }
 
     protected fun bindMainInfo(
+        id: Long,
         brand: String,
         model: String,
         image: String
     ) {
+        currentID = id
         brandTextView.text = brand
         modelTextView.text = model
         Glide.with(itemView)

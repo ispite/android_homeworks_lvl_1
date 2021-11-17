@@ -1,22 +1,17 @@
 package ru.skillbox.a16_lists_1
 
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import jp.wasabeef.recyclerview.animators.FlipInTopXAnimator
 import kotlinx.android.synthetic.main.fragment_vehicle_list.*
 import ru.skillbox.a16_lists_1.adapters.VehicleAdapter
-//import java.util.ArrayList
-import kotlin.collections.ArrayList
-import kotlin.random.Random
 
 class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     NewVehicleDialogFragment.NewVehicleDialogListener {
@@ -33,11 +28,17 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
             NewVehicleDialogFragment()
                 .show(childFragmentManager, "DIALOG")
         }
-        updateVehicleList()
+        observeViewModelState()
     }
 
     private fun initListVehicles() {
-        vehicleAdapter = VehicleAdapter { position -> deleteVehicle(position) }
+        vehicleAdapter = VehicleAdapter { id ->
+            val action =
+                VehicleListFragmentDirections.actionVehicleListFragmentToDetailsFragment(id)
+            findNavController().navigate(action)
+
+            /*deleteVehicle(id.toInt())*/
+        }
         with(vehicleList) {
             adapter = vehicleAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -66,8 +67,8 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     }
 
     fun loadNextDataFromApi(offset: Int) {
-        if (vehicleAdapter.items.count() < 5) {
-            vehicleAdapter.items = vehicleAdapter.items + vehicleListViewModel.generateVehicles(offset)
+        if (vehicleListViewModel.vehicles.value!!.count() < 0) {
+            vehicleListViewModel.generateVehicles(offset)
         }
         // Send an API request to retrieve appropriate paginated data
         //  --> Send the request including an offset value (i.e `page`) as a query parameter.
@@ -78,21 +79,29 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
 
     private fun addVehicle() {
         vehicleListViewModel.addVehicle()
-        updateVehicleList()
-        //vehicleList.scrollToPosition(0)
+        vehicleList.scrollToPosition(0)
     }
 
     private fun deleteVehicle(position: Int) {
         vehicleListViewModel.deleteVehicle(position)
-        updateVehicleList()
+        vehicleListViewModel.showDeleteToast.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "Элемент №${position + 1} удалён", Toast.LENGTH_SHORT)
+                .show()
+        }
         if (vehicleAdapter.items.isEmpty()) {
             emptyListNotification.visibility = View.VISIBLE
         }
     }
 
-    private fun updateVehicleList() {
-        vehicleAdapter.items = vehicleListViewModel.getVehicleList()
-        vehicleList.scrollToPosition(0)
+    private fun observeViewModelState() {
+        vehicleListViewModel.vehicles
+            .observe(viewLifecycleOwner) { newVehicles ->
+                vehicleAdapter.items = newVehicles
+                vehicleList.scrollToPosition(0)
+            }
+        vehicleListViewModel.showToast.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "Элемент добавлен", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun addVehicleManual(
@@ -102,22 +111,8 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
         image: String?,
         selfDrivingLevel: String?
     ) {
-        /*val newVehicle = when (selfDrivingLevel?.toIntOrNull()) {
-            in 1..5 -> Vehicle.SelfDrivingCar(
-                id = id,
-                brand = brand!!,
-                model = model!!,
-                image = image!!,
-                selfDrivingLevel!!.toInt()
-            )
-            else -> Vehicle.Car(id = id, brand = brand!!, model = model!!, image = image!!)
-        }*/
-
         vehicleListViewModel.addVehicleManual(id, brand, model, image, selfDrivingLevel)
 
-        //vehicleAdapter.items = (listOf(newVehicle) + vehicleAdapter.items) as ArrayList<Vehicle>
-        updateVehicleList()
-        //vehicleList.scrollToPosition(0)
         if (vehicleAdapter.items.isNotEmpty()) {
             emptyListNotification.visibility = View.GONE
         }
@@ -130,7 +125,6 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
         URL: String?,
         SDL: String?
     ) {
-        Toast.makeText(context, brand, Toast.LENGTH_SHORT).show()
         addVehicleManual(id, brand, model, URL, SDL)
     }
 

@@ -1,31 +1,47 @@
 package ru.skillbox.a16_lists_1
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlin.random.Random
 
 class VehicleListViewModel : ViewModel() {
 
     private val repository = VehicleRepository()
-    private var vehicles = repository.generateVehicles(6)
+
+    private val vehicleLiveData = MutableLiveData<List<Vehicle>>(repository.generateVehicles(6))
+    val vehicles: LiveData<List<Vehicle>>
+        get() = vehicleLiveData
+
+    private val showToastLiveData = SingleLiveEvent<Unit>()
+    val showToast: LiveData<Unit>
+        get() = showToastLiveData
+
+    private val showToastDeleteItem = MutableLiveData<Unit>()
+    val showDeleteToast: LiveData<Unit>
+        get() = showToastDeleteItem
 
     fun addVehicle() {
         val newVehicle = repository.createVehicle()
-/*        val newVehicle = vehicles.random()
-        //vehicles = listOf(newVehicle) + vehicles*/
-        vehicles = (listOf(newVehicle) + vehicles) /*as ArrayList<Vehicle>*/
+        val updatedList = listOf(newVehicle) + vehicleLiveData.value.orEmpty()
+        vehicleLiveData.postValue(updatedList)
+        showToastLiveData.postValue(Unit)
     }
 
     fun deleteVehicle(position: Int) {
-        vehicles = repository.deleteVehicle(vehicles, position)
-/*        vehicles =
-            vehicles.filterIndexed { index, vehicle -> index != position } as ArrayList<Vehicle>*/
+        vehicleLiveData.postValue(
+            repository.deleteVehicle(
+                vehicleLiveData.value.orEmpty(),
+                position
+            )
+        )
+        showToastDeleteItem.postValue(Unit)
     }
 
-    fun generateVehicles(count: Int): List<Vehicle> {
-        return repository.generateVehicles(count)
+    fun generateVehicles(count: Int) {
+        val newVehicles = repository.generateVehicles(count)
+        val updatedList = vehicleLiveData.value.orEmpty() + (newVehicles)
+        vehicleLiveData.postValue(updatedList)
     }
-
-    fun getVehicleList() = vehicles
 
     fun addVehicleManual(
         id: Long,
@@ -35,6 +51,7 @@ class VehicleListViewModel : ViewModel() {
         selfDrivingLevel: String?
     ) {
         val newVehicle = repository.addVehicleManual(id, brand, model, image, selfDrivingLevel)
-        vehicles = (listOf(newVehicle) + vehicles) /*as ArrayList<Vehicle>*/
+        val updatedList = listOf(newVehicle) + vehicleLiveData.value.orEmpty()
+        vehicleLiveData.postValue(updatedList)
     }
 }

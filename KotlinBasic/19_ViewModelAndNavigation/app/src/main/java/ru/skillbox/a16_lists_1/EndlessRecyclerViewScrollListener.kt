@@ -1,8 +1,8 @@
 package ru.skillbox.a16_lists_1
 
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener {

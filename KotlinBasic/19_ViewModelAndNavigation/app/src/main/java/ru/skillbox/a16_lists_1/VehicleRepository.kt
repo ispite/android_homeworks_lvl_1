@@ -1,6 +1,5 @@
 package ru.skillbox.a16_lists_1
 
-import java.text.FieldPosition
 import kotlin.random.Random
 
 class VehicleRepository {
@@ -16,7 +15,7 @@ class VehicleRepository {
         )
 
         val models = listOf(
-            "Passat b6",
+            "Passat B6",
             "S60",
             "3 series",
             "Model 3",
@@ -65,9 +64,7 @@ class VehicleRepository {
     }
 
     fun deleteVehicle(vehicles: List<Vehicle>, position: Int): List<Vehicle> {
-        return vehicles.filterIndexed { index, vehicle -> index != position } /*as ArrayList<Vehicle>*/
-        /*        vehicles =
-                vehicles.filterIndexed { index, vehicle -> index != position } as ArrayList<Vehicle>*/
+        return vehicles.filterIndexed { index, vehicle -> index != position }
     }
 
     fun addVehicleManual(
@@ -76,7 +73,7 @@ class VehicleRepository {
         model: String?,
         image: String?,
         selfDrivingLevel: String?
-    ):Vehicle {
+    ): Vehicle {
         return when (selfDrivingLevel?.toIntOrNull()) {
             in 1..5 -> Vehicle.SelfDrivingCar(
                 id = id,
