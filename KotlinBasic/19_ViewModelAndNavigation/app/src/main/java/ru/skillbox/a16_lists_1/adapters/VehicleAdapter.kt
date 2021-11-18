@@ -5,7 +5,7 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import ru.skillbox.a16_lists_1.Vehicle
 
 class VehicleAdapter(
-    private val onItemClick: (id: Long) -> Unit
+    private val onItemClick: (id: Long, linkForPhoto: String) -> Unit
 ) : AsyncListDifferDelegationAdapter<Vehicle>(VehiclesDiffUtilCallback()) {
 
     init {

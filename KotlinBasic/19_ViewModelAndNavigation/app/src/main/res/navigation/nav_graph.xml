@@ -23,6 +23,9 @@
         <argument
             android:name="vehicleID"
             app:argType="long" />
+        <argument
+            android:name="vehiclePhoto"
+            app:argType="string" />
     </fragment>
 
 </navigation>

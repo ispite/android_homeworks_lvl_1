@@ -8,7 +8,7 @@ import ru.skillbox.a16_lists_1.Vehicle
 import ru.skillbox.a16_lists_1.inflate
 
 class CarAdapterDelegate(
-    private val onItemClick: (id: Long) -> Unit,
+    private val onItemClick: (id: Long, linkForPhoto: String) -> Unit,
 ) : AbsListItemAdapterDelegate<Vehicle.Car, Vehicle, CarAdapterDelegate.CarHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup): CarHolder {
@@ -29,7 +29,7 @@ class CarAdapterDelegate(
 
     class CarHolder(
         view: View,
-        onItemClick: (id: Long) -> Unit
+        onItemClick: (id: Long, linkForPhoto: String) -> Unit
     ) : BaseVehicleHolder(view, onItemClick) {
 
         fun bind(vehicle: Vehicle.Car) {

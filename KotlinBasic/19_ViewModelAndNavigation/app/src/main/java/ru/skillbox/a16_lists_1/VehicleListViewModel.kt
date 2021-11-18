@@ -16,7 +16,7 @@ class VehicleListViewModel : ViewModel() {
     val showToast: LiveData<Unit>
         get() = showToastLiveData
 
-    private val showToastDeleteItem = MutableLiveData<Unit>()
+    private val showToastDeleteItem = SingleLiveEvent<Unit>()
     val showDeleteToast: LiveData<Unit>
         get() = showToastDeleteItem
 
