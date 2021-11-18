@@ -126,10 +126,9 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
         val args = requireArguments()
 //        vehicleAdapter = VehicleAdapter({ position -> deleteVehicle(position) }, args.getInt(KEY_TABNUMBER))
         vehicleAdapter =
-            VehicleAdapter { position -> deleteVehicle(position) }.newInstance({ position ->
+            VehicleAdapter.newInstance({ position ->
                 deleteVehicle(position)
             }, args.getInt(KEY_TABNUMBER))
-        //vehicleAdapter = VehicleAdapter.newInstance({ position -> deleteVehicle(position) }, args.getInt(KEY_TABNUMBER))
         with(vehicleList) {
             adapter = vehicleAdapter
             when (args.getInt(KEY_TABNUMBER)) {

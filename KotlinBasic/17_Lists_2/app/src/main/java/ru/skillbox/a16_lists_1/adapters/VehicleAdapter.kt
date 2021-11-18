@@ -34,7 +34,7 @@ class VehicleAdapter(
 
     companion object {
 
-        fun VehicleAdapter.newInstance(
+        fun newInstance(
             onItemClick: (position: Int) -> Unit,
             passedTabNumber: Int
         ): VehicleAdapter {
