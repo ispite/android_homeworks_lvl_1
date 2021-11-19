@@ -12,7 +12,7 @@ import retrofit2.create
 
 object Network {
 
-    const val MOVIE_API_KEY = "YOUR API KEY"
+    const val MOVIE_API_KEY = "43541a05"
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {
