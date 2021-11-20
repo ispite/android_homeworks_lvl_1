@@ -32,9 +32,9 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     }
 
     private fun initListVehicles() {
-        vehicleAdapter = VehicleAdapter { id, vehiclePhoto ->
+        vehicleAdapter = VehicleAdapter { id, vehiclePhoto, trueID ->
             val action =
-                VehicleListFragmentDirections.actionVehicleListFragmentToDetailsFragment(id, vehiclePhoto)
+                VehicleListFragmentDirections.actionVehicleListFragmentToDetailsFragment(id, vehiclePhoto, trueID)
             findNavController().navigate(action)
 
             /*deleteVehicle(id.toInt())*/

@@ -11,10 +11,15 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/carPhotoDetailedImageView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:src="@sample/car_photos"
             />
 
@@ -34,5 +39,13 @@
         tools:text="№42"
         android:textSize="20sp"
         />
+
+    <TextView
+        android:id="@+id/idTrueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:text="№345092482039" />
 
 </LinearLayout>

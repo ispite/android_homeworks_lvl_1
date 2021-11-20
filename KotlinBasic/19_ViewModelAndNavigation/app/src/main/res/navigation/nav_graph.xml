@@ -26,6 +26,9 @@
         <argument
             android:name="vehiclePhoto"
             app:argType="string" />
+        <argument
+            android:name="trueIDnav"
+            app:argType="long" />
     </fragment>
 
 </navigation>

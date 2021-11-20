@@ -9,7 +9,7 @@ import ru.skillbox.a16_lists_1.Vehicle
 import ru.skillbox.a16_lists_1.inflate
 
 class SelfDrivigCarAdapterDelegate(
-    private val onItemClick: (id: Long, linkForPhoto: String) -> Unit
+    private val onItemClick: (id: Long, linkForPhoto: String, trueID: Long) -> Unit
 ) : AbsListItemAdapterDelegate<Vehicle.SelfDrivingCar, Vehicle, SelfDrivigCarAdapterDelegate.SelfDrivingCarHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup): SelfDrivingCarHolder {
@@ -30,7 +30,7 @@ class SelfDrivigCarAdapterDelegate(
 
     class SelfDrivingCarHolder(
         view: View,
-        onItemClick: (id: Long, linkForPhoto: String) -> Unit
+        onItemClick: (id: Long, linkForPhoto: String, trueID: Long) -> Unit
     ) : BaseVehicleHolder(view, onItemClick) {
 
         private val SDL: TextView = view.findViewById(R.id.selfDrivingLevelTextView)
