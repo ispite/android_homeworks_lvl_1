@@ -32,7 +32,7 @@ abstract class BaseVehicleHolder(
 
     init {
         view.setOnClickListener {
-                onItemClick(bindingAdapterPosition.toLong(), vehiclePhoto!!, identifier!! )
+                onItemClick(bindingAdapterPosition.toLong(), vehiclePhoto!!, identifier!!)
         }
     }
 

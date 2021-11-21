@@ -33,7 +33,7 @@ class VehicleRepository {
         )
 
         return (0 until count).map {
-            val id = it.toLong()
+            val id = Random.nextLong(1, Long.MAX_VALUE)
             val brand = brands.random()
             val model = models.random()
             val image = images.random()
