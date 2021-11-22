@@ -9,7 +9,8 @@ import ru.skillbox.a16_lists_1.R
 
 abstract class BaseVehicleHolder(
     view: View,
-    onItemClick: (id: Long, linkForPhoto: String, trueID: Long) -> Unit
+    onItemClick: (id: Long, linkForPhoto: String, trueID: Long) -> Unit,
+    onLongClickListener: (position: Long) -> Boolean
 ) : RecyclerView.ViewHolder(view) {
 
     private val brandTextView: TextView = view.findViewById(R.id.brandTextView)
@@ -32,7 +33,10 @@ abstract class BaseVehicleHolder(
 
     init {
         view.setOnClickListener {
-                onItemClick(bindingAdapterPosition.toLong(), vehiclePhoto!!, identifier!!)
+            onItemClick(bindingAdapterPosition.toLong(), vehiclePhoto!!, identifier!!)
+        }
+        view.setOnLongClickListener {
+            onLongClickListener(bindingAdapterPosition.toLong())
         }
     }
 
@@ -42,7 +46,7 @@ abstract class BaseVehicleHolder(
         model: String,
         image: String
     ) {
-        this.identifier= id
+        this.identifier = id
         this.vehiclePhoto = image
         //currentID = id
 

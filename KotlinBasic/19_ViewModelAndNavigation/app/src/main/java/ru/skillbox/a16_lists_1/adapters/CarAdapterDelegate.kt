@@ -9,10 +9,11 @@ import ru.skillbox.a16_lists_1.inflate
 
 class CarAdapterDelegate(
     private val onItemClick: (id: Long, linkForPhoto: String, trueID: Long) -> Unit,
+    private val onLongClickListener: (position: Long) -> Boolean
 ) : AbsListItemAdapterDelegate<Vehicle.Car, Vehicle, CarAdapterDelegate.CarHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup): CarHolder {
-        return CarHolder(parent.inflate(R.layout.item_car), onItemClick)
+        return CarHolder(parent.inflate(R.layout.item_car), onItemClick, onLongClickListener)
     }
 
     override fun isForViewType(item: Vehicle, items: MutableList<Vehicle>, position: Int): Boolean {
@@ -29,8 +30,9 @@ class CarAdapterDelegate(
 
     class CarHolder(
         view: View,
-        onItemClick: (id: Long, linkForPhoto: String, trueID: Long) -> Unit
-    ) : BaseVehicleHolder(view, onItemClick) {
+        onItemClick: (id: Long, linkForPhoto: String, trueID: Long) -> Unit,
+        onLongClickListener: (position: Long) -> Boolean
+    ) : BaseVehicleHolder(view, onItemClick, onLongClickListener) {
 
         fun bind(vehicle: Vehicle.Car) {
             bindMainInfo(vehicle.id, vehicle.brand, vehicle.model, vehicle.image)

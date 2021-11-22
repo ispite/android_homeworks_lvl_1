@@ -1,6 +1,7 @@
 package ru.skillbox.a16_lists_1
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -31,14 +32,22 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
         observeViewModelState()
     }
 
+
     private fun initListVehicles() {
-        vehicleAdapter = VehicleAdapter { id, vehiclePhoto, trueID ->
-            val action =
-                VehicleListFragmentDirections.actionVehicleListFragmentToDetailsFragment(id, vehiclePhoto, trueID)
-            findNavController().navigate(action)
+        vehicleAdapter = VehicleAdapter(
+            { id, vehiclePhoto, trueID ->
+                val action =
+                    VehicleListFragmentDirections.actionVehicleListFragmentToDetailsFragment(
+                        id + 1,
+                        vehiclePhoto,
+                        trueID
+                    )
+                findNavController().navigate(action)
+            }, { id -> deleteVehicle(id.toInt()); true }
+
 
             /*deleteVehicle(id.toInt())*/
-        }
+        )
         with(vehicleList) {
             adapter = vehicleAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -85,6 +94,7 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     private fun deleteVehicle(position: Int) {
         vehicleListViewModel.deleteVehicle(position)
         vehicleListViewModel.showDeleteToast.observe(viewLifecycleOwner) {
+            Log.d("DELETE_ITEM", "position = ${position + 1}")
             Toast.makeText(requireContext(), "Элемент №${position + 1} удалён", Toast.LENGTH_SHORT)
                 .show()
         }
