@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.skillbox.multithreading.SingleLiveEvent
 import com.skillbox.multithreading.networking.Movie
 
 // The Matrix 1999 tt0133093
@@ -51,6 +52,7 @@ class ThreadingViewModel(/*private val repository: MovieRepository*/) : ViewMode
     private val timeLiveData = MutableLiveData<Long>()
     private val moviesLiveData = MutableLiveData<String>()
     private val moviesListData = MutableLiveData<List<Movie>>()
+    private val showToastLiveData = SingleLiveEvent<Unit>()
 
     val time: LiveData<Long?>
         get() = timeLiveData
@@ -61,14 +63,18 @@ class ThreadingViewModel(/*private val repository: MovieRepository*/) : ViewMode
     val moviesList: LiveData<List<Movie>>
         get() = moviesListData
 
+    val showToast: LiveData<Unit>
+        get() = showToastLiveData
+
     fun requestMovies() {
         Log.d("ThreadTest", "requestMovies start on ${Thread.currentThread().name}")
-        userRepository.fetchMovies(movieIds) { movies, fetchTime ->
+        userRepository.fetchMovies(movieIds, movieIDsForMainThread) { movies, fetchTime ->
             Log.d("ThreadTest", "requestMovies fetched on ${Thread.currentThread().name}")
             timeLiveData.postValue(fetchTime)
 //            moviesLiveData.postValue(movies)
             moviesListData.postValue(movies)
         }
+        showToastLiveData.postValue(Unit)
         Log.d("ThreadTest", "requestMovies end on ${Thread.currentThread().name}")
 
     }

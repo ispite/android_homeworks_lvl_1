@@ -1,7 +1,10 @@
 package com.skillbox.multithreading.threading
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -17,6 +20,7 @@ class ThreadingFragment : Fragment(R.layout.fragment_threading) {
     //private val viewModel: ThreadingViewModel by viewModels()
     lateinit var viewModel2: ThreadingViewModel
     private var movieAdapter by AutoClearedValue<MovieRecyclerViewAdapter>(this)
+    private lateinit var handler: Handler
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -67,6 +71,18 @@ class ThreadingFragment : Fragment(R.layout.fragment_threading) {
             )
             myAdapter.setMovieList(it)
         }
+
+        val backGroundThread = HandlerThread("Handler thread").apply {
+            start()
+        }
+        handler = Handler(backGroundThread.looper)
+        handler.postDelayed({
+        ///////////////не получается вывести в SingleLiveEvent, т.к. получается ошибка: Cannot invoke observe on a background thread
+            /*viewModel2.showToast.observe(viewLifecycleOwner) {
+                Toast.makeText(requireContext(), "Список обновлён", Toast.LENGTH_SHORT).show()
+            }*/
+            Toast.makeText(requireContext(), "Список обновлён", Toast.LENGTH_SHORT).show()
+        }, 1000)
 
     }
 
