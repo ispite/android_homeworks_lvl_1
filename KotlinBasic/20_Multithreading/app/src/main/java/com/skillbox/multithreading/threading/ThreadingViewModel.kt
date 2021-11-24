@@ -4,8 +4,15 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.skillbox.multithreading.networking.Movie
 
-class ThreadingViewModel : ViewModel() {
+// The Matrix 1999 tt0133093
+// Fight Club 1999 tt0137523
+// Forrest Gump 1994 tt0109830
+// The Godfather 1972 tt0068646
+// The Lord of the Rings: The Two Towers 2002 tt0167261
+
+class ThreadingViewModel(/*private val repository: MovieRepository*/) : ViewModel() {
 
     private val userRepository = MovieRepository()
 
@@ -33,8 +40,17 @@ class ThreadingViewModel : ViewModel() {
         "tt0073486"
     )
 
+    private val movieIDsForMainThread = listOf(
+        "tt0133093", // The Matrix 1999 tt0133093
+        "tt0137523", // Fight Club 1999 tt0137523
+        "tt0109830", // Forrest Gump 1994 tt0109830
+        "tt0068646", // The Godfather 1972 tt0068646
+        "tt0167261"  // The Lord of the Rings: The Two Towers 2002 tt0167261
+    )
+
     private val timeLiveData = MutableLiveData<Long>()
     private val moviesLiveData = MutableLiveData<String>()
+    private val moviesListData = MutableLiveData<List<Movie>>()
 
     val time: LiveData<Long?>
         get() = timeLiveData
@@ -42,12 +58,16 @@ class ThreadingViewModel : ViewModel() {
     val movies: LiveData<String?>
         get() = moviesLiveData
 
+    val moviesList: LiveData<List<Movie>>
+        get() = moviesListData
+
     fun requestMovies() {
         Log.d("ThreadTest", "requestMovies start on ${Thread.currentThread().name}")
         userRepository.fetchMovies(movieIds) { movies, fetchTime ->
             Log.d("ThreadTest", "requestMovies fetched on ${Thread.currentThread().name}")
             timeLiveData.postValue(fetchTime)
-            moviesLiveData.postValue(movies)
+//            moviesLiveData.postValue(movies)
+            moviesListData.postValue(movies)
         }
         Log.d("ThreadTest", "requestMovies end on ${Thread.currentThread().name}")
 

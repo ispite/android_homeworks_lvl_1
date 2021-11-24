@@ -46,6 +46,8 @@ dependencies {
     //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
+    //CardView
+    implementation 'androidx.cardview:cardview:1.0.0'
     //ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "androidx.fragment:fragment-ktx:1.2.5"

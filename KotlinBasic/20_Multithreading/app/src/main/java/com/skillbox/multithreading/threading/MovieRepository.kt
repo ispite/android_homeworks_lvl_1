@@ -15,7 +15,7 @@ class MovieRepository {
 
     fun fetchMovies(
         movieIds: List<String>,
-        onMoviesFetched: (movies: String, fetchTime: Long) -> Unit
+        onMoviesFetched: (movies: List<Movie>, fetchTime: Long) -> Unit
     ) {
         Log.d("ThreadTest", "fetchMovies start on ${Thread.currentThread().name}")
         Thread {
@@ -37,9 +37,10 @@ class MovieRepository {
 
             val requestTime = System.currentTimeMillis() - startTime
 
-            val joinedMovies = allMovies.joinToString("\n")
+//            val joinedMovies = allMovies.joinToString("\n")
 
-            onMoviesFetched(joinedMovies, requestTime)
+//            onMoviesFetched(joinedMovies, requestTime)
+            onMoviesFetched(allMovies, requestTime)
         }.start()
         Log.d("ThreadTest", "fetchMovies end on ${Thread.currentThread().name}")
     }
