@@ -71,7 +71,6 @@ class ThreadingViewModel(/*private val repository: MovieRepository*/) : ViewMode
         userRepository.fetchMovies(movieIds, movieIDsForMainThread) { movies, fetchTime ->
             Log.d("ThreadTest", "requestMovies fetched on ${Thread.currentThread().name}")
             timeLiveData.postValue(fetchTime)
-//            moviesLiveData.postValue(movies)
             moviesListData.postValue(movies)
         }
         showToastLiveData.postValue(Unit)

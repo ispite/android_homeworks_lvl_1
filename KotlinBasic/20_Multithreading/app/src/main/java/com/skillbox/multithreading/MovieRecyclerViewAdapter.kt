@@ -10,17 +10,11 @@ import com.skillbox.multithreading.networking.Movie
 import com.skillbox.multithreading.threading.ThreadingViewModel
 import kotlinx.android.synthetic.main.item_movie.view.*
 
-//class MovieRecyclerViewAdapter(/*private val movieList: List<Movie>*/):RecyclerView.Adapter<MovieRecyclerViewAdapter.MovieHolder>() {
 class MovieRecyclerViewAdapter(
-/*    val viewModel: ThreadingViewModel,
-    private val movieList: List<Movie>,
-    val context: Context*/
 ) : RecyclerView.Adapter<MovieRecyclerViewAdapter.MovieHolder>() {
 
-//    private var movieList: List<Movie> = emptyList()
     private var movieList: List<Movie> = mutableListOf<Movie>()
 
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
