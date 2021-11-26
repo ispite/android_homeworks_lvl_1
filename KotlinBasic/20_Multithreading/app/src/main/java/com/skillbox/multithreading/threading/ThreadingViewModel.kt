@@ -72,9 +72,9 @@ class ThreadingViewModel(/*private val repository: MovieRepository*/) : ViewMode
             Log.d("ThreadTest", "requestMovies fetched on ${Thread.currentThread().name}")
             timeLiveData.postValue(fetchTime)
             moviesListData.postValue(movies)
+            showToastLiveData.postValue(Unit)
         }
-        showToastLiveData.postValue(Unit)
+        //showToastLiveData.postValue(Unit)
         Log.d("ThreadTest", "requestMovies end on ${Thread.currentThread().name}")
-
     }
 }
