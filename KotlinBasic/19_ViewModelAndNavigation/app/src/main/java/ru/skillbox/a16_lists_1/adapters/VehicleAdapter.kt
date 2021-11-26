@@ -3,6 +3,10 @@ package ru.skillbox.a16_lists_1.adapters
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import ru.skillbox.a16_lists_1.Vehicle
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import androidx.annotation.Nullable
+import androidx.recyclerview.widget.AsyncListDiffer
+
 
 class VehicleAdapter(
     private val onItemClick: (id: Long, linkForPhoto: String, trueID: Long) -> Unit,
@@ -12,6 +16,19 @@ class VehicleAdapter(
     init {
         delegatesManager.addDelegate(CarAdapterDelegate(onItemClick, onLongClickListener))
             .addDelegate(SelfDrivigCarAdapterDelegate(onItemClick, onLongClickListener))
+
+    }
+
+/*    override fun AsyncListDifferDelegationAdapter.differ.submitList() {
+
+    }*/
+
+/*    override fun AsyncListDiffer.submitList (@Nullable list: List<T?>?) {
+        super.submitList(list?.let { ArrayList(it) })
+    }*/
+
+    fun setEmptyList() {
+        differ.submitList(null)
     }
 
     class VehiclesDiffUtilCallback : DiffUtil.ItemCallback<Vehicle>() {

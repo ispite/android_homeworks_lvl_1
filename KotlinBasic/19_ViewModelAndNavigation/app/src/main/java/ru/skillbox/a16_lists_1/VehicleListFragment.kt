@@ -44,9 +44,6 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
                     )
                 findNavController().navigate(action)
             }, { id -> deleteVehicle(id.toInt()); true }
-
-
-            /*deleteVehicle(id.toInt())*/
         )
         with(vehicleList) {
             adapter = vehicleAdapter
@@ -87,20 +84,23 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     }
 
     private fun addVehicle() {
+        //vehicleList.submitList(null)
+        //vehicleAdapter.submitList()
+        vehicleListViewModel.setEmptyList()
+        vehicleAdapter.setEmptyList()
         vehicleListViewModel.addVehicle()
+
+        //vehicleAdapter.notifyDataSetChanged()
         vehicleList.scrollToPosition(0)
     }
 
     private fun deleteVehicle(position: Int) {
         vehicleListViewModel.deleteVehicle(position)
-        vehicleListViewModel.showDeleteToast.observe(viewLifecycleOwner) {
-            Log.d("DELETE_ITEM", "position = ${position + 1}")
-            Toast.makeText(requireContext(), "Элемент №${position + 1} удалён", Toast.LENGTH_SHORT)
-                .show()
-        }
-        if (vehicleAdapter.items.isEmpty()) {
+        //Log.d("DELETE_ITEM", "count ${vehicleAdapter.items.count()}")
+/*        if (vehicleAdapter.items.isEmpty()) {
+            Log.d("DELETE_ITEM", " items are empty")
             emptyListNotification.visibility = View.VISIBLE
-        }
+        }*/
     }
 
     private fun observeViewModelState() {
@@ -112,6 +112,23 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
         vehicleListViewModel.showToast.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), "Элемент добавлен", Toast.LENGTH_SHORT).show()
         }
+        vehicleListViewModel.showDeleteToast.observe(viewLifecycleOwner) { positionFromViewModel ->
+            Log.d("DELETE_ITEM", "position = ${positionFromViewModel + 1}")
+            Toast.makeText(requireContext(), "Элемент №${positionFromViewModel + 1} удалён", Toast.LENGTH_SHORT)
+                .show()
+        }
+        vehicleListViewModel.flagIsEmpty.observe(viewLifecycleOwner) {
+            Log.d("DELETE_ITEM", " items are NOT empty")
+            if (it) {
+                Log.d("DELETE_ITEM", " items are empty")
+                emptyListNotification.visibility = View.VISIBLE
+            }
+        }
+        //Log.d("DELETE_ITEM", "count ${vehicleAdapter.items.count()}")
+/*        if (vehicleAdapter.items.isEmpty()) {
+            Log.d("DELETE_ITEM", " items are empty")
+            emptyListNotification.visibility = View.VISIBLE
+        }*/
     }
 
     private fun addVehicleManual(

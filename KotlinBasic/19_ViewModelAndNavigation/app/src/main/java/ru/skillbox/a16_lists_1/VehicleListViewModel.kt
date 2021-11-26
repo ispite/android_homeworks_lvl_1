@@ -8,7 +8,7 @@ class VehicleListViewModel : ViewModel() {
 
     private val repository = VehicleRepository()
 
-    private val vehicleLiveData = MutableLiveData<List<Vehicle>>(repository.generateVehicles(6))
+    private val vehicleLiveData = MutableLiveData<List<Vehicle>>(repository.generateVehicles(4))
     val vehicles: LiveData<List<Vehicle>>
         get() = vehicleLiveData
 
@@ -16,13 +16,24 @@ class VehicleListViewModel : ViewModel() {
     val showToast: LiveData<Unit>
         get() = showToastLiveData
 
-    private val showToastDeleteItem = SingleLiveEvent<Unit>()
-    val showDeleteToast: LiveData<Unit>
+    private val showToastDeleteItem = SingleLiveEvent<Int>()
+    val showDeleteToast: LiveData<Int>
         get() = showToastDeleteItem
+
+    private val flagListIsEmpty = SingleLiveEvent<Boolean>()
+    val flagIsEmpty: LiveData<Boolean>
+        get() = flagListIsEmpty
+
+    private val emptyList = listOf<Vehicle>()
+
+    fun setEmptyList() {
+        vehicleLiveData.postValue(emptyList)
+    }
 
     fun addVehicle() {
         val newVehicle = repository.createVehicle()
         val updatedList = listOf(newVehicle) + vehicleLiveData.value.orEmpty()
+        //vehicleLiveData.postValue(emptyList)
         vehicleLiveData.postValue(updatedList)
         showToastLiveData.postValue(Unit)
     }
@@ -34,7 +45,10 @@ class VehicleListViewModel : ViewModel() {
                 position
             )
         )
-        showToastDeleteItem.postValue(Unit)
+        showToastDeleteItem.postValue(position)
+        if (vehicleLiveData.value.isNullOrEmpty()) {
+            flagListIsEmpty.postValue(true)
+        } else flagListIsEmpty.postValue(false)
     }
 
     fun generateVehicles(count: Int) {
