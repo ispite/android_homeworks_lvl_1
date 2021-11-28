@@ -15,13 +15,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         super.onActivityCreated(savedInstanceState)
         idTextView.text = args.vehicleID.toString()
 
-//        val display = getWindowManager
         val displayMetrics = DisplayMetrics()
         val width = displayMetrics.widthPixels
-//        carPhotoDetailedImageView.height = width
-//        val params = carPhotoDetailedImageView.layoutParams
-//        params.height = width
-//        carPhotoDetailedImageView.layoutParams
 
         carPhotoDetailedImageView.layoutParams.height = width
         Glide.with(requireContext())

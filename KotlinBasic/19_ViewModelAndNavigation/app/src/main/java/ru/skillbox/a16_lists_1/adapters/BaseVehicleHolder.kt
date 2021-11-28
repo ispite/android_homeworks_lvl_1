@@ -17,19 +17,8 @@ abstract class BaseVehicleHolder(
     private val modelTextView: TextView = view.findViewById(R.id.modelTextView)
     private val pictureImageView: ImageView = view.findViewById(R.id.imageOfVehicleImageView)
 
-    //private var currentID: Long? = null
     private var vehiclePhoto: String? = null
     private var identifier: Long? = null
-
-/*
-    init {
-        view.setOnClickListener {
-            currentID?.let {
-                onItemClick(bindingAdapterPosition.toLong(), bindingAdapterPosition.)
-            }
-        }
-    }
-*/
 
     init {
         view.setOnClickListener {
@@ -48,7 +37,6 @@ abstract class BaseVehicleHolder(
     ) {
         this.identifier = id
         this.vehiclePhoto = image
-        //currentID = id
 
         brandTextView.text = brand
         modelTextView.text = model

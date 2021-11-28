@@ -84,23 +84,13 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
     }
 
     private fun addVehicle() {
-        //vehicleList.submitList(null)
-        //vehicleAdapter.submitList()
-        vehicleListViewModel.setEmptyList()
         vehicleAdapter.setEmptyList()
         vehicleListViewModel.addVehicle()
-
-        //vehicleAdapter.notifyDataSetChanged()
         vehicleList.scrollToPosition(0)
     }
 
     private fun deleteVehicle(position: Int) {
         vehicleListViewModel.deleteVehicle(position)
-        //Log.d("DELETE_ITEM", "count ${vehicleAdapter.items.count()}")
-/*        if (vehicleAdapter.items.isEmpty()) {
-            Log.d("DELETE_ITEM", " items are empty")
-            emptyListNotification.visibility = View.VISIBLE
-        }*/
     }
 
     private fun observeViewModelState() {
@@ -108,27 +98,27 @@ class VehicleListFragment : Fragment(R.layout.fragment_vehicle_list),
             .observe(viewLifecycleOwner) { newVehicles ->
                 vehicleAdapter.items = newVehicles
                 vehicleList.scrollToPosition(0)
+/*                if (vehicleAdapter.items.isEmpty()) {
+                    Log.d("DELETE_ITEM", " items are empty")
+                    emptyListNotification.visibility = View.VISIBLE
+                } else emptyListNotification.visibility = View.GONE*/
+                if (vehicleListViewModel.vehicles.value!!.isEmpty()) {
+                    Log.d("DELETE_ITEM", " items are empty")
+                    emptyListNotification.visibility = View.VISIBLE
+                } else emptyListNotification.visibility = View.GONE
             }
         vehicleListViewModel.showToast.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), "Элемент добавлен", Toast.LENGTH_SHORT).show()
         }
         vehicleListViewModel.showDeleteToast.observe(viewLifecycleOwner) { positionFromViewModel ->
             Log.d("DELETE_ITEM", "position = ${positionFromViewModel + 1}")
-            Toast.makeText(requireContext(), "Элемент №${positionFromViewModel + 1} удалён", Toast.LENGTH_SHORT)
+            Toast.makeText(
+                requireContext(),
+                "Элемент №${positionFromViewModel + 1} удалён",
+                Toast.LENGTH_SHORT
+            )
                 .show()
         }
-        vehicleListViewModel.flagIsEmpty.observe(viewLifecycleOwner) {
-            Log.d("DELETE_ITEM", " items are NOT empty")
-            if (it) {
-                Log.d("DELETE_ITEM", " items are empty")
-                emptyListNotification.visibility = View.VISIBLE
-            }
-        }
-        //Log.d("DELETE_ITEM", "count ${vehicleAdapter.items.count()}")
-/*        if (vehicleAdapter.items.isEmpty()) {
-            Log.d("DELETE_ITEM", " items are empty")
-            emptyListNotification.visibility = View.VISIBLE
-        }*/
     }
 
     private fun addVehicleManual(
