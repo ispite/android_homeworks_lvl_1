@@ -63,6 +63,7 @@ class CustomThreadPoolManager private constructor() {
     }
 
     // Keep a weak reference to the UI thread, so we can send messages to the UI thread
+    //fun setUiThreadCallback(uiThreadCallback: UiThreadCallback?) {
     fun setUiThreadCallback(uiThreadCallback: UiThreadCallback?) {
         uiThreadCallbackWeakReference = WeakReference<UiThreadCallback?>(uiThreadCallback)
     }
@@ -109,15 +110,15 @@ class CustomThreadPoolManager private constructor() {
             TODO: You can choose between a fixed sized thread pool and a dynamic sized pool
             TODO: Comment one and uncomment another to see the difference.
          */
-/*        mExecutorService =
-            Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE, BackgroundThreadFactory())*/
-        mExecutorService = ThreadPoolExecutor(
+        mExecutorService =
+            Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE, BackgroundThreadFactory())
+/*        mExecutorService = ThreadPoolExecutor(
             NUMBER_OF_CORES,
             NUMBER_OF_CORES * 2,
             KEEP_ALIVE_TIME.toLong(),
             KEEP_ALIVE_TIME_UNIT,
             mTaskQueue,
             BackgroundThreadFactory()
-        )
+        )*/
     }
 }
