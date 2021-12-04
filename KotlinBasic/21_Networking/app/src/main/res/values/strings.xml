@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">21_Networking</string>
+
+    <string-array name="cinematic_types">
+        <item>Сериал</item>
+        <item>Фильм</item>
+        <item>Эпизод</item>
+        <item>Не выбрано</item>
+    </string-array>
+
 </resources>
