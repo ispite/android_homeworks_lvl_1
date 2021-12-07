@@ -4,7 +4,7 @@ import okhttp3.Call
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import ru.skillbox.a21_networking.API_KEY
+import ru.skillbox.a21_networking.movie_search.API_KEY
 
 object Network {
     val client = OkHttpClient.Builder()
