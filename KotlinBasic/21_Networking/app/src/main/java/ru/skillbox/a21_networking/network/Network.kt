@@ -1,5 +1,6 @@
 package ru.skillbox.a21_networking.network
 
+import android.util.Log
 import okhttp3.Call
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
@@ -19,6 +20,27 @@ object Network {
             .addQueryParameter("apikey", API_KEY)
             .addQueryParameter("s", text)
             .build()
+
+        val request = Request.Builder()
+            .get()
+            .url(url)
+            .build()
+
+        return client.newCall(request)
+    }
+
+    fun getSearchWithParametersMovieCall(title: String, yearOfProduction: String, typeOfVideo: String):Call {
+
+        val url = HttpUrl.Builder()
+            .scheme("http")
+            .host("www.omdbapi.com")
+            .addQueryParameter("apikey", API_KEY)
+            .addQueryParameter("s", title)
+            .addQueryParameter("y", yearOfProduction)
+            .addQueryParameter("type", typeOfVideo)
+            .build()
+
+        Log.d("Network", "Network: $url")
 
         val request = Request.Builder()
             .get()

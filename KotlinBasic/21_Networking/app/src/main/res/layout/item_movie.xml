@@ -4,7 +4,16 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingVertical="8dp">
+    android:paddingVertical="4dp"
+    android:paddingHorizontal="4dp">
+
+    <ImageView
+        android:id="@+id/posterMovie"
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <TextView
         android:id="@+id/titleTextView"
@@ -12,8 +21,9 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:textSize="20sp"
+        android:layout_marginStart="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/posterMovie"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Star Wars: Episode IV - A New Hope" />
 
@@ -23,10 +33,35 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/posterMovie"
         app:layout_constraintTop_toBottomOf="@id/titleTextView"
         tools:text="1977" />
+
+    <TextView
+        android:id="@+id/typeMovie"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/yearTextView"
+        app:layout_constraintStart_toEndOf="@id/posterMovie"
+        tools:text="Фильм"
+        />
+
+    <TextView
+        android:id="@+id/imdb_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@id/typeMovie"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="tt0066402"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

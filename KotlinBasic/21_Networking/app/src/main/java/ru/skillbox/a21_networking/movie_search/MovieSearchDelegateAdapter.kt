@@ -3,6 +3,7 @@ package ru.skillbox.a21_networking.movie_search
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_movie.*
@@ -33,6 +34,13 @@ class MovieSearchDelegateAdapter:AbsListItemAdapterDelegate<RemoteMovie, RemoteM
         fun bind(item: RemoteMovie){
             titleTextView.text = item.title
             yearTextView.text = item.year
+            typeMovie.text = item.type
+            imdb_id.text = item.id
+
+            Glide.with(itemView)
+                .load(item.poster)
+                .placeholder(R.drawable.ic_image)
+                .into(posterMovie)
         }
     }
 }

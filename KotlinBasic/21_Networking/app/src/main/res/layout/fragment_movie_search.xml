@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputMovieTitleEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text" />
@@ -33,6 +34,7 @@
         app:layout_constraintTop_toBottomOf="@id/inputMovieTitle">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputMovieYearEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="date" />
@@ -57,20 +59,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:inputType="none"
+
             android:text="" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/buttonRequest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/menu"
+        android:text="Найти"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/movieList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/menu"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRequest"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="14dp"
         tools:listitem="@layout/item_movie"
         />
+
+    <Button
+        android:id="@+id/buttonResend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/movieList"
+        android:visibility="gone"
+        android:text="Попробовать ещё раз"
+        />
+
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:textSize="32dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/buttonResend"
+        android:visibility="gone"
+        tools:text="ошибка" />
 
     <ProgressBar
         android:layout_gravity="center"
