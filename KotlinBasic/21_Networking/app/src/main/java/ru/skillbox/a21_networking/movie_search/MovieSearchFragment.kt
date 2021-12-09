@@ -1,23 +1,25 @@
 package ru.skillbox.a21_networking.movie_search
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_movie_search.*
 import ru.skillbox.a21_networking.R
 import ru.skillbox.a21_networking.utils.autoCleared
+import ru.skillbox.a21_networking.utils.isNotNullOrEmpty
+import ru.skillbox.a21_networking.utils.isNotValidYear
 
 class MovieSearchFragment:Fragment(R.layout.fragment_movie_search) {
 
@@ -30,17 +32,19 @@ class MovieSearchFragment:Fragment(R.layout.fragment_movie_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         exposedMenu()
-        initlist()
+        initList()
         bindViewModel()
+        //val a = "Puppy".removeFirstLastChar()
+        //Log.d("fragment", "onViewCreated: $a")
     }
 
-    fun exposedMenu() {
+    private fun exposedMenu() {
         val cinematicTypes = resources.getStringArray(R.array.cinematic_types)
         val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, cinematicTypes)
         (menu.editText as? AutoCompleteTextView)?.setAdapter(adapter)
     }
 
-    private fun initlist() {
+    private fun initList() {
         movieAdapter = MovieSearchAdapter()
         with(movieList) {
             adapter = movieAdapter
@@ -64,13 +68,22 @@ class MovieSearchFragment:Fragment(R.layout.fragment_movie_search) {
             Log.d("ViewModel", "selectedItem: $menuIndex")
         }
 
+
+
+
+
+
         buttonRequest.setOnClickListener {
-            val typeVideo = listOf("series", "movie", "episode", "")
-            val queryTitle = inputMovieTitleEdit.text.toString()
-            val queryYear = inputMovieYearEdit.text.toString()
-            val queryType = typeVideo[menuIndex?.toInt() ?: 3]
-            //Log.d("ViewModel", "bindViewModel: $queryYear")
-            viewModel.searchWithParameters(queryTitle, queryYear, queryType)
+            if(inputMovieYearEdit.isNotValidYear("The year not in range 1895..2022")) {
+                val typeVideo = listOf("series", "movie", "episode", "")
+                val queryTitle = inputMovieTitleEdit.text.toString()
+                val queryYear = inputMovieYearEdit.text.toString()
+                val queryType = typeVideo[menuIndex?.toInt() ?: 3]
+                //Log.d("ViewModel", "bindViewModel: $queryYear")
+                viewModel.searchWithParameters(queryTitle, queryYear, queryType)
+            }
+
+
         }
 
         buttonResend.setOnClickListener {

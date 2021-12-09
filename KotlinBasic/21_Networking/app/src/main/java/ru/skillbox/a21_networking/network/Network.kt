@@ -8,7 +8,8 @@ import okhttp3.Request
 import ru.skillbox.a21_networking.movie_search.API_KEY
 
 object Network {
-    val client = OkHttpClient.Builder()
+    private val client = OkHttpClient.Builder()
+        .addNetworkInterceptor(APIKeyAdderInterceptor(API_KEY))
         .build()
 
     fun getSearchMovieCall(text: String): Call {
@@ -17,9 +18,11 @@ object Network {
         val url = HttpUrl.Builder()
             .scheme("http")
             .host("www.omdbapi.com")
-            .addQueryParameter("apikey", API_KEY)
+            //.addQueryParameter("apikey", API_KEY)
             .addQueryParameter("s", text)
             .build()
+
+        Log.d("Network getSearch", "Network: $url")
 
         val request = Request.Builder()
             .get()
@@ -34,13 +37,13 @@ object Network {
         val url = HttpUrl.Builder()
             .scheme("http")
             .host("www.omdbapi.com")
-            .addQueryParameter("apikey", API_KEY)
+            //.addQueryParameter("apikey", API_KEY)
             .addQueryParameter("s", title)
             .addQueryParameter("y", yearOfProduction)
             .addQueryParameter("type", typeOfVideo)
             .build()
 
-        Log.d("Network", "Network: $url")
+        Log.d("Network getSearchWithParams", "Network: $url")
 
         val request = Request.Builder()
             .get()

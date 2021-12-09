@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">21_Networking</string>
+    <string name="input_title_movie">Введите название фильма</string>
+    <string name="input_year_of_production_movie">Введите год производства</string>
+    <string name="choose_type_video">выберите тип видео</string>
+    <string name="find">Найти</string>
+    <string name="try_again">Попробовать ещё раз</string>
 
     <string-array name="cinematic_types">
         <item>series</item>
