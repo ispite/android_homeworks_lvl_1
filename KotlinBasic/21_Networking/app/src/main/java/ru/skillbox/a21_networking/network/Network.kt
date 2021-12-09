@@ -1,6 +1,7 @@
 package ru.skillbox.a21_networking.network
 
 import android.util.Log
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import okhttp3.Call
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
@@ -8,7 +9,11 @@ import okhttp3.Request
 import ru.skillbox.a21_networking.movie_search.API_KEY
 
 object Network {
+
+    val flipperNetworkPlugin = NetworkFlipperPlugin()
+
     private val client = OkHttpClient.Builder()
+        .addNetworkInterceptor(StoreLastUnsuccessfulRequest())
         .addNetworkInterceptor(APIKeyAdderInterceptor(API_KEY))
         .build()
 
