@@ -17,6 +17,7 @@ class LivelockFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         Thread { operation1() }.start()
         Thread { operation2() }.start()
     }
@@ -31,12 +32,13 @@ class LivelockFragment: Fragment() {
         while (true) {
             lock1.lock()
             Log.d("Livelock","lock1 acquired, trying to acquire lock2.")
-            Thread.sleep(500)
+            //Thread.sleep(500)
             if (lock2.tryLock()) {
                 Log.d("Livelock","lock2 acquired.")
             } else {
                 Log.d("Livelock","cannot acquire lock2, releasing lock1.")
                 lock1.unlock()
+                Thread.sleep(500)
                 continue
             }
             Log.d("Livelock", "executing first work.")
@@ -54,12 +56,13 @@ class LivelockFragment: Fragment() {
         while (true) {
             lock2.lock()
             Log.d("Livelock","lock2 acquired, trying to acquire lock1.")
-            Thread.sleep(500)
+            //Thread.sleep(500)
             if (lock1.tryLock()) {
                 Log.d("Livelock","lock1 acquired.")
             } else {
                 Log.d("Livelock","cannot acquire lock1, releasing lock2.")
                 lock2.unlock()
+                Thread.sleep(500)
                 continue
             }
             Log.d("Livelock", "executing second work.")
