@@ -11,11 +11,13 @@ import java.util.*
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.ThreadFactory
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
 
 class MovieRepository {
 
     val NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors()
-    var executor = Executors.newFixedThreadPool(NUMBER_OF_CORES/*, BackgroundThreadFactory()*/)
+
 
     fun getMovieById(movieId: String): Movie? {
         return Network.api().getMovieById(movieId, MOVIE_API_KEY).execute()
@@ -24,59 +26,35 @@ class MovieRepository {
 
     fun fetchMovies(
         movieIds: List<String>,
-        movieIDsForMainThread: List<String>,
+        //movieIDsForMainThread: List<String>,
         onMoviesFetched: (movies: List<Movie>, fetchTime: Long) -> Unit
     ) {
-        Log.d("ThreadTest", "fetchMovies start on ${Thread.currentThread().name}")
-        val mainHandler = Handler(Looper.getMainLooper())
+        Thread {
+            Log.d("ThreadTest", "fetchMovies start on ${Thread.currentThread().name}")
+            val mainHandler = Handler(Looper.getMainLooper())
 
-        val future = executor.submit<List<Any>>() {
-            val requestTime: Long
-            val startTime = System.currentTimeMillis()
-            var allMovies = Collections.synchronizedList(mutableListOf<Movie>())
-            Log.d("ThreadTest", "EXECUTOR fetchMovies continues on ${Thread.currentThread().name}")
+            val executor = Executors.newFixedThreadPool(NUMBER_OF_CORES)
+            val allMovies = Collections.synchronizedList(mutableListOf<Movie>())
 
-            val callable1 = Callable<MutableList<Movie>> {
-                Log.d(
-                    "ThreadTest",
-                    "Callable start fetchMovies continues on ${Thread.currentThread().name}"
-                )
+            val start = System.currentTimeMillis()
 
-                allMovies = movieIds.chunked(NUMBER_OF_CORES).map { movieChunk ->
-                    val movies = movieChunk.mapNotNull { movieId ->
+            movieIds.chunked(NUMBER_OF_CORES).forEach {
+                executor.submit{
+                    allMovies.addAll(it.mapNotNull { movieId ->
+                        Log.d("ThreadTest", "executing on multiple threads ${Thread.currentThread().name}")
                         getMovieById(movieId)
-                    }
-                    Log.d("ThreadTest", "Callable fetching movies ${Thread.currentThread().name}")
-                    movies
-                }.flatten()
-
-                //requestTime = System.currentTimeMillis() - startTime
-                allMovies
-            }
-            val c1 = createCallable(callable1)
-            Log.d("ThreadTest", "callable1 =  on ${Thread.currentThread().name}")
-
-            requestTime = System.currentTimeMillis() - startTime
-            return@submit listOf<Any>(c1.call(), requestTime)
-        }
-
-        mainHandler.post {
-            Log.d(
-                "ThreadTest",
-                "after EXECUTOR fetchMovies continues on ${Thread.currentThread().name}"
-            )
-            val moviesFromMainThread =
-                movieIDsForMainThread.mapNotNull { movieId ->
-                    getMovieById(movieId)
+                    })
                 }
-            val result = future.get()
-            val allMovies: MutableList<Movie> = result[0] as MutableList<Movie>
-            val requestTime: Long = result[1] as Long
-            allMovies.addAll(0, moviesFromMainThread)
-            onMoviesFetched(allMovies, requestTime)
-        }
+            }
+            executor.shutdown()
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS)
+            val requestTime = System.currentTimeMillis() - start
 
-        Log.d("ThreadTest", "fetchMovies end on ${Thread.currentThread().name}")
+            mainHandler.post {
+                Log.d("ThreadTest", "after EXECUTOR fetchMovies continues on ${Thread.currentThread().name}")
+                onMoviesFetched(allMovies, requestTime)
+            }
+        }.start()
     }
 
     private fun <T> createCallable(task: Callable<T>): Callable<T> {
