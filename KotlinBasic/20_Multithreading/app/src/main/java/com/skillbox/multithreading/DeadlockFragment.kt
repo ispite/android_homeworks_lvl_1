@@ -22,24 +22,27 @@ class DeadlockFragment: Fragment() {
         thread1.start()
         thread2.start()*/
 
-        val count1 = Counter("Счётчик 1")
-        val count2 = Counter("Счётчик 2")
+        val count1 = CounterObject("Счётчик 1", 0)
+        val count2 = CounterObject("Счётчик 2", 0)
 
         val thread3 = Thread {
             count1.incrementObject(count2)
         }
         val thread4 = Thread {
-            count1.incrementObject(count1)
+            count2.incrementObject(count1)
         }
         thread3.start()
         thread4.start()
     }
 
-    data class Counter(val counterName: String) {
+    class CounterObject(val counterName: String, var counter: Long) {
 
-        fun incrementObject(counter: Counter) {
-            Log.d("Deadlock", "incrementObject: $counter")
-            Thread.sleep(100)
+        fun incrementObject(counter: CounterObject) {
+            synchronized(this) {
+                Log.d("Deadlock", "$counterName increment: ${counter.counter}")
+                Thread.sleep(100)
+            }
+            counter.counter++
             counter.incrementObject(this)
         }
     }
