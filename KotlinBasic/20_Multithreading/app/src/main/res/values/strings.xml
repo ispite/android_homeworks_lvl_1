@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Multithreading</string>
     <string name="execute_action">Execute action</string>
+    <string name="input_thread_count">Укажите количество потоков</string>
+    <string name="input_increment">Укажите инкремент</string>
+    <string name="compute_without_synchronization">Посчитать без синхронизации крит. секции</string>
+    <string name="compute_with_synchronization">Посчитать с синхронизацией крит. секции</string>
 </resources>

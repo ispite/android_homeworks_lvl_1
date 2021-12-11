@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/input_thread_count">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputThreadCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:inputType="numberDecimal"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/input_increment">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputIncrement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:inputType="numberDecimal"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/computeWithoutSynchronization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/compute_without_synchronization"   />
+
+    <TextView
+        android:id="@+id/resultWithoutSynchronization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:id="@+id/computeWithSynchronization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/compute_with_synchronization"   />
+
+    <TextView
+        android:id="@+id/resultWithSynchronization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+</LinearLayout>

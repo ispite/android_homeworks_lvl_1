@@ -81,11 +81,11 @@ class MovieRepository {
         println("got exception")
     }
 
-    //val future2 = executor.submit<Int>(ReturnSomething())
+/*    val future2 = executor.submit(ReturnSomething())
 
-    fun ReturnSomething(): Int {
-        return 42
-    }
+    fun ReturnSomething(): Runnable {
+        return Runnable { 42 }
+    }*/
 
     /** A ThreadFactory implementation which create new threads for the thread pool.
     The threads created is set to background priority, so it does not compete with the UI thread. **/
@@ -110,34 +110,3 @@ class MovieRepository {
         }
     }
 }
-
-////старое решение на потоках
-/*        Thread {
-            val startTime = System.currentTimeMillis()
-            val allMovies = Collections.synchronizedList(mutableListOf<Movie>())
-            Log.d("ThreadTest", "fetchMovies continues on ${Thread.currentThread().name}")
-            val threads = movieIds.chunked(1).map { movieChunk ->
-                Thread {
-                    val movies = movieChunk.mapNotNull { movieId ->
-                        getMovieById(movieId)
-                    }
-                    allMovies.addAll(movies)
-                }
-            }
-
-            threads.forEach { it.start() }
-            threads.forEach { it.join() }
-
-            val requestTime = System.currentTimeMillis() - startTime
-
-            mainHandler.post {
-                Log.d("ThreadTest", "fetchMovies continues on ${Thread.currentThread().name}")
-                val moviesFromMainThread =
-                    movieIDsForMainThread.mapNotNull { //movieId -> getMovieById(movieId)
-                           movieId -> Network.api().getMovieById(movieId, "43541a05").execute().body() }
-                allMovies.addAll(0, moviesFromMainThread)
-                //allMovies = moviesFromMainThread + allMovies
-                onMoviesFetched(allMovies, requestTime)
-            }
-
-        }.start()*/

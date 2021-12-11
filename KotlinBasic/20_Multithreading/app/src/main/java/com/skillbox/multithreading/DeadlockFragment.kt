@@ -8,7 +8,7 @@ class DeadlockFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val friend1 = Person("Вася")
+/*        val friend1 = Person("Вася")
         val friend2 = Person("Петя")
 
         val thread1 = Thread {
@@ -20,9 +20,29 @@ class DeadlockFragment: Fragment() {
         }
 
         thread1.start()
-        thread2.start()
+        thread2.start()*/
+
+        val count1 = Counter("Счётчик 1")
+        val count2 = Counter("Счётчик 2")
+
+        val thread3 = Thread {
+            count1.incrementObject(count2)
+        }
+        val thread4 = Thread {
+            count1.incrementObject(count1)
+        }
+        thread3.start()
+        thread4.start()
     }
 
+    data class Counter(val counterName: String) {
+
+        fun incrementObject(counter: Counter) {
+            Log.d("Deadlock", "incrementObject: $counter")
+            Thread.sleep(100)
+            counter.incrementObject(this)
+        }
+    }
 
     data class Person(
         val name: String
