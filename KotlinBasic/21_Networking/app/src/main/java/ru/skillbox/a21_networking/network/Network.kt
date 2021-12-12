@@ -13,7 +13,6 @@ object Network {
     val flipperNetworkPlugin = NetworkFlipperPlugin()
 
     private val client = OkHttpClient.Builder()
-        .addNetworkInterceptor(StoreLastUnsuccessfulRequest())
         .addNetworkInterceptor(APIKeyAdderInterceptor(API_KEY))
         .build()
 
@@ -27,7 +26,7 @@ object Network {
             .addQueryParameter("s", text)
             .build()
 
-        Log.d("Network getSearch", "Network: $url")
+        //Log.d("Network getSearch", "Network: $url")
 
         val request = Request.Builder()
             .get()
@@ -48,7 +47,7 @@ object Network {
             .addQueryParameter("type", typeOfVideo)
             .build()
 
-        Log.d("Network getSearchWithParams", "Network: $url")
+        //Log.d("Network getSearchWithParams", "Network: $url")
 
         val request = Request.Builder()
             .get()

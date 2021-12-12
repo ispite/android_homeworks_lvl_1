@@ -8,14 +8,16 @@ import okhttp3.Callback
 import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
+import ru.skillbox.a21_networking.InvalidResponseException
 import ru.skillbox.a21_networking.network.Network
 import java.io.IOException
+import java.lang.Exception
 
 class MovieSearchRepository {
 
     private val mainHandler = Handler(Looper.getMainLooper())
 
-    fun searchMovie(text: String, callback: (List<RemoteMovie>) -> Unit): Call {
+/*    fun searchMovie(text: String, callback: (List<RemoteMovie>) -> Unit): Call {
         return Network.getSearchMovieCall(text).apply {
             mainHandler.post {
                 enqueue(object : Callback {
@@ -38,18 +40,18 @@ class MovieSearchRepository {
             }
 
         }
-    }
+    }*/
 
     fun searchMovieWithParameters(
         title: String, year: String, type: String, callback: (List<RemoteMovie>) -> Unit,
-        errorCallback: (String) -> Unit
+        errorCallback: (IOException) -> Unit
     ): Call {
         return Network.getSearchWithParametersMovieCall(title, year, type).apply {
             enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    Log.e("Server", "execute request error = ${e.message}", e)
+                    //Log.e("Server", "execute request error = ${e.message}", e)
                     callback(emptyList())
-                    errorCallback("Нет сети, ошибка:${e.message}")
+                    errorCallback(e)
                 }
 
                 override fun onResponse(call: Call, response: Response) {
@@ -59,7 +61,7 @@ class MovieSearchRepository {
                         callback(movies)
                     } else {
                         callback(emptyList())
-                        errorCallback("Неверный ответ сервера: ${response.message}")
+                        errorCallback(InvalidResponseException(response.message))
                     }
                 }
 

@@ -3,25 +3,23 @@ package ru.skillbox.a21_networking.movie_search
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_movie_search.*
 import ru.skillbox.a21_networking.R
 import ru.skillbox.a21_networking.utils.autoCleared
-import ru.skillbox.a21_networking.utils.isNotNullOrEmpty
 import ru.skillbox.a21_networking.utils.isNotValidYear
+import java.io.IOException
 
-class MovieSearchFragment:Fragment(R.layout.fragment_movie_search) {
+class MovieSearchFragment : Fragment(R.layout.fragment_movie_search) {
 
     private var movieAdapter: MovieSearchAdapter by autoCleared()
 
@@ -50,53 +48,67 @@ class MovieSearchFragment:Fragment(R.layout.fragment_movie_search) {
             adapter = movieAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
-            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
+            )
         }
     }
 
     private fun bindViewModel() {
-        val requestWithParameters = "Game of"
+        /*val requestWithParameters = "Game of"
         mainHandler.post {
             viewModel.search(requestWithParameters)
-        }
+        }*/
 
         var menuIndex: Long? = null
-        autoCompleteTextView.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, position, l ->
-            //val selectedItem = adapterView.getItemAtPosition(position).toString()
-            menuIndex = adapterView.getItemIdAtPosition(position)
-            //Log.d("ViewModel", "selectedItem: $selectedItem")
-            Log.d("ViewModel", "selectedItem: $menuIndex")
-        }
-
-
-
-
-
+        autoCompleteTextView.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, view, position, l ->
+                //val selectedItem = adapterView.getItemAtPosition(position).toString()
+                menuIndex = adapterView.getItemIdAtPosition(position)
+                //Log.d("ViewModel", "selectedItem: $selectedItem")
+                Log.d("ViewModel", "selectedItem: $menuIndex")
+            }
 
         buttonRequest.setOnClickListener {
-            if(inputMovieYearEdit.isNotValidYear("The year not in range 1895..2022")) {
+            if (inputMovieYearEdit.isNotValidYear("The year not in range 1895..2022")) {
                 val typeVideo = listOf("series", "movie", "episode", "")
                 val queryTitle = inputMovieTitleEdit.text.toString()
                 val queryYear = inputMovieYearEdit.text.toString()
                 val queryType = typeVideo[menuIndex?.toInt() ?: 3]
                 //Log.d("ViewModel", "bindViewModel: $queryYear")
-                viewModel.searchWithParameters(queryTitle, queryYear, queryType)
+                try {
+                    viewModel.searchWithParameters(queryTitle, queryYear, queryType)
+                } catch (e: IOException) {
+                    //val error = viewModel.error
+                    Log.d("ViewModel", "bindViewModel: ${viewModel.error.value}", viewModel.error.value)
+                }
+
             }
-
-
         }
 
         buttonResend.setOnClickListener {
-            viewModel.resendRequest()
+            try {
+                viewModel.resendRequest()
+            } catch (e: IOException) {
+                Log.d("ViewModel", "bindViewModel: ${viewModel.error.value}", viewModel.error.value)
+            }
+
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner, ::updateLoadingState)
-        viewModel.movieList.observe(viewLifecycleOwner) { errorTextView.isVisible = false
+        viewModel.movieList.observe(viewLifecycleOwner) {
+            errorTextView.isVisible = false
             buttonResend.isVisible = false
-            movieAdapter.items = it }
-        viewModel.error.observe(viewLifecycleOwner) { errorTextView.isVisible = true
+            movieAdapter.items = it
+        }
+        viewModel.error.observe(viewLifecycleOwner) {
+            errorTextView.isVisible = true
             buttonResend.isVisible = true
-            errorTextView.text = it }
+            errorTextView.text = it.toString()
+        }
     }
 
     private fun updateLoadingState(isLoading: Boolean) {
