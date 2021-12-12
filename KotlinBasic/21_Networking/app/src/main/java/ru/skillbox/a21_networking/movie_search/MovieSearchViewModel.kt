@@ -24,9 +24,9 @@ class MovieSearchViewModel : ViewModel() {
     val error: LiveData<IOException>
         get() = errorLiveData
 
-    lateinit var lastTitle : String
-    lateinit var lastYear : String
-    lateinit var lastType : String
+    lateinit var lastTitle: String
+    lateinit var lastYear: String
+    lateinit var lastType: String
 
 /*    fun search(text: String) {
         isLoadingLiveData.postValue(true)
@@ -47,7 +47,8 @@ class MovieSearchViewModel : ViewModel() {
             isLoadingLiveData.postValue(false)
             movieListLiveData.postValue(movies)
             currentCall = null
-        }, { errorCallback -> errorLiveData.postValue(errorCallback)
+        }, { errorCallback ->
+            errorLiveData.postValue(errorCallback)
         })
 /*         if (errorLiveData.value != null) {
              throw errorLiveData.value!!
@@ -56,11 +57,12 @@ class MovieSearchViewModel : ViewModel() {
 
     fun resendRequest() {
         isLoadingLiveData.postValue(true)
-        currentCall = repository.searchMovieWithParameters(lastTitle, lastYear, lastType, { movies ->
-            isLoadingLiveData.postValue(false)
-            movieListLiveData.postValue(movies)
-            currentCall = null
-        }, { errorCallback -> errorLiveData.postValue(errorCallback)})
+        currentCall =
+            repository.searchMovieWithParameters(lastTitle, lastYear, lastType, { movies ->
+                isLoadingLiveData.postValue(false)
+                movieListLiveData.postValue(movies)
+                currentCall = null
+            }, { errorCallback -> errorLiveData.postValue(errorCallback) })
     }
 
     override fun onCleared() {

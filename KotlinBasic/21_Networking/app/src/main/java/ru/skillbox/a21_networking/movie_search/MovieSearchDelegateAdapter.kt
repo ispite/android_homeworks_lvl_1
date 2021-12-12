@@ -11,7 +11,8 @@ import kotlinx.android.synthetic.main.item_movie.*
 import ru.skillbox.a21_networking.R
 import ru.skillbox.a21_networking.utils.inflate
 
-class MovieSearchDelegateAdapter:AbsListItemAdapterDelegate<RemoteMovie, RemoteMovie, MovieSearchDelegateAdapter.Holder>() {
+class MovieSearchDelegateAdapter :
+    AbsListItemAdapterDelegate<RemoteMovie, RemoteMovie, MovieSearchDelegateAdapter.Holder>() {
 
     override fun isForViewType(
         item: RemoteMovie,
@@ -31,7 +32,7 @@ class MovieSearchDelegateAdapter:AbsListItemAdapterDelegate<RemoteMovie, RemoteM
         override val containerView: View
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-        fun bind(item: RemoteMovie){
+        fun bind(item: RemoteMovie) {
             titleTextView.text = item.title
             yearTextView.text = item.year
             typeMovie.text = item.type

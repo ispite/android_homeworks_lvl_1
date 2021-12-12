@@ -11,7 +11,6 @@ import org.json.JSONObject
 import ru.skillbox.a21_networking.InvalidResponseException
 import ru.skillbox.a21_networking.network.Network
 import java.io.IOException
-import java.lang.Exception
 
 class MovieSearchRepository {
 

@@ -83,7 +83,11 @@ class MovieSearchFragment : Fragment(R.layout.fragment_movie_search) {
                     viewModel.searchWithParameters(queryTitle, queryYear, queryType)
                 } catch (e: IOException) {
                     //val error = viewModel.error
-                    Log.d("ViewModel", "bindViewModel: ${viewModel.error.value}", viewModel.error.value)
+                    Log.d(
+                        "ViewModel",
+                        "bindViewModel: ${viewModel.error.value}",
+                        viewModel.error.value
+                    )
                 }
 
             }

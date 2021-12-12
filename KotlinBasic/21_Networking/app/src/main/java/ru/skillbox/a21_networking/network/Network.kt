@@ -1,6 +1,5 @@
 package ru.skillbox.a21_networking.network
 
-import android.util.Log
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import okhttp3.Call
 import okhttp3.HttpUrl
@@ -36,7 +35,11 @@ object Network {
         return client.newCall(request)
     }
 
-    fun getSearchWithParametersMovieCall(title: String, yearOfProduction: String, typeOfVideo: String):Call {
+    fun getSearchWithParametersMovieCall(
+        title: String,
+        yearOfProduction: String,
+        typeOfVideo: String
+    ): Call {
 
         val url = HttpUrl.Builder()
             .scheme("http")

@@ -1,10 +1,7 @@
 package ru.skillbox.a21_networking
 
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.fragment_movie_search.*
 
 class MainActivity : AppCompatActivity() {
 
