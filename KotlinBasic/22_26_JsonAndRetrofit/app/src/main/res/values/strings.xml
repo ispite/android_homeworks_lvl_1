@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">22_(26)_JsonAndRetrofit</string>
+    <string name="moshi">Moshi</string>
+    <string name="retrofit">Retrofit</string>
+    <string name="input_title_movie">Введите название фильма</string>
+    <string name="find">Найти</string>
 </resources>
