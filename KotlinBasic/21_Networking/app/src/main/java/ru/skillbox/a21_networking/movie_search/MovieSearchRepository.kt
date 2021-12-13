@@ -43,7 +43,7 @@ class MovieSearchRepository {
 
     fun searchMovieWithParameters(
         title: String, year: String, type: String, callback: (List<RemoteMovie>) -> Unit,
-        errorCallback: (IOException) -> Unit
+        errorCallback: (IOException?) -> Unit
     ): Call {
         return Network.getSearchWithParametersMovieCall(title, year, type).apply {
             enqueue(object : Callback {
@@ -58,6 +58,7 @@ class MovieSearchRepository {
                         val responseString = response.body?.string().orEmpty()
                         val movies = parseMovieResponse(responseString)
                         callback(movies)
+                        errorCallback(null)
                     } else {
                         callback(emptyList())
                         errorCallback(InvalidResponseException(response.message))

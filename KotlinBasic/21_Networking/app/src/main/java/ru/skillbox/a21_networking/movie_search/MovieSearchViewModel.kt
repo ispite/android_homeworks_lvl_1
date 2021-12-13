@@ -13,7 +13,7 @@ class MovieSearchViewModel : ViewModel() {
 
     private val movieListLiveData = MutableLiveData<List<RemoteMovie>>()
     private val isLoadingLiveData = MutableLiveData<Boolean>()
-    private val errorLiveData = MutableLiveData<IOException>()
+    private val errorLiveData = MutableLiveData<IOException?>()
 
     val movieList: LiveData<List<RemoteMovie>>
         get() = movieListLiveData
@@ -21,7 +21,7 @@ class MovieSearchViewModel : ViewModel() {
     val isLoading: LiveData<Boolean>
         get() = isLoadingLiveData
 
-    val error: LiveData<IOException>
+    val error: LiveData<IOException?>
         get() = errorLiveData
 
     lateinit var lastTitle: String

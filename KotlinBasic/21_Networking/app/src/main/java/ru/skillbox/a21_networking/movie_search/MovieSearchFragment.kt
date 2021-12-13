@@ -31,15 +31,26 @@ class MovieSearchFragment : Fragment(R.layout.fragment_movie_search) {
         super.onViewCreated(view, savedInstanceState)
         exposedMenu()
         initList()
-        bindViewModel()
-        //val a = "Puppy".removeFirstLastChar()
-        //Log.d("fragment", "onViewCreated: $a")
+
+        /**
+         * Пункт 8. Попытайтесь совершить запрос к сетевому API в главном потоке. Посмотрите в логе, какое исключение выбрасывается в этом случае.
+         */
+//            Network.getSearchWithParametersMovieCall("Dog", "2022", "movie").execute()
+        /**
+         *
+         */
+
     }
 
     private fun exposedMenu() {
         val cinematicTypes = resources.getStringArray(R.array.cinematic_types)
         val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, cinematicTypes)
         (menu.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bindViewModel()
     }
 
     private fun initList() {
@@ -109,9 +120,12 @@ class MovieSearchFragment : Fragment(R.layout.fragment_movie_search) {
             movieAdapter.items = it
         }
         viewModel.error.observe(viewLifecycleOwner) {
-            errorTextView.isVisible = true
-            buttonResend.isVisible = true
-            errorTextView.text = it.toString()
+            if (it != null) {
+                errorTextView.isVisible = true
+                buttonResend.isVisible = true
+                errorTextView.text = it.toString()
+            }
+
         }
     }
 

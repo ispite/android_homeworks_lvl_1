@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/input_title_movie"
 
-        app:helperText="Пример: Счастливое число Слевина"
+        app:helperText="Пример: Lucky Number Slevin"
         app:helperTextEnabled="true"
         app:layout_constraintTop_toTopOf="parent">
 
