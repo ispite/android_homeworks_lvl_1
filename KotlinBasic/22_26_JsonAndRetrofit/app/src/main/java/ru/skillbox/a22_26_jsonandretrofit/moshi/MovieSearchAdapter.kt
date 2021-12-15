@@ -12,7 +12,8 @@ class MovieSearchAdapter :
 
     class MovieSearchDiffUtilCallback : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem.id == newItem.id
+            //return oldItem.id == newItem.id
+            return oldItem.title == newItem.title
         }
 
         override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {

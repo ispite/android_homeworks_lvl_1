@@ -34,13 +34,17 @@ class MovieSearchDelegateAdapter :
         fun bind(item: Movie) {
             titleTextView.text = item.title
             yearTextView.text = item.year.toString()
+            genreMovie.text = item.genre
+            linkToPosterMovie.text = item.poster.toString()
+            //scoresMovie.text = item.scores.toString()
+            scoresMovie.text = item.scores.map { it -> it.toString() }.joinToString("\n")
             //typeMovie.text = item.type
-            imdb_id.text = item.id
+            //imdb_id.text = item.id
 
-/*            Glide.with(itemView)
-                .load(item.poster)
+            Glide.with(itemView)
+                .load(item.poster.toString())
                 .placeholder(R.drawable.ic_image)
-                .into(posterMovie)*/
+                .into(posterMovie)
         }
     }
 }

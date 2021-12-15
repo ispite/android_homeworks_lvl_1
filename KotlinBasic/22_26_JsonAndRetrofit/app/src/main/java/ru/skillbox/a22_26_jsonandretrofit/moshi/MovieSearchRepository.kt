@@ -21,23 +21,29 @@ class MovieSearchRepository {
             enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     //Log.e("Server", "execute request error = ${e.message}", e)
+                    Log.d("Repository", "onFailure: ${e.message}", e)
                     callback(null)
                     errorCallback(e)
                 }
 
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful) {
+
                         val responseString = response.body?.string().orEmpty()
                         /*val movies =*/ //parseMovieResponse(responseString)
                         val jsonObject = JSONObject(responseString)
                         Log.d("Repository", "onResponse: $responseString")
                         //val movieArray = jsonObject.getJSONArray("Search")
                         //Log.d("Repository", "onResponse: $responseString")
-                        val movie= convertCustomMovieJsonToInstance(jsonObject.toString())
+//                        if (response.networkResponse?.body != null) {
+                            val movie= convertCustomMovieJsonToInstance(jsonObject.toString())
+                            callback(movie)
+//                            errorCallback(null)
+//                            }
 
-                        callback(movie)
                         errorCallback(null)
                     } else {
+                        Log.d("Repository", "onResponse ELSE: ${response.message}")
                         callback(null)
                         errorCallback(InvalidResponseException(response.message))
                     }
@@ -57,7 +63,6 @@ class MovieSearchRepository {
             Log.d("Repository", "convertSimpleMovieJsonToInstance: ${movie.toString()}")
             movie
             //textView.text = movie.toString()
-
         } catch (e: Exception) {
             //textView.text = "parse error = ${e.message}"
             Log.d("Repository", "convertSimpleMovieJsonToInstance: ${e.message}")
@@ -75,13 +80,13 @@ class MovieSearchRepository {
 
         return try {
             val movie = adapter.fromJson(responseBodyString)
-            Log.d("Repository", "convertSimpleMovieJsonToInstance: ${movie.toString()}")
+            Log.d("Repository", "SUCCESS convertCustomMovieJsonToInstance: ${movie.toString()}")
             movie
             //textView.text = movie.toString()
 
         } catch (e: Exception) {
             //textView.text = "parse error = ${e.message}"
-            Log.d("Repository", "convertSimpleMovieJsonToInstance: ${e.message}")
+            Log.d("Repository", "EXCEPTION convertCustomMovieJsonToInstance: ${e.message}")
             null
         }
 
@@ -106,28 +111,6 @@ class MovieSearchRepository {
             Log.d("Repository", "convertMovieListJsonToInstance: ${e.message}")
         }
 
-    }
-
-    private fun parseMovieResponse(responseBodyString: String)/*: List<RemoteMovie>*/ {
-        /*return*/ try {
-            val jsonObject = JSONObject(responseBodyString)
-            val movieArray = jsonObject.getJSONArray("Search")
-            Log.d("Repository", "parseMovieResponse: $jsonObject")
-            (0 until movieArray.length()).map { index -> movieArray.getJSONObject(index) }
-                .map { movieJsonObject ->
-
-                    Log.d("Repository", "parseMovieResponse: $movieJsonObject")
-/*                    val title = movieJsonObject.getString("Title")
-                    val year = movieJsonObject.getString("Year")
-                    val id = movieJsonObject.getString("imdbID")
-                    val type = movieJsonObject.getString("Type")
-                    val poster = movieJsonObject.getString("Poster")
-                    RemoteMovie(id = id, title = title, type = type, year = year, poster = poster)*/
-                }
-        } catch (e: JSONException) {
-            Log.e("Server", "parse response error = ${e.message}", e)
-            emptyList()
-        }
     }
 
 }

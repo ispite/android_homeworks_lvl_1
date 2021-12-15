@@ -6,17 +6,16 @@ import java.net.URL
 
 @JsonClass(generateAdapter = true)
 data class Movie(
-    @Json(name = "imdbID")
-    val id: String,
     @Json(name = "Title")
     val title: String,
     @Json(name = "Year")
     val year: Int,
-
+    @Json(name = "Genre")
+    val genre: String,
+    @Json(name = "Poster")
+    val poster: URL,
     @Json(name = "Ratings")
     val scores: List<Score>,
-    @Json(name = "Poster")
-    val poster: URL
 )
 
 /*enum class Rating {

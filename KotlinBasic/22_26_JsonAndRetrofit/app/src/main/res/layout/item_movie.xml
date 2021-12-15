@@ -41,7 +41,7 @@
         tools:text="1977" />
 
     <TextView
-        android:id="@+id/typeMovie"
+        android:id="@+id/genreMovie"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
@@ -50,18 +50,48 @@
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/yearTextView"
         app:layout_constraintStart_toEndOf="@id/posterMovie"
-        tools:text="Фильм"
+        tools:text="Фантастика"
         />
 
     <TextView
-        android:id="@+id/imdb_id"
-        android:layout_width="wrap_content"
+        android:id="@+id/typeMovie"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="@id/typeMovie"
+        app:layout_constraintTop_toBottomOf="@id/genreMovie"
+        app:layout_constraintStart_toEndOf="@id/posterMovie"
+        tools:text=""
+        />
+
+    <TextView
+        android:id="@+id/linkToPosterMovie"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/genreMovie"
+        app:layout_constraintStart_toEndOf="@id/posterMovie"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="tt0066402"
+        tools:text="https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg"
+        />
+
+    <TextView
+        android:id="@+id/scoresMovie"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/linkToPosterMovie"
+        app:layout_constraintStart_toEndOf="@id/posterMovie"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="[Score(source=Internet Movie Database, value=7.9/10), Score(source=Rotten Tomatoes, value=94%), Score(source=Metacritic, value=79/100)]"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
