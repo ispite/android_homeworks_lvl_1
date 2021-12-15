@@ -18,7 +18,7 @@ object Network {
             .scheme("http")
             .host("www.omdbapi.com")
             .addQueryParameter("apikey", API_KEY)
-            .addQueryParameter("s", text)
+            .addQueryParameter("t", text)
             .build()
 
         //Log.d("Network getSearch", "Network: $url")
