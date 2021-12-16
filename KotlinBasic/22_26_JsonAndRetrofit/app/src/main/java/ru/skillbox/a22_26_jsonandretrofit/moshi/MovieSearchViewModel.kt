@@ -8,11 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import okhttp3.Call
 import java.io.IOException
-import kotlin.math.log
 
 class MovieSearchViewModel : ViewModel() {
 
-    val mainHandler = Handler(Looper.getMainLooper())
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     private val repository = MovieSearchRepository()
 
@@ -37,24 +36,14 @@ class MovieSearchViewModel : ViewModel() {
 
     lateinit var lastTitle: String
 
-    fun searchWithParameters(title: String/*, year: String, type: String*/) {
+    fun searchWithParameters(title: String) {
         lastTitle = title
 
         isLoadingLiveData.postValue(true)
         currentCall = repository.searchMovie(title, { movie ->
             isLoadingLiveData.postValue(false)
             Log.d("ViewModel", "BEFORE searchWithParameters: $movieListLiveData")
-
             movie.let { movieListLiveData.postValue(movie) }
-
-/*            movie.let { movieListLiveData.postValue(it) } ?: run {
-                Log.d("ViewModel", "searchWithParameters: $movieListLiveData")
-                movieListLiveData.postValue(emptyList())
-                Log.d("ViewModel", "searchWithParameters: $movieListLiveData")
-            }*/
-/*            if (movie != null) {
-                    (movieLiveData.postValue(movie))
-                }*/
             currentCall = null
         }, { errorCallback ->
             errorLiveData.postValue(errorCallback)
@@ -70,15 +59,11 @@ class MovieSearchViewModel : ViewModel() {
     }
 
     fun convertMovieToJson() {
-        //repository.convertCustomMovieInstanceToJson()
-
-        //movieListLiveData.value?.get(0)?.let {
         movieListLiveData.value!![0].let {
             Log.d("ViewModel", "CALLING convertMovieToJson: ")
             val jsonAnswer = repository.convertCustomMovieInstanceToJson(it)
             Log.d("ViewModel", "convertMovieToJson: $jsonAnswer")
             mainHandler.post {
-                //jsonLiveData.postValue(jsonAnswer)
                 jsonLiveData.setValue(jsonAnswer)
             }
 

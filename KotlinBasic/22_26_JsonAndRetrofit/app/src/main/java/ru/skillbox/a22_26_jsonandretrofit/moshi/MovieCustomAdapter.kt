@@ -29,18 +29,4 @@ class MovieCustomAdapter {
             scores = movie.scores.map { Score(it.key, it.value) }
         )
     }
-
-/*    @JsonClass(generateAdapter = true)
-    data class CustomMovie(
-        @Json(name = "Title")
-        val title: String,
-        @Json(name = "Year")
-        val year: Int,
-        @Json(name = "Genre")
-        val genre: String,
-        @Json(name = "Poster")
-        val poster: String,
-        @Json(name = "Ratings")
-        val scores: List<Score>
-    )*/
 }

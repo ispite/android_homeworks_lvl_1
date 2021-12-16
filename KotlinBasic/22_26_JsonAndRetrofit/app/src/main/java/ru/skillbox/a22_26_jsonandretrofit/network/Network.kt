@@ -21,8 +21,6 @@ object Network {
             .addQueryParameter("t", text)
             .build()
 
-        //Log.d("Network getSearch", "Network: $url")
-
         val request = Request.Builder()
             .get()
             .url(url)
@@ -30,29 +28,4 @@ object Network {
 
         return client.newCall(request)
     }
-
-/*    fun getSearchWithParametersMovieCall(
-        title: String,
-        yearOfProduction: String,
-        typeOfVideo: String
-    ): Call {
-
-        val url = HttpUrl.Builder()
-            .scheme("http")
-            .host("www.omdbapi.com")
-            .addQueryParameter("apikey", API_KEY)
-            .addQueryParameter("s", title)
-            .addQueryParameter("y", yearOfProduction)
-            .addQueryParameter("type", typeOfVideo)
-            .build()
-
-        //Log.d("Network getSearchWithParams", "Network: $url")
-
-        val request = Request.Builder()
-            .get()
-            .url(url)
-            .build()
-
-        return client.newCall(request)
-    }*/
 }
