@@ -10,11 +10,12 @@ import org.json.JSONException
 import org.json.JSONObject
 import ru.skillbox.a22_26_jsonandretrofit.network.Network
 import java.io.IOException
+import kotlin.random.Random
 
 class MovieSearchRepository {
 
     fun searchMovie(
-        title: String, callback: (Movie?) -> Unit,
+        title: String, callback: (List<Movie>) -> Unit,
         errorCallback: (IOException?) -> Unit
     ): Call {
         return Network.getSearchMovieCall(title).apply {
@@ -22,7 +23,7 @@ class MovieSearchRepository {
                 override fun onFailure(call: Call, e: IOException) {
                     //Log.e("Server", "execute request error = ${e.message}", e)
                     Log.d("Repository", "onFailure: ${e.message}", e)
-                    callback(null)
+                    callback(emptyList())
                     errorCallback(e)
                 }
 
@@ -44,7 +45,7 @@ class MovieSearchRepository {
                         errorCallback(null)
                     } else {
                         Log.d("Repository", "onResponse ELSE: ${response.message}")
-                        callback(null)
+                        callback(emptyList())
                         errorCallback(InvalidResponseException(response.message))
                     }
                 }
@@ -53,7 +54,7 @@ class MovieSearchRepository {
         }
     }
 
-    private fun convertSimpleMovieJsonToInstance(responseBodyString: String): Movie? {
+    private fun convertSimpleMovieJsonToInstance(responseBodyString: String): List<Movie> {
         val moshi = Moshi.Builder().build()
 
         val adapter = moshi.adapter(Movie::class.java).nonNull()
@@ -61,17 +62,17 @@ class MovieSearchRepository {
         return try {
             val movie = adapter.fromJson(responseBodyString)
             Log.d("Repository", "convertSimpleMovieJsonToInstance: ${movie.toString()}")
-            movie
+            movie?.let { listOf(movie) } ?: emptyList()
             //textView.text = movie.toString()
         } catch (e: Exception) {
             //textView.text = "parse error = ${e.message}"
             Log.d("Repository", "convertSimpleMovieJsonToInstance: ${e.message}")
-            null
+            emptyList()
         }
 
     }
 
-    private fun convertCustomMovieJsonToInstance(responseBodyString: String): Movie? {
+    private fun convertCustomMovieJsonToInstance(responseBodyString: String): List<Movie> {
         val moshi = Moshi.Builder()
             .add(MovieCustomAdapter())
             .build()
@@ -81,13 +82,13 @@ class MovieSearchRepository {
         return try {
             val movie = adapter.fromJson(responseBodyString)
             Log.d("Repository", "SUCCESS convertCustomMovieJsonToInstance: ${movie.toString()}")
-            movie
+            movie?.let { listOf(movie) } ?: emptyList()
             //textView.text = movie.toString()
 
         } catch (e: Exception) {
             //textView.text = "parse error = ${e.message}"
             Log.d("Repository", "EXCEPTION convertCustomMovieJsonToInstance: ${e.message}")
-            null
+            emptyList()
         }
 
     }
@@ -112,5 +113,46 @@ class MovieSearchRepository {
         }
 
     }
+
+    fun replaceScoreToMovie(movie: Movie):List<Movie> {
+        movie.scores = mapOf("Your score:" to giveRandomScore().toString())
+        return listOf(movie)
+    }
+
+    private fun giveRandomScore():Double {
+        val min = 0
+        val max = 10
+        val score = min + Random.nextDouble() * (max - min)
+        return score.round(2)
+    }
+
+    fun Double.round(decimals: Int): Double {
+        var multiplier = 1.0
+        repeat(decimals) { multiplier *= 10 }
+        return kotlin.math.round(this * multiplier) / multiplier
+    }
+
+    fun convertCustomMovieInstanceToJson(movie: Movie): String {
+        val moshi = Moshi.Builder()
+            .add(MovieCustomAdapter())
+            .build()
+
+        val adapter = moshi.adapter(Movie::class.java).nonNull()
+
+        return try {
+            val jsonMovie = adapter.toJson(movie)
+            //val movie = adapter.fromJson(responseBodyString)
+            Log.d("Repository", "SUCCESS convertCustomMovieJsonToInstance: $jsonMovie")
+            //movie?.let { listOf(movie) } ?: emptyList()
+            //textView.text = movie.toString()
+            jsonMovie
+        } catch (e: Exception) {
+            //textView.text = "parse error = ${e.message}"
+            Log.d("Repository", "EXCEPTION convertCustomMovieJsonToInstance: ${e.message}")
+            ""
+        }
+
+    }
+
 
 }

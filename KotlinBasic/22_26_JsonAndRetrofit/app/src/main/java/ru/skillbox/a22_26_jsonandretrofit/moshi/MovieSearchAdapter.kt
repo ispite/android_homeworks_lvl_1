@@ -10,6 +10,10 @@ class MovieSearchAdapter :
         delegatesManager.addDelegate(MovieSearchDelegateAdapter())
     }
 
+    fun setEmptyList() {
+        differ.submitList(null)
+    }
+
     class MovieSearchDiffUtilCallback : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             //return oldItem.id == newItem.id

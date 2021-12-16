@@ -3,6 +3,7 @@ package ru.skillbox.a22_26_jsonandretrofit.moshi
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,8 +15,10 @@ import kotlinx.android.synthetic.main.fragment_moshi.*
 import ru.skillbox.a22_26_jsonandretrofit.R
 import ru.skillbox.a22_26_jsonandretrofit.utils.autoCleared
 import java.io.IOException
+import kotlin.math.round
+import kotlin.random.Random
 
-class MoshiFragment:Fragment(R.layout.fragment_moshi) {
+class MoshiFragment : Fragment(R.layout.fragment_moshi) {
 
     private var movieAdapter: MovieSearchAdapter by autoCleared()
 
@@ -81,7 +84,7 @@ class MoshiFragment:Fragment(R.layout.fragment_moshi) {
 
         try {
             val movies = adapter.fromJson(movieListList)
-                //textView.text = movies.toString()
+            //textView.text = movies.toString()
         } catch (e: Exception) {
             //textView.text = "parse error = ${e.message}"
         }
@@ -121,22 +124,33 @@ class MoshiFragment:Fragment(R.layout.fragment_moshi) {
         buttonFind.setOnClickListener {
 
 //                val typeVideo = listOf("series", "movie", "episode", "")
-                val queryTitle = inputMovieTitleEdit.text.toString()
+            val queryTitle = inputMovieTitleEdit.text.toString()
 //                val queryYear = inputMovieYearEdit.text.toString()
 //                val queryType = typeVideo[menuIndex?.toInt() ?: 3]
-                //Log.d("ViewModel", "bindViewModel: $queryYear")
-                try {
-                    viewModel.searchWithParameters(queryTitle)
-                } catch (e: IOException) {
-                    //val error = viewModel.error
-                    Log.d(
-                        "ViewModel",
-                        "bindViewModel: ${viewModel.error.value}",
-                        viewModel.error.value
-                    )
-                }
+            //Log.d("ViewModel", "bindViewModel: $queryYear")
+            try {
+                viewModel.searchWithParameters(queryTitle)
+            } catch (e: IOException) {
+                //val error = viewModel.error
+                Log.d(
+                    "ViewModel",
+                    "bindViewModel: ${viewModel.error.value}",
+                    viewModel.error.value
+                )
+            }
 
 
+        }
+
+        buttonScore.setOnClickListener {
+            //viewModel.movieViewModel.value
+/*            val score = giveRandomScore()
+            Toast.makeText(context, "оценка=$score", Toast.LENGTH_SHORT).show()
+            Log.d("Fragment", "bindViewModel: $score")*/
+            movieAdapter.setEmptyList()
+            viewModel.replaceScoreToMovie()
+            viewModel.convertMovieToJson()
+            Log.d("Fragment", "bindViewModel: ${viewModel.publicJsonLiveData.value}")
         }
 
 /*        buttonResend.setOnClickListener {
@@ -152,8 +166,9 @@ class MoshiFragment:Fragment(R.layout.fragment_moshi) {
         viewModel.movieViewModel.observe(viewLifecycleOwner) {
 //            errorTextView.isVisible = false
 //            buttonResend.isVisible = false
-            movieAdapter.items = listOf(it)
-
+            movieAdapter.items = it
+            //buttonScore.isEnabled = movieAdapter.items.isNotEmpty()
+            buttonScore.isEnabled = viewModel.movieViewModel.value!!.isNotEmpty()
         }
 /*        viewModel.error.observe(viewLifecycleOwner) {
             if (it != null) {
