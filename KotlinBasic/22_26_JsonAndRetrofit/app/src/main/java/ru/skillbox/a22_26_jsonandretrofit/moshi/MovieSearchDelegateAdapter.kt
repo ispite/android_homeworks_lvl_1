@@ -38,7 +38,7 @@ class MovieSearchDelegateAdapter :
             genreMovie.text = item.genre
             linkToPosterMovie.text = item.poster.toString()
             //scoresMovie.text = item.scores.toString()
-            scoresMovie.text = item.scores.map { it -> it.toString() }.joinToString("\n")
+            scoresMovie.text = item.scores.map { it.toString() }.joinToString("\n")
             //typeMovie.text = item.type
             //imdb_id.text = item.id
 

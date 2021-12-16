@@ -1,10 +1,12 @@
 package ru.skillbox.a22_26_jsonandretrofit.moshi
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import okhttp3.Call
 import java.io.IOException
+import java.net.URL
 
 class MovieSearchViewModel:ViewModel() {
 
@@ -33,7 +35,21 @@ class MovieSearchViewModel:ViewModel() {
         isLoadingLiveData.postValue(true)
         currentCall = repository.searchMovie(title, { movie ->
             isLoadingLiveData.postValue(false)
-            movie?.let { movieLiveData.postValue(it) }
+            Log.d("ViewModel", "BEFORE searchWithParameters: $movieLiveData")
+            movie?.let { movieLiveData.postValue(it) } ?: run {
+                Log.d("ViewModel", "searchWithParameters: $movieLiveData")
+                movieLiveData.postValue(
+                    Movie(
+                        "",
+                        0,
+                        AgeRating.GENERAL,
+                        "",
+                        URL("http://kotlinlang.org"),
+                        mapOf("" to "")
+                    )
+                )
+                Log.d("ViewModel", "searchWithParameters: $movieLiveData")
+            }
 /*            if (movie != null) {
                     (movieLiveData.postValue(movie))
                 }*/

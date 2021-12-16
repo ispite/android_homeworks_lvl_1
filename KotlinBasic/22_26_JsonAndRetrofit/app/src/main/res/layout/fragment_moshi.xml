@@ -32,11 +32,13 @@
         android:text="@string/find"
         />
 
-    <TextView
-        android:id="@+id/textView"
-        android:gravity="center"
+    <Button
+        android:id="@+id/buttonScore"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="wrap_content"
+        android:text="@string/give_random_rating"
+        android:enabled="false"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/movieList"

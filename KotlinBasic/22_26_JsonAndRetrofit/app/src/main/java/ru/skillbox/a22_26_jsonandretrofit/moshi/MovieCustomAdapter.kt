@@ -1,8 +1,6 @@
 package ru.skillbox.a22_26_jsonandretrofit.moshi
 
 import com.squareup.moshi.FromJson
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import com.squareup.moshi.ToJson
 import java.net.URL
 
@@ -16,19 +14,19 @@ class MovieCustomAdapter {
             ageRating = customMovie.ageRating,
             genre = customMovie.genre,
             poster = URL(customMovie.poster),
-            scores = customMovie.scores,
+            scores = customMovie.scores.associateBy({ it.source }, { it.value })
         )
     }
 
     @ToJson
-    fun toJson(movie: Movie):CustomMovie {
+    fun toJson(movie: Movie): CustomMovie {
         return CustomMovie(
             title = movie.title,
             year = movie.year,
             ageRating = movie.ageRating,
             genre = movie.genre,
             poster = movie.poster.toString(),
-            scores = movie.scores
+            scores = movie.scores.map { Score(it.key, it.value) }
         )
     }
 

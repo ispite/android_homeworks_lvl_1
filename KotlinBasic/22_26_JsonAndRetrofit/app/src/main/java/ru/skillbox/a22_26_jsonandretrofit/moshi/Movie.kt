@@ -17,7 +17,7 @@ data class Movie(
     @Json(name = "Poster")
     val poster: URL,
     @Json(name = "Ratings")
-    val scores: List<Score>,
+    val scores: Map<String, String>,
 )
 
 enum class AgeRating {

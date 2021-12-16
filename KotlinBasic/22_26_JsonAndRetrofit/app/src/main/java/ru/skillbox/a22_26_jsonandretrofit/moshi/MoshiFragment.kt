@@ -63,9 +63,9 @@ class MoshiFragment:Fragment(R.layout.fragment_moshi) {
 
         try {
             val movie = adapter.fromJson(simpleMovie)
-            textView.text = movie.toString()
+            //textView.text = movie.toString()
         } catch (e: Exception) {
-            textView.text = "parse error = ${e.message}"
+            //textView.text = "parse error = ${e.message}"
         }
     }
 
@@ -81,9 +81,9 @@ class MoshiFragment:Fragment(R.layout.fragment_moshi) {
 
         try {
             val movies = adapter.fromJson(movieListList)
-            textView.text = movies.toString()
+                //textView.text = movies.toString()
         } catch (e: Exception) {
-            textView.text = "parse error = ${e.message}"
+            //textView.text = "parse error = ${e.message}"
         }
 
     }
