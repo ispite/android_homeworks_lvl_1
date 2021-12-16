@@ -59,16 +59,15 @@ class MovieSearchViewModel : ViewModel() {
     }
 
     fun convertMovieToJson() {
-        movieListLiveData.value!![0].let {
-            Log.d("ViewModel", "CALLING convertMovieToJson: ")
-            val jsonAnswer = repository.convertCustomMovieInstanceToJson(it)
-            Log.d("ViewModel", "convertMovieToJson: $jsonAnswer")
-            mainHandler.post {
+        mainHandler.post {
+            movieListLiveData.value!![0].let {
+                Log.d("ViewModel", "CALLING convertMovieToJson: ")
+                val jsonAnswer = repository.convertCustomMovieInstanceToJson(it)
+                Log.d("ViewModel", "convertMovieToJson: $jsonAnswer")
                 jsonLiveData.setValue(jsonAnswer)
             }
-
+            Log.d("ViewModel", "convertMovieToJson LIVEDATA: ${jsonLiveData.value}")
         }
-        Log.d("ViewModel", "convertMovieToJson LIVEDATA: ${jsonLiveData.value}")
     }
 
     override fun onCleared() {
