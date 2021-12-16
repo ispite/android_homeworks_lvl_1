@@ -9,6 +9,8 @@ data class CustomMovie(
     val title: String,
     @Json(name = "Year")
     val year: Int,
+    @Json(name = "Rated")
+    val ageRating: AgeRating,
     @Json(name = "Genre")
     val genre: String,
     @Json(name = "Poster")

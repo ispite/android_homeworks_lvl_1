@@ -33,9 +33,10 @@ class MovieSearchViewModel:ViewModel() {
         isLoadingLiveData.postValue(true)
         currentCall = repository.searchMovie(title, { movie ->
             isLoadingLiveData.postValue(false)
-            if (movie != null) {
+            movie?.let { movieLiveData.postValue(it) }
+/*            if (movie != null) {
                     (movieLiveData.postValue(movie))
-                }
+                }*/
             currentCall = null
         }, { errorCallback ->
             errorLiveData.postValue(errorCallback)

@@ -41,6 +41,19 @@
         tools:text="1977" />
 
     <TextView
+        android:id="@+id/ageRatingMovie"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/yearTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="PG-13"
+        />
+
+    <TextView
         android:id="@+id/genreMovie"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

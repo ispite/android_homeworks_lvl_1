@@ -10,6 +10,8 @@ data class Movie(
     val title: String,
     @Json(name = "Year")
     val year: Int,
+    @Json(name = "Rated")
+    val ageRating: AgeRating,
     @Json(name = "Genre")
     val genre: String,
     @Json(name = "Poster")
@@ -18,14 +20,15 @@ data class Movie(
     val scores: List<Score>,
 )
 
-/*enum class Rating {
-    QWE, ASD, ZXC
-}*/
-
-enum class Rating() {
-    IMDB,
-    RT,
-    MC
+enum class AgeRating {
+    @Json(name = "G")
+    GENERAL,
+    PG,
+    @Json(name = "PG-13")
+    PG_13,
+    R,
+    @Json(name = "NC-17")
+    NC_17
 }
 
 @JsonClass(generateAdapter = true)

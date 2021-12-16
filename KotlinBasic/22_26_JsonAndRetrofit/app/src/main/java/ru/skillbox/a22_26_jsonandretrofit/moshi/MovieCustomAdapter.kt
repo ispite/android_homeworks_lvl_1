@@ -13,6 +13,7 @@ class MovieCustomAdapter {
         return Movie(
             title = customMovie.title,
             year = customMovie.year,
+            ageRating = customMovie.ageRating,
             genre = customMovie.genre,
             poster = URL(customMovie.poster),
             scores = customMovie.scores,
@@ -24,6 +25,7 @@ class MovieCustomAdapter {
         return CustomMovie(
             title = movie.title,
             year = movie.year,
+            ageRating = movie.ageRating,
             genre = movie.genre,
             poster = movie.poster.toString(),
             scores = movie.scores

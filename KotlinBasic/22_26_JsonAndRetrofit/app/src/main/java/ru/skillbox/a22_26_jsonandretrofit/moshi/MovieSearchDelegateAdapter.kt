@@ -34,6 +34,7 @@ class MovieSearchDelegateAdapter :
         fun bind(item: Movie) {
             titleTextView.text = item.title
             yearTextView.text = item.year.toString()
+            ageRatingMovie.text = item.ageRating.toString()
             genreMovie.text = item.genre
             linkToPosterMovie.text = item.poster.toString()
             //scoresMovie.text = item.scores.toString()
