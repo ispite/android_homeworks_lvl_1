@@ -47,7 +47,7 @@ class MoshiFragment : Fragment(R.layout.fragment_moshi) {
             } catch (e: IOException) {
                 Log.d(
                     "ViewModel",
-                    "bindViewModel: ${viewModel.error.value}",
+                    "EXCEPTION of search: ${viewModel.error.value}",
                     viewModel.error.value
                 )
             }
@@ -57,12 +57,15 @@ class MoshiFragment : Fragment(R.layout.fragment_moshi) {
             movieAdapter.setEmptyList()
             viewModel.replaceScoreToMovie()
             viewModel.convertMovieToJson()
-            Log.d("Fragment", "bindViewModel: ${viewModel.publicJsonLiveData.value}")
+            //Log.d("Fragment", "bindViewModel: ${viewModel.publicJsonLiveData.value}")
         }
         viewModel.isLoading.observe(viewLifecycleOwner, ::updateLoadingState)
         viewModel.movieViewModel.observe(viewLifecycleOwner) {
             movieAdapter.items = it
             buttonScore.isEnabled = viewModel.movieViewModel.value!!.isNotEmpty()
+        }
+        viewModel.publicJsonLiveData.observe(viewLifecycleOwner) {
+            Log.d("Fragment", "OBSERVE bindViewModel: $it")
         }
     }
 

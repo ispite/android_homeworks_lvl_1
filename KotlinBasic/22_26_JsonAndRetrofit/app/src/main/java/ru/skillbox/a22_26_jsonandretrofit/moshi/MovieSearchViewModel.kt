@@ -61,9 +61,9 @@ class MovieSearchViewModel : ViewModel() {
     fun convertMovieToJson() {
         mainHandler.post {
             movieListLiveData.value!![0].let {
-                Log.d("ViewModel", "CALLING convertMovieToJson: ")
+                //Log.d("ViewModel", "CALLING convertMovieToJson: ")
                 val jsonAnswer = repository.convertCustomMovieInstanceToJson(it)
-                Log.d("ViewModel", "convertMovieToJson: $jsonAnswer")
+                //Log.d("ViewModel", "convertMovieToJson: $jsonAnswer")
                 jsonLiveData.setValue(jsonAnswer)
             }
             Log.d("ViewModel", "convertMovieToJson LIVEDATA: ${jsonLiveData.value}")
