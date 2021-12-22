@@ -1,5 +1,6 @@
 package ru.skillbox.a221_261_jsonandretrofit.data
 
+import android.net.Network
 import android.net.Uri
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationService
@@ -7,6 +8,12 @@ import net.openid.appauth.AuthorizationServiceConfiguration
 import net.openid.appauth.ClientAuthentication
 import net.openid.appauth.ClientSecretPost
 import net.openid.appauth.TokenRequest
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import ru.skillbox.a221_261_jsonandretrofit.network.Networking
+import ru.skillbox.a221_261_jsonandretrofit.network.SeverItemsWrapper
+import java.lang.RuntimeException
 
 class AuthRepository {
 
@@ -39,6 +46,7 @@ class AuthRepository {
                 response != null -> {
                     //TODO save access token
                     val accessToken = response.accessToken.orEmpty()
+                    AuthConfig.TOKEN = accessToken
                     onComplete()
                 }
                 else -> onError()
@@ -49,4 +57,6 @@ class AuthRepository {
     private fun getClientAuthentication(): ClientAuthentication {
         return ClientSecretPost(AuthConfig.CLIENT_SECRET)
     }
+
+
 }
