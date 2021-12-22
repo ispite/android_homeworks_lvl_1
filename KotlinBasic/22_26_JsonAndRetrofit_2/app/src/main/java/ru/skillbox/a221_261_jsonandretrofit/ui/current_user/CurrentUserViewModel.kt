@@ -1,12 +1,11 @@
 package ru.skillbox.a221_261_jsonandretrofit.ui.current_user
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.skillbox.a221_261_jsonandretrofit.data.RemoteUser
 
-class CurrentUserViewModel: ViewModel() {
+class CurrentUserViewModel : ViewModel() {
     private val repository = CurrentUserRepository()
 
     private val userListLiveData = MutableLiveData<List<RemoteUser>>(emptyList())
@@ -32,5 +31,16 @@ class CurrentUserViewModel: ViewModel() {
                 userListLiveData.postValue(emptyList())
             }
         )
+    }
+
+    fun getAuthenticatedUser() {
+        isLoadingLiveData.postValue(true)
+        repository.getAuthenticatedUser({ user ->
+            isLoadingLiveData.postValue(false)
+            userListLiveData.postValue(listOf(user))
+        }, { _ ->
+            isLoadingLiveData.postValue(false)
+            userListLiveData.postValue(emptyList())
+        })
     }
 }

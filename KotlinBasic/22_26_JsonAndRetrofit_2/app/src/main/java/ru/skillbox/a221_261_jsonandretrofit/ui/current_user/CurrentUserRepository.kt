@@ -7,7 +7,6 @@ import retrofit2.Response
 import ru.skillbox.a221_261_jsonandretrofit.data.RemoteUser
 import ru.skillbox.a221_261_jsonandretrofit.network.Networking
 import ru.skillbox.a221_261_jsonandretrofit.network.SeverItemsWrapper
-import java.lang.RuntimeException
 
 class CurrentUserRepository {
 
@@ -34,6 +33,28 @@ class CurrentUserRepository {
                     onError(t)
                 }
 
+            }
+        )
+    }
+
+    fun getAuthenticatedUser(
+        /*query: String,*/
+        onComplete: (RemoteUser) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        Networking.githubApi.getAuthenticatedUser().enqueue(
+            object : Callback<RemoteUser> {
+                override fun onResponse(call: Call<RemoteUser>, response: Response<RemoteUser>) {
+                    if (response.isSuccessful) {
+                        response.body()?.let { onComplete(it) }
+                    } else {
+                        onError(java.lang.RuntimeException("incorrect status code"))
+                    }
+                }
+
+                override fun onFailure(call: Call<RemoteUser>, t: Throwable) {
+                    onError(t)
+                }
             }
         )
     }

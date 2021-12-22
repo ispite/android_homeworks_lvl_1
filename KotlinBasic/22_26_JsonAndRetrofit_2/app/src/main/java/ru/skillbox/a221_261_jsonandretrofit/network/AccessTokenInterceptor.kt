@@ -8,7 +8,7 @@ class AccessTokenInterceptor(private val accessToken: String):Interceptor {
         val originalRequest = chain.request()
         val modifiedRequest = originalRequest.newBuilder()
             //.addHeader("Authorization: token ", accessToken)
-            .addHeader("Authorization", accessToken)
+            .addHeader("Authorization", "token $accessToken")
             .build()
 
         return chain.proceed(modifiedRequest)

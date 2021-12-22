@@ -40,7 +40,14 @@ class CurrentUserFragment: Fragment(R.layout.fragment_profile) {
             viewModel.search(
                 query = searchInput.text.toString()
             )
+
         }
+
+        getButton.setOnClickListener {
+            //Log.d("Fragment", "bindViewModel: BUTTON PRESSED")
+            viewModel.getAuthenticatedUser()
+        }
+
     }
 
     private fun enableControls(enable: Boolean) {

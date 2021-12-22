@@ -11,4 +11,7 @@ interface GithubApi {
     fun searchUsers(
         @Query("q") query : String
     ):Call<SeverItemsWrapper<RemoteUser>>
+
+    @GET("/user")
+    fun getAuthenticatedUser():Call<RemoteUser>
 }
