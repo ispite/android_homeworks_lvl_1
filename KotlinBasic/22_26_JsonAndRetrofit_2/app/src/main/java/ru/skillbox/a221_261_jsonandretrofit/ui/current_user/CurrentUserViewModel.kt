@@ -18,7 +18,6 @@ class CurrentUserViewModel : ViewModel() {
         get() = isLoadingLiveData
 
     fun search(query: String) {
-        //Log.d("ViewModel", "search: $query")
         isLoadingLiveData.postValue(true)
         repository.searchUsers(
             query = query,

@@ -6,7 +6,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import ru.skillbox.a221_261_jsonandretrofit.data.RemoteUser
 import ru.skillbox.a221_261_jsonandretrofit.network.Networking
-import ru.skillbox.a221_261_jsonandretrofit.network.SeverItemsWrapper
+import ru.skillbox.a221_261_jsonandretrofit.network.ServerItemsWrapper
 
 class CurrentUserRepository {
 
@@ -17,10 +17,10 @@ class CurrentUserRepository {
     ) {
         Log.d("Repository", "searchUsers: $query")
         Networking.githubApi.searchUsers(query).enqueue(
-            object : Callback<SeverItemsWrapper<RemoteUser>> {
+            object : Callback<ServerItemsWrapper<RemoteUser>> {
                 override fun onResponse(
-                    call: Call<SeverItemsWrapper<RemoteUser>>,
-                    response: Response<SeverItemsWrapper<RemoteUser>>
+                    call: Call<ServerItemsWrapper<RemoteUser>>,
+                    response: Response<ServerItemsWrapper<RemoteUser>>
                 ) {
                     if (response.isSuccessful) {
                         onComplete(response.body()?.items.orEmpty())
@@ -29,7 +29,7 @@ class CurrentUserRepository {
                     }
                 }
 
-                override fun onFailure(call: Call<SeverItemsWrapper<RemoteUser>>, t: Throwable) {
+                override fun onFailure(call: Call<ServerItemsWrapper<RemoteUser>>, t: Throwable) {
                     onError(t)
                 }
 
@@ -38,7 +38,6 @@ class CurrentUserRepository {
     }
 
     fun getAuthenticatedUser(
-        /*query: String,*/
         onComplete: (RemoteUser) -> Unit,
         onError: (Throwable) -> Unit
     ) {

@@ -8,10 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_auth.*
-import ru.skillbox.a221_261_jsonandretrofit.utils.toast
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationResponse
 import ru.skillbox.a221_261_jsonandretrofit.R
+import ru.skillbox.a221_261_jsonandretrofit.utils.toast
 
 class AuthFragment : Fragment(R.layout.fragment_auth) {
 
@@ -28,8 +28,9 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
                 ?.createTokenExchangeRequest()
             val exception = AuthorizationException.fromIntent(data)
             when {
-                tokenExchangeRequest != null && exception == null ->
+                tokenExchangeRequest != null && exception == null -> {
                     viewModel.onAuthCodeReceived(tokenExchangeRequest)
+                }
                 exception != null -> viewModel.onAuthCodeFailed(exception)
             }
         } else {
@@ -43,6 +44,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         viewModel.openAuthPageLiveData.observe(viewLifecycleOwner, ::openAuthPage)
         viewModel.toastLiveData.observe(viewLifecycleOwner, ::toast)
         viewModel.authSuccessLiveData.observe(viewLifecycleOwner) {
+            viewModel.getAuthenticatedUser()
             findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToMainFragment())
         }
     }

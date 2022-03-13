@@ -7,16 +7,20 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.skillbox.a221_261_jsonandretrofit.data.AuthRepository
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.TokenRequest
 import ru.skillbox.a221_261_jsonandretrofit.R
+import ru.skillbox.a221_261_jsonandretrofit.data.AuthConfig
+import ru.skillbox.a221_261_jsonandretrofit.data.AuthRepository
+import ru.skillbox.a221_261_jsonandretrofit.data.RemoteUser
+import ru.skillbox.a221_261_jsonandretrofit.ui.current_user.CurrentUserRepository
 import ru.skillbox.a221_261_jsonandretrofit.utils.SingleLiveEvent
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     private val authRepository = AuthRepository()
+    private val currentUserRepository = CurrentUserRepository()
     private val authService: AuthorizationService = AuthorizationService(getApplication())
     private val openAuthPageLiveEvent = SingleLiveEvent<Intent>()
     private val toastLiveEvent = SingleLiveEvent<Int>()
@@ -34,6 +38,8 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     val authSuccessLiveData: LiveData<Unit>
         get() = authSuccessLiveEvent
+
+    private val userListLiveData = MutableLiveData<List<RemoteUser>>(emptyList())
 
     fun onAuthCodeFailed(exception: AuthorizationException) {
         toastLiveEvent.postValue(R.string.auth_canceled)
@@ -71,5 +77,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     override fun onCleared() {
         super.onCleared()
         authService.dispose()
+    }
+
+    fun getAuthenticatedUser() {
+        currentUserRepository.getAuthenticatedUser({ user ->
+            AuthConfig.USERNAME = user.username
+        }, { _ ->
+        })
     }
 }

@@ -42,7 +42,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/getButton"
+        tools:listitem="@layout/item_user"
         tools:itemCount="5"
-        tools:listtem="@layout/item_user" />
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

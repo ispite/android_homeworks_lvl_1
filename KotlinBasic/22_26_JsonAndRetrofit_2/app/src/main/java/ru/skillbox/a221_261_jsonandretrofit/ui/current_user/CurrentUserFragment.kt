@@ -1,7 +1,6 @@
 package ru.skillbox.a221_261_jsonandretrofit.ui.current_user
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import ru.skillbox.a221_261_jsonandretrofit.R
 import ru.skillbox.a221_261_jsonandretrofit.utils.autoCleared
 
-class CurrentUserFragment: Fragment(R.layout.fragment_profile) {
+class CurrentUserFragment : Fragment(R.layout.fragment_profile) {
 
     private val viewModel: CurrentUserViewModel by viewModels()
 
@@ -36,7 +35,6 @@ class CurrentUserFragment: Fragment(R.layout.fragment_profile) {
         viewModel.userList.observe(viewLifecycleOwner, Observer { userAdapter.items = it })
         viewModel.isLoading.observe(viewLifecycleOwner, Observer { enableControls(it.not()) })
         searchButton.setOnClickListener {
-            //Log.d("Fragment", "bindViewModel: BUTTON PRESSED")
             viewModel.search(
                 query = searchInput.text.toString()
             )
@@ -44,7 +42,6 @@ class CurrentUserFragment: Fragment(R.layout.fragment_profile) {
         }
 
         getButton.setOnClickListener {
-            //Log.d("Fragment", "bindViewModel: BUTTON PRESSED")
             viewModel.getAuthenticatedUser()
         }
 

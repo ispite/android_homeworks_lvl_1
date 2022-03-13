@@ -18,15 +18,15 @@ package ru.skillbox.a221_261_jsonandretrofit.utils;
 
 import android.util.Log;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A lifecycle-aware observable that sends only new updates after subscription, used for events like

@@ -10,8 +10,10 @@ import ru.skillbox.a221_261_jsonandretrofit.data.AuthConfig
 object Networking {
     private val okHttpClient = OkHttpClient.Builder()
         .addNetworkInterceptor(AccessTokenInterceptor(AuthConfig.TOKEN))
-        .addNetworkInterceptor(HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.BODY))
+        .addNetworkInterceptor(
+            HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.BODY)
+        )
         .build()
 
     private val retrofit = Retrofit.Builder()
@@ -19,7 +21,6 @@ object Networking {
         .addConverterFactory(MoshiConverterFactory.create())
         .client(okHttpClient)
         .build()
-
 
     val githubApi: GithubApi
         get() = retrofit.create()
