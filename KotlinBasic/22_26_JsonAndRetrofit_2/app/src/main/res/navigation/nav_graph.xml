@@ -32,7 +32,7 @@
         android:id="@+id/currentUserFragment"
         android:name="ru.skillbox.a221_261_jsonandretrofit.ui.current_user.CurrentUserFragment"
         android:label="CurrentUserFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/repositoryListFragment"
         android:name="ru.skillbox.a221_261_jsonandretrofit.ui.repository_list.RepositoryListFragment"
@@ -45,8 +45,8 @@
     <fragment
         android:id="@+id/repositoryDetailsFragment"
         android:name="ru.skillbox.a221_261_jsonandretrofit.ui.repository_list.RepositoryDetailsFragment"
-        tools:layout="@layout/fragment_repository_details"
-        android:label="RepositoryDetailsFragment" >
+        android:label="RepositoryDetailsFragment"
+        tools:layout="@layout/fragment_repository_details">
         <argument
             android:name="reposName"
             app:argType="string" />

@@ -10,16 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/get_repos"
-        />
+        android:text="@string/get_repos" />
 
     <Button
         android:id="@+id/getStaredReposButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/getReposButton"
-        android:text="@string/get_stared_repos"
-        />
+        android:text="@string/get_stared_repos" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reposListRecyclerView"
@@ -28,7 +26,6 @@
         app:layout_constraintTop_toBottomOf="@id/getStaredReposButton"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_repository"
-        tools:itemCount="5"
-        />
+        tools:itemCount="5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

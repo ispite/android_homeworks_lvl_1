@@ -6,4 +6,7 @@
     <string name="auth_canceled">Аутентификация не выполнена</string>
     <string name="get_repos">Get Repos</string>
     <string name="get_stared_repos">Get Stared Repos</string>
+    <string name="input_username">Введите пользователя</string>
+    <string name="search">Искать</string>
+    <string name="get_own_profile">Получить свой профиль</string>
 </resources>

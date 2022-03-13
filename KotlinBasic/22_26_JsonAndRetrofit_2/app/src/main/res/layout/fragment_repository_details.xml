@@ -24,8 +24,7 @@
         android:id="@+id/giveRemoveStar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:src="@drawable/ic_star_border"
-        />
+        android:src="@drawable/ic_star_border" />
 
     <TextView
         android:id="@+id/reposLoginTextViewDetail"
