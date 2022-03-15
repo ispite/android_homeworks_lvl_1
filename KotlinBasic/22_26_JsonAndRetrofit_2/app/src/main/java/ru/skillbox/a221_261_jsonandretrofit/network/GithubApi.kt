@@ -2,6 +2,7 @@ package ru.skillbox.a221_261_jsonandretrofit.network
 
 import retrofit2.Call
 import retrofit2.http.*
+import ru.skillbox.a221_261_jsonandretrofit.data.RemoteBio
 import ru.skillbox.a221_261_jsonandretrofit.data.RemoteRepository
 import ru.skillbox.a221_261_jsonandretrofit.data.RemoteUser
 
@@ -40,4 +41,9 @@ interface GithubApi {
     fun getStarredRepos(
         @Path("username") ownerName: String,
     ): Call<List<RemoteRepository>>
+
+    @PATCH("/user")
+    fun changeBio(
+        @Body bio: RemoteBio
+    ): Call<String>
 }

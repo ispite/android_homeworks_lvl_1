@@ -1,6 +1,7 @@
 package ru.skillbox.a221_261_jsonandretrofit.ui.repository_list
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -12,8 +13,8 @@ class RepositoryDetailsFragment : Fragment(R.layout.fragment_repository_details)
 
     private val viewModel: RepositoryDetailsViewModel by viewModels()
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         checkRepoStared(args.reposOwner, args.reposName)
 
         reposNameTextViewDetail.text = args.reposName

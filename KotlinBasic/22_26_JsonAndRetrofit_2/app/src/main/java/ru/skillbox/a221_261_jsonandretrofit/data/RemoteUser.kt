@@ -9,5 +9,6 @@ data class RemoteUser(
     val username: String,
     @Json(name = "avatar_url")
     val avatar: String?,
-    val id: Long
+    val id: Long,
+    val bio: String?
 )
