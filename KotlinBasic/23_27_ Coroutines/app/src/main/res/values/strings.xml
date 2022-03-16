@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Github</string>
+    <string name="main_profile">Профиль</string>
+    <string name="main_repositories">Список репозиториев</string>
+    <string name="auth_login">Войти</string>
+    <string name="auth_canceled">Аутентификация не выполнена</string>
+    <string name="get_repos">Get Repos</string>
+    <string name="get_stared_repos">Get Stared Repos</string>
+    <string name="input_username">Введите пользователя</string>
+    <string name="search">Искать</string>
+    <string name="get_own_profile">Получить свой профиль</string>
+    <string name="change_bio_in_profile">Изменить биографию в профиле</string>
+</resources>
