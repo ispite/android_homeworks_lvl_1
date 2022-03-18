@@ -3,6 +3,8 @@ package ru.skillbox.a221_261_jsonandretrofit.ui.repository_list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import ru.skillbox.a221_261_jsonandretrofit.data.RemoteRepository
 
 class RepositoryListViewModel : ViewModel() {
@@ -18,14 +20,18 @@ class RepositoryListViewModel : ViewModel() {
         get() = isLoadingLiveData
 
     fun getAuthenticatedRepositories() {
-        isLoadingLiveData.postValue(true)
-        repository.getAuthenticatedRepository({ reposList ->
-            reposListLiveData.postValue(reposList)
-            isLoadingLiveData.postValue(false)
-        }, {
-            reposListLiveData.postValue(emptyList())
-            isLoadingLiveData.postValue(false)
-        })
+
+        viewModelScope.launch {
+            isLoadingLiveData.postValue(true)
+            try {
+                val reposList = repository.getAuthenticatedRepository()
+                reposListLiveData.postValue(reposList)
+            } catch (t: Throwable) {
+                reposListLiveData.postValue(emptyList())
+            } finally {
+                isLoadingLiveData.postValue(false)
+            }
+        }
     }
 
     fun getStarredRepos(username: String) {

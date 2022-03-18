@@ -17,7 +17,7 @@ interface GithubApi {
     fun getAuthenticatedUser(): Call<RemoteUser>
 
     @GET("/user/repos")
-    fun getAuthenticatedRepos(): Call<List<RemoteRepository>>
+    suspend fun getAuthenticatedRepos(): List<RemoteRepository>
 
     @GET("/user/starred/{owner}/{repo}")
     fun getRepoDetail(

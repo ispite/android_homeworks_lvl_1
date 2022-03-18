@@ -9,32 +9,10 @@ import ru.skillbox.a221_261_jsonandretrofit.network.Networking
 
 class RepositoryRepository {
 
-    fun getAuthenticatedRepository(
-        onComplete: (List<RemoteRepository>) -> Unit,
-        onError: (Throwable) -> Unit
-    ) {
+    suspend fun getAuthenticatedRepository(
+    ):List<RemoteRepository> {
         Log.d("Repository", "REQUEST SEND")
-        Networking.githubApi.getAuthenticatedRepos().enqueue(
-            object : Callback<List<RemoteRepository>> {
-                override fun onResponse(
-                    call: Call<List<RemoteRepository>>,
-                    response: Response<List<RemoteRepository>>
-                ) {
-                    if (response.isSuccessful) {
-                        onComplete(response.body().orEmpty())
-                    } else {
-                        onError(RuntimeException("incorrect status code"))
-                    }
-                }
-
-                override fun onFailure(
-                    call: Call<List<RemoteRepository>>,
-                    t: Throwable
-                ) {
-                    onError(t)
-                }
-            }
-        )
+        return Networking.githubApi.getAuthenticatedRepos()
     }
 
     fun checkRepoStared(
