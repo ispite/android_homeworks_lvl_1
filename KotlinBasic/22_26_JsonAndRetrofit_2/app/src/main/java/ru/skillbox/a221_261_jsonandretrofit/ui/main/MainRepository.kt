@@ -1,5 +1,6 @@
 package ru.skillbox.a221_261_jsonandretrofit.ui.main
 
+import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,6 +20,7 @@ class MainRepository {
             object : Callback<String> {
                 override fun onResponse(call: Call<String>, response: Response<String>) {
                     if (response.isSuccessful) {
+                        //Log.d("Patch", "onResponse: ${response.body()}")
                         onComplete(response.body().orEmpty())
                     } else {
                         onError(RuntimeException("incorrect status code"))

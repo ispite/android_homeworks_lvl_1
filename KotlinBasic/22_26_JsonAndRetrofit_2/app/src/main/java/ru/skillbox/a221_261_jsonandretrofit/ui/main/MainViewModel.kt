@@ -30,7 +30,7 @@ class MainViewModel : ViewModel() {
 
     fun patchBio(bioFromTextInput: String) {
         repository.changeBio(bioFromTextInput, {
-            Log.d("Patch", "patchBio: $it")
+            //Log.d("Patch", "patchBio: $it")
         }, {
             _errorBio.postValue(it.message)
         })
