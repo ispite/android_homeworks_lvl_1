@@ -7,32 +7,32 @@ import androidx.lifecycle.ViewModel
 class RepositoryDetailsViewModel : ViewModel() {
     private val repository = RepositoryRepository()
 
-    private val repoStaredLiveData = MutableLiveData<Boolean>()
+    private val _repoStared = MutableLiveData<Boolean>()
 
     val repoStared: LiveData<Boolean>
-        get() = repoStaredLiveData
+        get() = _repoStared
 
     fun checkRepoStared(owner: String, repo: String) {
         repository.checkRepoStared(owner, repo, {
-            repoStaredLiveData.postValue(true)
+            _repoStared.postValue(true)
         }, {
-            repoStaredLiveData.postValue(false)
+            _repoStared.postValue(false)
         })
     }
 
     fun starUnstarRepo(owner: String, repo: String) {
-        if (repoStaredLiveData.value == false) {
+        if (_repoStared.value == false) {
             repository.starRepo(owner, repo, {
-                repoStaredLiveData.postValue(true)
+                _repoStared.postValue(true)
             }, {
-                repoStaredLiveData.postValue(false)
+                _repoStared.postValue(false)
             })
         } else {
             repository.unstarRepo(
                 owner, repo, {
-                    repoStaredLiveData.postValue(false)
+                    _repoStared.postValue(false)
                 }, {
-                    repoStaredLiveData.postValue(true)
+                    _repoStared.postValue(true)
                 }
             )
         }

@@ -2,6 +2,7 @@ package ru.skillbox.a221_261_jsonandretrofit.ui.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,7 +26,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         inputBioEdit.doOnTextChanged { text, _, _, _ ->
-            changeBioButton.isEnabled = text.toString() != viewModel.userBioPublic.value.toString()
+            changeBioButton.isEnabled = text.toString() != viewModel.userBio.value.toString()
         }
 
         changeBioButton.setOnClickListener {
@@ -34,15 +35,19 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    fun checkBio() {
+    private fun checkBio() {
         viewModel.checkBio()
-        viewModel.userBioPublic.observe(viewLifecycleOwner) {
+        viewModel.userBio.observe(viewLifecycleOwner) {
+            inputBioEdit.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             inputBioEdit.setText(it)
         }
-
+        viewModel.errorBio.observe(viewLifecycleOwner) {
+            inputBioEdit.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+            inputBioEdit.setText(it)
+        }
     }
 
-    fun patchBio() {
+    private fun patchBio() {
         viewModel.patchBio(inputBioEdit.text.toString())
     }
 }

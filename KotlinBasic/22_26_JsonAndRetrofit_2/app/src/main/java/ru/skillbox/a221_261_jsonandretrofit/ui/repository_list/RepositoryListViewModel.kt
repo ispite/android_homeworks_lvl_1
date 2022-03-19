@@ -8,31 +8,31 @@ import ru.skillbox.a221_261_jsonandretrofit.data.RemoteRepository
 class RepositoryListViewModel : ViewModel() {
     private val repository = RepositoryRepository()
 
-    private val reposListLiveData = MutableLiveData<List<RemoteRepository>>(emptyList())
-    private val isLoadingLiveData = MutableLiveData<Boolean>(false)
+    private val _reposList = MutableLiveData<List<RemoteRepository>>(emptyList())
+    private val _isLoading = MutableLiveData<Boolean>(false)
 
     val reposList: LiveData<List<RemoteRepository>>
-        get() = reposListLiveData
+        get() = _reposList
 
     val isLoading: LiveData<Boolean>
-        get() = isLoadingLiveData
+        get() = _isLoading
 
     fun getAuthenticatedRepositories() {
-        isLoadingLiveData.postValue(true)
+        _isLoading.postValue(true)
         repository.getAuthenticatedRepository({ reposList ->
-            reposListLiveData.postValue(reposList)
-            isLoadingLiveData.postValue(false)
+            _reposList.postValue(reposList)
+            _isLoading.postValue(false)
         }, {
-            reposListLiveData.postValue(emptyList())
-            isLoadingLiveData.postValue(false)
+            _reposList.postValue(emptyList())
+            _isLoading.postValue(false)
         })
     }
 
     fun getStarredRepos(username: String) {
         repository.getStarredRepositories(username, { reposList ->
-            reposListLiveData.postValue(reposList)
+            _reposList.postValue(reposList)
         }, {
-            reposListLiveData.postValue(emptyList())
+            _reposList.postValue(emptyList())
         })
     }
 }
