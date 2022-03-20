@@ -3,6 +3,8 @@ package ru.skillbox.a221_261_jsonandretrofit.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import ru.skillbox.a221_261_jsonandretrofit.ui.current_user.CurrentUserRepository
 
 class MainViewModel : ViewModel() {
@@ -15,11 +17,14 @@ class MainViewModel : ViewModel() {
         get() = userBio
 
     fun checkBio() {
-        repositoryForUser.getAuthenticatedUser({ user ->
-            userBio.postValue(user.bio.orEmpty())
-        }, {
-            userBio.postValue("")
-        })
+        viewModelScope.launch {
+            try {
+                val user = repositoryForUser.getAuthenticatedUser()
+                userBio.postValue(user.bio.orEmpty())
+            } catch (t: Throwable) {
+                userBio.postValue("")
+            }
+        }
     }
 
     fun patchBio(bioFromTextInput: String) {

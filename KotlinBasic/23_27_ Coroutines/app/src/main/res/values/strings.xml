@@ -8,6 +8,6 @@
     <string name="get_stared_repos">Get Stared Repos</string>
     <string name="input_username">Введите пользователя</string>
     <string name="search">Искать</string>
-    <string name="get_own_profile">Получить свой профиль</string>
+    <string name="get_own_profile">Получить свой профиль и список подписок</string>
     <string name="change_bio_in_profile">Изменить биографию в профиле</string>
 </resources>

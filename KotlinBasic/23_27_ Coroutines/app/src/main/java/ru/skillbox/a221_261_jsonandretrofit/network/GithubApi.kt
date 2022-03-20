@@ -9,15 +9,18 @@ import ru.skillbox.a221_261_jsonandretrofit.data.RemoteUser
 interface GithubApi {
 
     @GET("search/users")
-    fun searchUsers(
+    suspend fun searchUsers(
         @Query("q") query: String
-    ): Call<ServerItemsWrapper<RemoteUser>>
+    ): ServerItemsWrapper<RemoteUser>
 
     @GET("/user")
-    fun getAuthenticatedUser(): Call<RemoteUser>
+    suspend fun getAuthenticatedUser(): RemoteUser
+
+    @GET("/user/following")
+    suspend fun getUserIsFollowing(): List<RemoteUser>
 
     @GET("/user/repos")
-    suspend fun getAuthenticatedRepos(): List<RemoteRepository>
+    fun getAuthenticatedRepos(): Call<List<RemoteRepository>>
 
     @GET("/user/starred/{owner}/{repo}")
     fun getRepoDetail(
@@ -26,13 +29,13 @@ interface GithubApi {
     ): Call<String>
 
     @PUT("/user/starred/{owner}/{repo}")
-    fun starRepo(
+    suspend fun starRepo(
         @Path("owner") ownerName: String,
         @Path("repo") repositoryName: String
     ): Call<String>
 
     @DELETE("/user/starred/{owner}/{repo}")
-    fun unstarRepo(
+    suspend fun unstarRepo(
         @Path("owner") ownerName: String,
         @Path("repo") repositoryName: String
     ): Call<String>

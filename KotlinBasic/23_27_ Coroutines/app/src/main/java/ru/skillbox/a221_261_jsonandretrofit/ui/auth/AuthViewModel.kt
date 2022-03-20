@@ -7,6 +7,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.TokenRequest
@@ -80,9 +83,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getAuthenticatedUser() {
-        currentUserRepository.getAuthenticatedUser({ user ->
-            AuthConfig.USERNAME = user.username
-        }, { _ ->
-        })
+        GlobalScope.launch {
+            try {
+                val user = currentUserRepository.getAuthenticatedUser()
+                AuthConfig.USERNAME = user.username
+            } catch (t: Throwable) {
+            }
+        }
     }
 }
