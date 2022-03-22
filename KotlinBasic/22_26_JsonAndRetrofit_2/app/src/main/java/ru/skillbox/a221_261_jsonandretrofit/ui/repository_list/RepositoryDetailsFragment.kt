@@ -39,5 +39,8 @@ class RepositoryDetailsFragment : Fragment(R.layout.fragment_repository_details)
                 giveRemoveStar.setImageResource(R.drawable.ic_star_border)
             }
         }
+        viewModel.errorStared.observe(viewLifecycleOwner) {
+            repoStaredErrorTextView.text = it
+        }
     }
 }

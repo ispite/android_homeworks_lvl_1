@@ -45,5 +45,5 @@ interface GithubApi {
     @PATCH("/user")
     fun changeBio(
         @Body bio: RemoteBio
-    ): Call<String>
+    ): Call<RemoteUser>
 }

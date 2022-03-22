@@ -27,10 +27,12 @@
         android:src="@drawable/ic_star_border" />
 
     <TextView
-        android:id="@+id/reposLoginTextViewDetail"
+        android:id="@+id/repoStaredErrorTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        tools:text="Login" />
+        android:textColor="@color/red"
+        android:textIsSelectable="true"
+        tools:text="Error" />
 
 </LinearLayout>
