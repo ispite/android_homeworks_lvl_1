@@ -30,7 +30,7 @@ class RepositoryDetailsFragment : Fragment(R.layout.fragment_repository_details)
 
     private fun checkRepoStared(owner: String, repo: String) {
         viewModel.checkRepoStared(owner, repo)
-        viewModel.repoStared.observe(viewLifecycleOwner) {
+        viewModel.repoStarred.observe(viewLifecycleOwner) {
             if (it) {
                 //giveRemoveStar.setImageDrawable(R.drawable.ic_star_filled.toDrawable())
                 giveRemoveStar.setImageResource(R.drawable.ic_star_filled)

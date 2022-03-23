@@ -10,18 +10,18 @@ import kotlinx.coroutines.launch
 class RepositoryDetailsViewModel : ViewModel() {
     private val repository = RepositoryRepository()
 
-    private val repoStaredLiveData = MutableLiveData<Boolean>()
+    private val _repoStarred = MutableLiveData<Boolean>()
 
-    val repoStared: LiveData<Boolean>
-        get() = repoStaredLiveData
+    val repoStarred: LiveData<Boolean>
+        get() = _repoStarred
 
     fun checkRepoStared(owner: String, repo: String) {
         viewModelScope.launch {
             try {
                 val result = repository.checkRepoStared(owner, repo)
-                repoStaredLiveData.postValue(result)
+                _repoStarred.postValue(result)
             } catch (t: Throwable) {
-                repoStaredLiveData.postValue(false)
+                _repoStarred.postValue(false)
             }
         }
     }
@@ -29,14 +29,14 @@ class RepositoryDetailsViewModel : ViewModel() {
     fun starUnstarRepo(owner: String, repo: String) {
         viewModelScope.launch {
             try {
-                if (repoStaredLiveData.value == false) {
+                if (_repoStarred.value == false) {
                     val result = repository.starRepo(owner, repo)
                     Log.d("RepositoryDetailsViewModel", "starUnstarRepo: ${result}")
-                    repoStaredLiveData.postValue(true)
+                    _repoStarred.postValue(true)
                 } else {
                     val result = repository.unstarRepo(owner, repo)
                     Log.d("RepositoryDetailsViewModel", "starUnstarRepo: ${result}")
-                    repoStaredLiveData.postValue(false)
+                    _repoStarred.postValue(false)
                 }
             } catch (t: Throwable) {
                 Log.d("RepositoryDetailsViewModel", "starUnstarRepo: ${t.message}")

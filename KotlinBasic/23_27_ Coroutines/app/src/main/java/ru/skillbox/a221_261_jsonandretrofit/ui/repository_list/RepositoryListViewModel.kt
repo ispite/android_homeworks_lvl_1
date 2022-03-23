@@ -10,26 +10,26 @@ class RepositoryListViewModel : ViewModel() {
     private val repository = RepositoryRepository()
     private val myViewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
-    private val reposListLiveData = MutableLiveData<List<RemoteRepository>>(emptyList())
-    private val isLoadingLiveData = MutableLiveData<Boolean>(false)
+    private val _reposList = MutableLiveData<List<RemoteRepository>>(emptyList())
+    private val _isLoading = MutableLiveData<Boolean>(false)
 
     val reposList: LiveData<List<RemoteRepository>>
-        get() = reposListLiveData
+        get() = _reposList
 
     val isLoading: LiveData<Boolean>
-        get() = isLoadingLiveData
+        get() = _isLoading
 
     fun getAuthenticatedRepositories() {
         myViewModelScope.launch {
             this.isActive.let {
-                isLoadingLiveData.postValue(true)
+                _isLoading.postValue(true)
                 try {
                     val reposList = repository.getAuthenticatedRepository()
-                    reposListLiveData.postValue(reposList)
+                    _reposList.postValue(reposList)
                 } catch (t: Throwable) {
-                    reposListLiveData.postValue(emptyList())
+                    _reposList.postValue(emptyList())
                 } finally {
-                    isLoadingLiveData.postValue(false)
+                    _isLoading.postValue(false)
                 }
             }
         }
@@ -37,9 +37,9 @@ class RepositoryListViewModel : ViewModel() {
 
     fun getStarredRepos(username: String) {
         repository.getStarredRepositories(username, { reposList ->
-            reposListLiveData.postValue(reposList)
+            _reposList.postValue(reposList)
         }, {
-            reposListLiveData.postValue(emptyList())
+            _reposList.postValue(emptyList())
         })
     }
 

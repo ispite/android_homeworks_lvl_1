@@ -11,18 +11,18 @@ class MainViewModel : ViewModel() {
     private val repository = MainRepository()
     private val repositoryForUser = CurrentUserRepository()
 
-    private val userBio = MutableLiveData<String>()
+    private val _userBio = MutableLiveData<String>()
 
-    val userBioPublic: LiveData<String>
-        get() = userBio
+    val userBio: LiveData<String>
+        get() = _userBio
 
     fun checkBio() {
         viewModelScope.launch {
             try {
                 val user = repositoryForUser.getAuthenticatedUser()
-                userBio.postValue(user.bio.orEmpty())
+                _userBio.postValue(user.bio.orEmpty())
             } catch (t: Throwable) {
-                userBio.postValue("")
+                _userBio.postValue("")
             }
         }
     }

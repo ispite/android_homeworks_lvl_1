@@ -25,7 +25,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         inputBioEdit.doOnTextChanged { text, _, _, _ ->
-            changeBioButton.isEnabled = text.toString() != viewModel.userBioPublic.value.toString()
+            changeBioButton.isEnabled = text.toString() != viewModel.userBio.value.toString()
         }
 
         changeBioButton.setOnClickListener {
@@ -36,7 +36,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     fun checkBio() {
         viewModel.checkBio()
-        viewModel.userBioPublic.observe(viewLifecycleOwner) {
+        viewModel.userBio.observe(viewLifecycleOwner) {
             inputBioEdit.setText(it)
         }
 
