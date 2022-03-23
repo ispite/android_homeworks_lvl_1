@@ -1,5 +1,6 @@
 package ru.skillbox.a221_261_jsonandretrofit.ui.repository_list
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,20 +27,20 @@ class RepositoryDetailsViewModel : ViewModel() {
     }
 
     fun starUnstarRepo(owner: String, repo: String) {
-        if (repoStaredLiveData.value == false) {
-            repository.starRepo(owner, repo, {
-                repoStaredLiveData.postValue(true)
-            }, {
-                repoStaredLiveData.postValue(false)
-            })
-        } else {
-            repository.unstarRepo(
-                owner, repo, {
-                    repoStaredLiveData.postValue(false)
-                }, {
+        viewModelScope.launch {
+            try {
+                if (repoStaredLiveData.value == false) {
+                    val result = repository.starRepo(owner, repo)
+                    Log.d("RepositoryDetailsViewModel", "starUnstarRepo: ${result}")
                     repoStaredLiveData.postValue(true)
+                } else {
+                    val result = repository.unstarRepo(owner, repo)
+                    Log.d("RepositoryDetailsViewModel", "starUnstarRepo: ${result}")
+                    repoStaredLiveData.postValue(false)
                 }
-            )
+            } catch (t: Throwable) {
+                Log.d("RepositoryDetailsViewModel", "starUnstarRepo: ${t.message}")
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package ru.skillbox.a221_261_jsonandretrofit.ui.repository_list
 
 import kotlinx.coroutines.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,55 +55,19 @@ class RepositoryRepository {
         }
     }
 
-    fun starRepo(
+    suspend fun starRepo(
         owner: String,
         repo: String,
-        onComplete: (Boolean) -> Unit,
-        onError: (Throwable) -> Unit
-    ) {
-        CoroutineScope(SupervisorJob() + Dispatchers.Main).launch {
-            Networking.githubApi.starRepo(owner, repo).enqueue(
-                object : Callback<String> {
-                    override fun onResponse(call: Call<String>, response: Response<String>) {
-                        if (response.isSuccessful) {
-                            onComplete(response.code() == 204)
-                        } else {
-                            onError(RuntimeException("incorrect status code"))
-                        }
-                    }
-
-                    override fun onFailure(call: Call<String>, t: Throwable) {
-                        onError(t)
-                    }
-                }
-            )
-        }
+    ): Response<String> {
+        return Networking.githubApi.starRepo(owner, repo)
     }
 
 
-    fun unstarRepo(
+    suspend fun unstarRepo(
         owner: String,
         repo: String,
-        onComplete: (Boolean) -> Unit,
-        onError: (Throwable) -> Unit
-    ) {
-        CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
-            Networking.githubApi.unstarRepo(owner, repo).enqueue(
-                object : Callback<String> {
-                    override fun onResponse(call: Call<String>, response: Response<String>) {
-                        if (response.isSuccessful) {
-                            onComplete(response.code() == 204)
-                        } else {
-                            onError(RuntimeException("incorrect status code"))
-                        }
-                    }
-
-                    override fun onFailure(call: Call<String>, t: Throwable) {
-                        onError(t)
-                    }
-                }
-            )
-        }
+    ):Response<String> {
+        return Networking.githubApi.unstarRepo(owner, repo)
     }
 
     fun getStarredRepositories(
