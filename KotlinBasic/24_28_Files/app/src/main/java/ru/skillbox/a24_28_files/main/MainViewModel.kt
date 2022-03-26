@@ -51,13 +51,10 @@ class MainViewModel(
                         _fileName.value?.let { saveSharedPrefsInfo(fileUrl, it) }
                     }
                 })
-
                 _isLoading.postValue(false)
             } else {
                 _showToast2.postValue(Unit)
             }
-
-
         }
     }
 

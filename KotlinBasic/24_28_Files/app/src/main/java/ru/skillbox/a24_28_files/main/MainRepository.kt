@@ -13,8 +13,9 @@ import kotlin.coroutines.suspendCoroutine
 class MainRepository(context: Context) {
 
     private val contextRepository = context
-    private val sharedPrefs =
+    private val sharedPrefs by lazy {
         contextRepository.getSharedPreferences(SHARED_PREFS_FILENAME, Context.MODE_PRIVATE)
+    }
 
     suspend fun downloadFile(
         fileUrl: String,
