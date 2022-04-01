@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_main.*
 import ru.skillbox.a25_29_contentprovider.R
 import ru.skillbox.a25_29_contentprovider.utils.autoCleared
-
+import permissions.dispatcher.ktx.constructPermissionsRequest
+import permissions.dispatcher.PermissionRequest
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
@@ -23,7 +24,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         bindViewModel()
 
         Handler(Looper.getMainLooper()).post{
-
+            construct
         }
     }
 

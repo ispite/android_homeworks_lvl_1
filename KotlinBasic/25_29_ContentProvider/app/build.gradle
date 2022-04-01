@@ -73,9 +73,13 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 
     //Permissions
-    implementation "org.permissionsdispatcher:permissionsdispatcher-ktx:1.0.1"
-    kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:1.0.1"
+    implementation "com.github.permissions-dispatcher:permissionsdispatcher:4.9.1"
+    implementation "com.github.permissions-dispatcher:permissionsdispatcher-ktx:1.0.1"
+    kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:4.9.1"
 
+    //implementation "org.permissionsdispatcher:permissionsdispatcher-ktx:1.0.1"
+    //kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:1.0.1"
+    
     //implementation "com.github.permissions-dispatcher:permissionsdispatcher:${latest.version}"
     //annotationProcessor "com.github.permissions-dispatcher:permissionsdispatcher-processor:${latest.version}"
 
