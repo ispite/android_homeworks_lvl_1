@@ -19,11 +19,13 @@ class MainFragment:Fragment(R.layout.fragment_main) {
 
         viewModel.isLoading.observe(viewLifecycleOwner, ::updateLoadingState)
         viewModel.showToast.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "Файл ${viewModel.fileName.value} успешно загружен", Toast.LENGTH_SHORT).show()
+            if (it == 1) {
+                Toast.makeText(requireContext(), "Файл ${viewModel.fileName.value} успешно загружен", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Файл ${viewModel.fileName.value} был загружен ранее", Toast.LENGTH_SHORT).show()
+            }
         }
-        viewModel.showToast2.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "Файл ${viewModel.fileName.value} был загружен ранее", Toast.LENGTH_SHORT).show()
-        }
+
         viewModel.downloadOnFirstRun()
 
         downloadFileButton.setOnClickListener {
@@ -32,7 +34,6 @@ class MainFragment:Fragment(R.layout.fragment_main) {
 
         inputUrlEditText.doOnTextChanged { text, _, _, _ ->
             val lengthText = text?.length ?: 0
-            //downloadFileButton.isEnabled = (lengthText > 0)
         }
     }
 

@@ -19,8 +19,7 @@ class MainViewModel(
 
     private val _fileName = MutableLiveData<String>()
     private val _isLoading = MutableLiveData<Boolean>()
-    private val _showToast = SingleLiveEvent<Unit>()
-    private val _showToast2 = SingleLiveEvent<Unit>()
+    private val _showToast = SingleLiveEvent<Int>()
 
     val fileName: LiveData<String>
         get() = _fileName
@@ -28,33 +27,28 @@ class MainViewModel(
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
-    val showToast: LiveData<Unit>
+    val showToast: LiveData<Int>
         get() = _showToast
-
-    val showToast2: LiveData<Unit>
-        get() = _showToast2
 
     fun downloadFile(fileUrl: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = repository.checkFileExistence(fileUrl) {
                 _fileName.postValue(it)
             }
-            if (!result) {
-                _isLoading.postValue(true)
-                delay(1000)
-                repository.downloadFile(fileUrl, {
-                    _fileName.postValue(it)
-                    Log.d("MainViewModel", "fileName: $it")
-                }, { success ->
-                    if (success) {
-                        _showToast.postValue(Unit)
-                        _fileName.value?.let { saveSharedPrefsInfo(fileUrl, it) }
-                    }
-                })
-                _isLoading.postValue(false)
-            } else {
-                _showToast2.postValue(Unit)
+            if (result) {
+                _showToast.postValue(0)
+                return@launch
             }
+            _isLoading.postValue(true)
+            delay(500)
+            repository.downloadFile(fileUrl) { success, fileName ->
+                if (success) {
+                    _fileName.postValue(fileName)
+                    _showToast.postValue(1)
+                    _fileName.value?.let { saveSharedPrefsInfo(fileUrl, it) }
+                }
+            }
+            _isLoading.postValue(false)
         }
     }
 

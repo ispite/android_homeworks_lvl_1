@@ -1,14 +1,12 @@
 package ru.skillbox.a24_28_files.main
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Environment
 import android.util.Log
 import kotlinx.coroutines.coroutineScope
 import ru.skillbox.a24_28_files.network.Networking
 import java.io.File
 import java.net.URL
-import kotlin.coroutines.suspendCoroutine
 
 class MainRepository(context: Context) {
 
@@ -19,17 +17,11 @@ class MainRepository(context: Context) {
 
     suspend fun downloadFile(
         fileUrl: String,
-        fileNameCallback: (String) -> Unit,
-        success: (Boolean) -> Unit
+        success: (Boolean, String) -> Unit
     ) {
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             val folder = contextRepository.getExternalFilesDir("myFolder")
-            val timestamp = System.currentTimeMillis() / 1000
-            var fileName = URL(fileUrl).file
-            fileName = fileName.substring(fileName.lastIndexOf('/') + 1)
-            fileName = timestamp.toString() + "_" + fileName
-            fileNameCallback(fileName)
-            val file = File(folder, fileName)
+            val file = File(folder, getFileName(fileUrl))
             try {
                 file.outputStream().use { fileOutputStream ->
                     Networking.api
@@ -37,15 +29,23 @@ class MainRepository(context: Context) {
                         .byteStream()
                         .use { inputStream ->
                             inputStream.copyTo(fileOutputStream)
-                            success(true)
+                            success(true, file.name)
                         }
                 }
             } catch (t: Throwable) {
-                success(false)
+                success(false, "")
                 file.delete()
                 Log.d("MainRepository", "delete File: ${t.message}", t)
             }
         }
+    }
+
+    private fun getFileName(fileUrl: String): String {
+        val timestamp = System.currentTimeMillis() / 1000
+        var fileName = URL(fileUrl).file
+        fileName = fileName.substring(fileName.lastIndexOf('/') + 1)
+        fileName = timestamp.toString() + "_" + fileName
+        return fileName
     }
 
     suspend fun createFileExternalStorage() {
@@ -83,7 +83,7 @@ class MainRepository(context: Context) {
             .readLines()
         if (!sharedPrefs.getBoolean(SHARED_PREFS_FIRST_RUN_KEY, false)) {
             file.map {
-                downloadFile(it, {}, {})
+                downloadFile(it) { _, _ -> }
             }
             sharedPrefs.edit()
                 .putBoolean(SHARED_PREFS_FIRST_RUN_KEY, true)
