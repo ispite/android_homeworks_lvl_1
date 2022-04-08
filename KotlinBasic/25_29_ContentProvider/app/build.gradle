@@ -3,7 +3,8 @@ plugins {
     //id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
-    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+    //id 'kotlin-kapt'
 }
 
 android {
@@ -33,9 +34,9 @@ android {
         jvmTarget = '1.8'
     }
 
-    androidExtensions {
+/*    androidExtensions {
         experimental = true
-    }
+    }*/
 }
 
 dependencies {
@@ -74,15 +75,9 @@ dependencies {
 
     //Permissions
     implementation "com.github.permissions-dispatcher:permissionsdispatcher:4.9.1"
-    implementation "com.github.permissions-dispatcher:permissionsdispatcher-ktx:1.0.1"
-    kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:4.9.1"
+    implementation "com.github.permissions-dispatcher:ktx:1.1.3"
+    //kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:4.9.1"
 
-    //implementation "org.permissionsdispatcher:permissionsdispatcher-ktx:1.0.1"
-    //kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:1.0.1"
-    
-    //implementation "com.github.permissions-dispatcher:permissionsdispatcher:${latest.version}"
-    //annotationProcessor "com.github.permissions-dispatcher:permissionsdispatcher-processor:${latest.version}"
-
-    //implementation "org.permissionsdispatcher:permissionsdispatcher:${latest.version}"
-    //annotationProcessor "org.permissionsdispatcher:permissionsdispatcher-processor:${latest.version}"
+    //AdapterDelegates
+    implementation 'com.hannesdorfmann:adapterdelegates4:4.3.0'
 }

@@ -30,12 +30,12 @@ class MainRepository(private val context: Context) {
             val idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID)
             val id = cursor.getLong(idIndex)
 
-            list.add(Contact(id = id, name = name, phones = getPhonesForContact(id)))
+            list.add(Contact(id = id, name = name, phones = emptyList()))
         } while (cursor.moveToNext())
         return list
     }
 
-    private fun getPhonesForContact(contactId: Long): List<String> {
+    fun getPhonesForContact(contactId: Long): List<String> {
         return context.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
             null,
@@ -45,6 +45,29 @@ class MainRepository(private val context: Context) {
         )?.use {
             getPhonesFromCursor(it)
         }.orEmpty()
+    }
+
+    fun getEmailsForContact(contactId: Long): List<String> {
+        return  context.contentResolver.query(
+            ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+            null,
+            "${ContactsContract.CommonDataKinds.Email.CONTACT_ID} = ?",
+            arrayOf(contactId.toString()),
+            null
+        )?.use {
+            getEmailsFromCursor(it)
+        }.orEmpty()
+    }
+
+    private fun getEmailsFromCursor(cursor: Cursor): List<String> {
+        if (cursor.moveToFirst().not()) return emptyList()
+        val list = mutableListOf<String>()
+        do {
+            val emailIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA)
+            val email = cursor.getString(emailIndex)
+            list.add(email)
+        } while (cursor.moveToNext())
+        return list
     }
 
     private fun getPhonesFromCursor(cursor: Cursor): List<String> {
