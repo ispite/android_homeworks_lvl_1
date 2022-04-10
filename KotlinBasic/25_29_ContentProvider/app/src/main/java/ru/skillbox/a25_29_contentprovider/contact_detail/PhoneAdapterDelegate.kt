@@ -2,6 +2,7 @@ package ru.skillbox.a25_29_contentprovider.contact_detail
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import ru.skillbox.a25_29_contentprovider.R
 import ru.skillbox.a25_29_contentprovider.data.ContactInfo
@@ -35,9 +36,11 @@ class PhoneAdapterDelegate() :
     class PhoneHolder(
         view: View
     ) : BaseContactInfoHolder(view) {
+        private val phone: TextView = view.findViewById(R.id.phoneNumber)
 
         fun bind(contactInfo: ContactInfo.Phone) {
             bindMainInfo(contactInfo.id)
+            phone.text = contactInfo.phone
         }
     }
 }

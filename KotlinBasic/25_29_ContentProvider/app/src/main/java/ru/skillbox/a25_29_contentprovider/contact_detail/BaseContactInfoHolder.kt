@@ -5,10 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseContactInfoHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    private var currentId: Long? = null
+    private var currentId: Int? = null
 
     protected fun bindMainInfo(
-        id: Long
+        id: Int
     ) {
         currentId = id
     }

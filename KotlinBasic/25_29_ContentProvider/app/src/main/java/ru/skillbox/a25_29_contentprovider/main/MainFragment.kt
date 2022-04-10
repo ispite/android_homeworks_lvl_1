@@ -26,6 +26,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         initList()
         bindViewModel()
 
+        addContactFAB.setOnClickListener {
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddContactFragment())
+        }
+
         Handler(Looper.getMainLooper()).post{
             constructPermissionsRequest(
                 Manifest.permission.READ_CONTACTS,
@@ -65,6 +69,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun onContactPermissionNeverAskAgain() {
-        toast(R.string.contact_listpermission_never_ask_again)
+        toast(R.string.contact_list_permission_never_ask_again)
     }
 }

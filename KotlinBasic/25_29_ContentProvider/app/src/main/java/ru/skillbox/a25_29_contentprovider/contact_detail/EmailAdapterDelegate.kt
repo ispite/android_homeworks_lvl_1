@@ -2,6 +2,7 @@ package ru.skillbox.a25_29_contentprovider.contact_detail
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
 import ru.skillbox.a25_29_contentprovider.R
 import ru.skillbox.a25_29_contentprovider.data.ContactInfo
@@ -35,8 +36,11 @@ class EmailAdapterDelegate() :
     class EmailHolder(
         view: View
     ) : BaseContactInfoHolder(view) {
+        private val email: TextView = view.findViewById(R.id.emailAddress)
+
         fun bind(contactInfo: ContactInfo.Email) {
             bindMainInfo(contactInfo.id)
+            email.text = contactInfo.email
         }
     }
 }
