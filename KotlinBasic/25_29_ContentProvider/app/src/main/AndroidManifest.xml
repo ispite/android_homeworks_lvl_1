@@ -21,6 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="ru.skillbox.a25_29_contentprovider.my_content_provider.MyContentProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="true" />
+
     </application>
 
 </manifest>
