@@ -60,7 +60,7 @@ class MyContentProvider : ContentProvider() {
     override fun insert(p0: Uri, p1: ContentValues?): Uri? {
         p1 ?: return null
         return when (uriMatcher.match(p0)) {
-            //TYPE_COURSES ->
+            TYPE_COURSES -> saveCourse(p1)
             else -> null
         }
     }

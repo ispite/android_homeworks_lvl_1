@@ -23,7 +23,7 @@ class AddContactViewModel(application: Application) : AndroidViewModel(applicati
     val saveError: LiveData<Int>
         get() = _saveError
 
-    fun saveContact(firstName: String, lastName: String, phone: String, email: String) {
+    fun saveContact(firstName: String, lastName: String, phone: String, email: String?) {
         viewModelScope.launch {
             try {
                 contactRepository.saveContact(firstName, lastName, phone, email)

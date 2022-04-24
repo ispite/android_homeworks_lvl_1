@@ -135,13 +135,13 @@ class MainRepository(private val context: Context) {
         }*/
     }
 
-    suspend fun saveContact(firstName: String, lastName: String, phone: String, email: String) =
+    suspend fun saveContact(firstName: String, lastName: String, phone: String, email: String?) =
         withContext(Dispatchers.IO) {
 
             val contactId = saveRawContact()
             saveContactName(contactId, firstName, lastName)
             saveContactPhone(contactId, phone)
-            saveContactEmail(contactId, email)
+            email?.let{ saveContactEmail(contactId, email) }
         }
 
     private fun saveRawContact(): Long {

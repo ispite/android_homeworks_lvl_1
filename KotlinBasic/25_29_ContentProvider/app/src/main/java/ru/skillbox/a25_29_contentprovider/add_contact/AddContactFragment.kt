@@ -105,7 +105,11 @@ class AddContactFragment : Fragment(R.layout.fragment_add_contact) {
                 firstName = inputName!!.text!!.toString(),
                 lastName = inputLastName!!.text!!.toString(),
                 phone = inputPhoneNumber!!.text!!.toString(),
-                email = inputEmail?.text?.toString().orEmpty()
+                //email = inputEmail?.text?.toString()?
+                email = if (inputEmail?.text?.toString()!!.isNotEmpty()) {
+                    inputEmail?.text?.toString()
+                } else null
+
                 )
         }.launch()
     }
