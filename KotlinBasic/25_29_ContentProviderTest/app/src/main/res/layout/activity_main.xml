@@ -43,4 +43,10 @@
         android:layout_height="wrap_content"
         android:text="@string/update_course_by_id" />
 
+    <Button
+        android:id="@+id/saveBunchCoursesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_bunch_courses" />
+
 </LinearLayout>

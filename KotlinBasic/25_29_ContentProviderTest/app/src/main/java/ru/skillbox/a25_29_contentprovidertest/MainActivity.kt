@@ -1,10 +1,13 @@
 package ru.skillbox.a25_29_contentprovidertest
 
-import android.app.Application
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class MainActivity(/*application: Application*/) : AppCompatActivity() {
     //val context = applicationContext
@@ -15,8 +18,21 @@ class MainActivity(/*application: Application*/) : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val repository = MainRepository(applicationContext)
-        myActivityScope.launch {
-            repository.saveRandomCourse()
+/*        myActivityScope.launch {
+            //repository.saveRandomCourse()
+        }*/
+
+        saveBunchCoursesButton.setOnClickListener {
+            myActivityScope.launch {
+                repository.saveBunchRandomCourses(5)
+            }
+        }
+
+        listCoursesButton.setOnClickListener {
+            myActivityScope.launch {
+                Log.d("MainActivity", "onCreate: ${repository.getAllCourses()}")
+                //repository.getAllCourses()
+            }
         }
     }
 }
