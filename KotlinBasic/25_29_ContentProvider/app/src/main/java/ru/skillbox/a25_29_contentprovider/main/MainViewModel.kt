@@ -26,4 +26,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
+/*    fun saveRandomContact() {
+        viewModelScope.launch {
+            repository.saveRandomContact()
+        }
+    }*/
 }

@@ -43,7 +43,8 @@ class MyContentProvider : ContentProvider() {
             courseAdapter.fromJson(courseJsonString)
         }
 
-        val cursor = MatrixCursor(arrayOf(COLUMN_COURSE_ID, COLUMN_COURSE_TITLE, COLUMN_COURSE_DURATION))
+        val cursor =
+            MatrixCursor(arrayOf(COLUMN_COURSE_ID, COLUMN_COURSE_TITLE, COLUMN_COURSE_DURATION))
         allCourses.forEach {
             cursor.newRow()
                 .add(it.id)
@@ -77,8 +78,8 @@ class MyContentProvider : ContentProvider() {
     }
 
     override fun delete(p0: Uri, p1: String?, p2: Array<out String>?): Int {
-        return when(uriMatcher.match(p0)) {
-            TYPE_COURSE_ID ->deleteCourse(p0)
+        return when (uriMatcher.match(p0)) {
+            TYPE_COURSE_ID -> deleteCourse(p0)
             else -> 0
         }
     }
@@ -97,7 +98,7 @@ class MyContentProvider : ContentProvider() {
 
     override fun update(p0: Uri, p1: ContentValues?, p2: String?, p3: Array<out String>?): Int {
         p1 ?: return 0
-        return when(uriMatcher.match(p0)){
+        return when (uriMatcher.match(p0)) {
             TYPE_COURSE_ID -> updateCourse(p0, p1)
             else -> 0
         }
@@ -105,7 +106,7 @@ class MyContentProvider : ContentProvider() {
 
     private fun updateCourse(uri: Uri, contentValues: ContentValues): Int {
         val courseId = uri.lastPathSegment?.toLongOrNull()?.toString() ?: return 0
-        return if(coursePrefs.contains(courseId)) {
+        return if (coursePrefs.contains(courseId)) {
             saveCourse(contentValues)
             1
         } else {

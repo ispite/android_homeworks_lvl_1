@@ -1,15 +1,20 @@
 package ru.skillbox.a25_29_contentprovider.main
 
+import android.content.ContentProviderOperation
+import android.content.ContentProviderResult
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.ContactsContract
+import android.provider.ContactsContract.CommonDataKinds.StructuredName
+import android.provider.ContactsContract.RawContacts
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.skillbox.a25_29_contentprovider.data.Contact
 import ru.skillbox.a25_29_contentprovider.data.ContactInfo
+
 
 class MainRepository(private val context: Context) {
 
@@ -138,10 +143,11 @@ class MainRepository(private val context: Context) {
     suspend fun saveContact(firstName: String, lastName: String, phone: String, email: String?) =
         withContext(Dispatchers.IO) {
 
-            val contactId = saveRawContact()
-            saveContactName(contactId, firstName, lastName)
+            //val contactId = saveRawContact()
+            saveContactName(firstName, lastName)
+            val contactId = getLastContactID()
             saveContactPhone(contactId, phone)
-            email?.let{ saveContactEmail(contactId, email) }
+            email?.let { saveContactEmail(contactId, email) }
         }
 
     private fun saveRawContact(): Long {
@@ -153,30 +159,52 @@ class MainRepository(private val context: Context) {
         return uri?.lastPathSegment?.toLongOrNull() ?: error("cannot save raw contact")
     }
 
-    private fun saveContactName(contactId: Long, firstName: String, lastName: String) {
-        var contentValues = ContentValues().apply {
-            put(ContactsContract.Data.RAW_CONTACT_ID, contactId)
-            put(
-                ContactsContract.Data.MIMETYPE,
-                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+    private suspend fun getLastContactID(): Long = withContext(Dispatchers.IO) {
+        context.contentResolver.query(
+            ContactsContract.Contacts.CONTENT_URI,
+            null,
+            null,
+            null,
+            ContactsContract.Contacts._ID + " DESC"
+        )?.use {
+            getLastIDFromCursor(it)
+        } ?: throw Exception("Content resolver error")
+
+    }
+
+    private fun getLastIDFromCursor(cursor: Cursor): Long {
+        if (cursor.moveToFirst().not()) throw Exception("Cursor can not reach ID")
+        val idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID)
+        return cursor.getLong(idIndex)
+    }
+
+    private fun saveContactName(firstName: String, lastName: String) {
+        val operationList = ArrayList<ContentProviderOperation>()
+
+        operationList.add(
+            ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
+                .withValue(RawContacts.ACCOUNT_TYPE, null)
+                .withValue(RawContacts.ACCOUNT_NAME, null)
+                .build()
+        )
+
+        operationList.add(
+            ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(ContactsContract.Data.MIMETYPE, StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(StructuredName.GIVEN_NAME, firstName)
+                .withValue(StructuredName.FAMILY_NAME, lastName)
+                .build()
+        )
+
+        try {
+            context.contentResolver.applyBatch(
+                ContactsContract.AUTHORITY,
+                operationList as java.util.ArrayList<ContentProviderOperation>
             )
-            //put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME_PRIMARY, firstName)
-            put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, firstName)
-//            put(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, lastName)
+        } catch (e: Exception) {
+            Log.d("MainRepository", "saveContactName:", e)
         }
-        context.contentResolver.insert(ContactsContract.Data.CONTENT_URI, contentValues)
-        contentValues = ContentValues()
-        contentValues = ContentValues().apply {
-            put(ContactsContract.Data.RAW_CONTACT_ID, contactId)
-            put(
-                ContactsContract.Data.MIMETYPE,
-                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-            )
-            //put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME_PRIMARY, firstName)
-//            put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, firstName)
-            put(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, lastName)
-        }
-        context.contentResolver.insert(ContactsContract.Data.CONTENT_URI, contentValues)
     }
 
     private fun saveContactPhone(contactId: Long, phone: String) {
@@ -203,5 +231,69 @@ class MainRepository(private val context: Context) {
         context.contentResolver.insert(ContactsContract.Data.CONTENT_URI, contentValues)
     }
 
+
+    suspend fun saveContactWithArgs() {
+        withContext(Dispatchers.IO) {
+
+            val op_list = ArrayList<ContentProviderOperation>()
+            op_list.add(
+                ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
+                    .withValue(RawContacts.ACCOUNT_TYPE, null)
+                    .withValue(
+                        RawContacts.ACCOUNT_NAME,
+                        null
+                    ) //.withValue(RawContacts.AGGREGATION_MODE, RawContacts.AGGREGATION_MODE_DEFAULT)
+                    .build()
+            )
+
+            // first and last names
+
+            // first and last names
+            op_list.add(
+                ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                    .withValue(ContactsContract.Data.MIMETYPE, StructuredName.CONTENT_ITEM_TYPE)
+                    .withValue(StructuredName.GIVEN_NAME, "Second Name")
+                    .withValue(StructuredName.FAMILY_NAME, "First Name")
+                    .build()
+            )
+
+            op_list.add(
+                ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                    .withValue(
+                        ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+                    )
+                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, "09876543210")
+                    .withValue(
+                        ContactsContract.CommonDataKinds.Phone.TYPE,
+                        ContactsContract.CommonDataKinds.Phone.TYPE_HOME
+                    )
+                    .build()
+            )
+            op_list.add(
+                ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                    .withValue(
+                        ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE
+                    )
+                    .withValue(ContactsContract.CommonDataKinds.Email.DATA, "abc@xyz.com")
+                    .withValue(
+                        ContactsContract.CommonDataKinds.Email.TYPE,
+                        ContactsContract.CommonDataKinds.Email.TYPE_WORK
+                    )
+                    .build()
+            )
+
+            try {
+                val results: Array<ContentProviderResult> =
+                    context.contentResolver.applyBatch(ContactsContract.AUTHORITY, op_list)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
 }
