@@ -50,7 +50,6 @@ class MainRepository(private val context: Context) {
             val name = cursor.getString(nameIndex).orEmpty()
             val idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID)
             val id = cursor.getLong(idIndex)
-
             list.add(Contact(id = id, name = name, phones = emptyList()))
         } while (cursor.moveToNext())
         return list
@@ -112,39 +111,31 @@ class MainRepository(private val context: Context) {
     }
 
     suspend fun removeContact(contactId: Long) = withContext(Dispatchers.IO) {
-        /*context.contentResolver.delete(
-            ContactsContract.Contacts.CONTENT_URI,
-            "${ContactsContract.Contacts._ID} = ?",
-            arrayOf((contactId.toString()))
-        )*/
         val modifiedURI =
             Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, contactId.toString())
-        //val modifiedURI2 = Uri.withAppendedPath(ContactsContract.RawContacts.CONTENT_URI, contactId.toString())
-
         context.contentResolver.delete(
             modifiedURI,
             null,
             null
         )
-
-/*        context.contentResolver.query(
-            modifiedURI2,
-            null,
-            null,
-            null,
-            null
-        )?.use {
-            if (it.moveToFirst()) {
-                context.contentResolver.delete(modifiedURI2, null, null)
-            }
-        }*/
     }
 
     suspend fun saveContact(firstName: String, lastName: String, phone: String, email: String?) =
         withContext(Dispatchers.IO) {
+            val contactId = saveRawContact()
+            saveContactName(contactId, firstName, lastName)
+            saveContactPhone(contactId, phone)
+            email?.let { saveContactEmail(contactId, email) }
+        }
 
-            //val contactId = saveRawContact()
-            saveContactName(firstName, lastName)
+    suspend fun saveContactWithOperationList(
+        firstName: String,
+        lastName: String,
+        phone: String,
+        email: String?
+    ) =
+        withContext(Dispatchers.IO) {
+            saveContactNameWithOperationList(firstName, lastName)
             val contactId = getLastContactID()
             saveContactPhone(contactId, phone)
             email?.let { saveContactEmail(contactId, email) }
@@ -178,7 +169,29 @@ class MainRepository(private val context: Context) {
         return cursor.getLong(idIndex)
     }
 
-    private fun saveContactName(firstName: String, lastName: String) {
+    private fun saveContactName(contactId: Long, firstName: String, lastName: String) {
+        var contentValues = ContentValues().apply {
+            put(ContactsContract.Data.RAW_CONTACT_ID, contactId)
+            put(
+                ContactsContract.Data.MIMETYPE,
+                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+            )
+            put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, firstName)
+        }
+        context.contentResolver.insert(ContactsContract.Data.CONTENT_URI, contentValues)
+        //contentValues = ContentValues()
+        contentValues = ContentValues().apply {
+            put(ContactsContract.Data.RAW_CONTACT_ID, contactId)
+            put(
+                ContactsContract.Data.MIMETYPE,
+                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+            )
+            put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME_ALTERNATIVE, lastName)
+        }
+        context.contentResolver.insert(ContactsContract.Data.CONTENT_URI, contentValues)
+    }
+
+    private fun saveContactNameWithOperationList(firstName: String, lastName: String) {
         val operationList = ArrayList<ContentProviderOperation>()
 
         operationList.add(
@@ -232,6 +245,9 @@ class MainRepository(private val context: Context) {
     }
 
 
+    /**
+     *  Пример из Stack Overflow
+     */
     suspend fun saveContactWithArgs() {
         withContext(Dispatchers.IO) {
 
@@ -242,13 +258,9 @@ class MainRepository(private val context: Context) {
                     .withValue(
                         RawContacts.ACCOUNT_NAME,
                         null
-                    ) //.withValue(RawContacts.AGGREGATION_MODE, RawContacts.AGGREGATION_MODE_DEFAULT)
+                    )
                     .build()
             )
-
-            // first and last names
-
-            // first and last names
             op_list.add(
                 ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                     .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
@@ -288,12 +300,11 @@ class MainRepository(private val context: Context) {
             )
 
             try {
-                val results: Array<ContentProviderResult> =
+                //val results: Array<ContentProviderResult> =
                     context.contentResolver.applyBatch(ContactsContract.AUTHORITY, op_list)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
-
 }
