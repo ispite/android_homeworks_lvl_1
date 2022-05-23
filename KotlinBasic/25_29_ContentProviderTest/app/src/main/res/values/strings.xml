@@ -7,4 +7,6 @@
     <string name="delete_all_courses">Удалить все курсы</string>
     <string name="update_course_by_id">Обновить курс по ID</string>
     <string name="save_bunch_courses">Создать несколько курсов</string>
+    <string name="input_id">Введите ID</string>
+    <string name="get_course">Получить курс</string>
 </resources>

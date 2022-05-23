@@ -9,15 +9,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class MainActivity(/*application: Application*/) : AppCompatActivity() {
+class MainActivity(/*application: Application*/) : AppCompatActivity(),
+InputIdDialogFragment.InputIdDialogListener{
+
+    //val context = applicationContext
     //val context = applicationContext
     //val repository = MainRepository(applicationContext)
+    lateinit var repository: MainRepository
     private val myActivityScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val repository = MainRepository(applicationContext)
+        repository = MainRepository(applicationContext)
 /*        myActivityScope.launch {
             //repository.saveRandomCourse()
         }*/
@@ -34,5 +38,24 @@ class MainActivity(/*application: Application*/) : AppCompatActivity() {
                 //repository.getAllCourses()
             }
         }
+
+        getCourseByIDButton.setOnClickListener {
+            InputIdDialogFragment()
+                .show(supportFragmentManager, "Dialog")
+
+        }
+    }
+
+    override fun passID(id: Long) {
+        Log.d("MainActivity", "passID: $id")
+        getCourseByID(id)
+    }
+
+    fun getCourseByID(id: Long) {
+        myActivityScope.launch {
+            val course = repository.getCourseByID(id)
+            Log.d("MainActivity", "getCourseByID: $course")
+        }
+
     }
 }

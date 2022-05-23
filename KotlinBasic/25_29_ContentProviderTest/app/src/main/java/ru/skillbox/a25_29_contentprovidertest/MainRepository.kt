@@ -20,7 +20,13 @@ class MainRepository(private val context: Context) {
     suspend fun saveBunchRandomCourses(count: Int) = withContext(Dispatchers.IO) {
         val titleList = listOf("Programing course", "Design course", "Marketing course")
         val durationList = listOf(259200000L, 691200000, 417600000)
-        val id = getLastCourseID()
+
+        var id: Long = 0
+        try {
+            id = getLastCourseID() + 1
+        } catch (e: Exception) {
+            Log.d("MainRepository", "saveBunchRandomCourses: ", e)
+        }
 
         (0 until count).map {
             saveCourse(it + id, titleList.random(), durationList.random())
@@ -33,7 +39,7 @@ class MainRepository(private val context: Context) {
             null,
             null,
             null,
-            "id DESC"
+            null
         )?.use {
             getLastIDFromCursor(it)
         } ?: throw Exception("Content resolver error")
@@ -41,8 +47,10 @@ class MainRepository(private val context: Context) {
 
     private fun getLastIDFromCursor(cursor: Cursor): Long {
         if (cursor.moveToFirst().not()) throw Exception("Cursor can not reach course ID")
-        val idIndex = cursor.getColumnIndex("id")
-        return cursor.getLong(idIndex)
+        val sortedList = getCourseFromCursor(cursor).sortedByDescending { it.id }
+//        Log.d("MainRepository", "getLastIDFromCursor: $sortedList")
+//        Log.d("MainRepository", "getLastIDFromCursor: ${sortedList[0].id}")
+        return sortedList[0].id
     }
 
 /*    private fun saveCourseID(): Long {
@@ -105,5 +113,17 @@ class MainRepository(private val context: Context) {
             list.add(Course(id = id, title = title, duration = duration))
         } while (cursor.moveToNext())
         return list
+    }
+
+    suspend fun getCourseByID(id: Long):List<Course> = withContext(Dispatchers.IO) {
+        context.contentResolver.query(
+            Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses"),
+            null,
+            "/?",
+            arrayOf(id.toString()),
+            null
+        )?.use {
+            getCourseFromCursor(it)
+        }.orEmpty()
     }
 }
