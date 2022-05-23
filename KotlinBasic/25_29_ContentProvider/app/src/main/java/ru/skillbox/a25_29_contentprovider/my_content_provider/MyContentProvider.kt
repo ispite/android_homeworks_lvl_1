@@ -33,8 +33,31 @@ class MyContentProvider : ContentProvider() {
     ): Cursor? {
         return when (uriMatcher.match(p0)) {
             TYPE_COURSES -> getAllCoursesCursor()
+            TYPE_COURSE_ID -> {
+                val id = p0.lastPathSegment
+                getCourseByIDCursor(id!!.toLong())
+            }
             else -> null
         }
+    }
+
+    private fun getCourseByIDCursor(id: Long): Cursor {
+        val allCourses = coursePrefs.all.mapNotNull {
+            val courseJsonString = it.value as String
+            courseAdapter.fromJson(courseJsonString)
+        }
+
+        val cursor =
+            MatrixCursor(arrayOf(COLUMN_COURSE_ID, COLUMN_COURSE_TITLE, COLUMN_COURSE_DURATION))
+        allCourses.mapNotNull { course ->
+            course.takeIf { it.id == id }?.let {
+                cursor.newRow()
+                    .add(it.id)
+                    .add(it.title)
+                    .add(it.duration)
+            }
+        }
+        return cursor
     }
 
     private fun getAllCoursesCursor(): Cursor {
