@@ -4,6 +4,7 @@ import android.content.*
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
+import android.util.Log
 import com.squareup.moshi.Moshi
 import ru.skillbox.a25_29_contentprovider.BuildConfig
 import ru.skillbox.a25_29_contentprovider.data.Course
@@ -103,6 +104,7 @@ class MyContentProvider : ContentProvider() {
     override fun delete(p0: Uri, p1: String?, p2: Array<out String>?): Int {
         return when (uriMatcher.match(p0)) {
             TYPE_COURSE_ID -> deleteCourse(p0)
+            TYPE_COURSES -> deleteAllCourses()
             else -> 0
         }
     }
@@ -114,6 +116,34 @@ class MyContentProvider : ContentProvider() {
                 .remove(courseId)
                 .commit()
             1
+        } else {
+            0
+        }
+    }
+
+    fun deleteAllCourses(): Int {
+        val courseId = "content://$AUTHORITIES/$PATH_COURSES"
+        Log.d("MyContentProvider", "deleteAllCourses: $courseId")
+        return if (coursePrefs.contains(courseId)) {
+//            coursePrefs
+/*            coursePrefs.edit()
+                .clear()
+                .commit()
+
+            1*/
+
+            //coursePrefs.contains(courseId)
+            val keys2: Map<String, *> = coursePrefs.all
+            val keys: Map<String, *> = coursePrefs.all
+            var count = 0
+            for ((key, value) in keys) {
+                Log.d("map values", key + ": " +
+                            value.toString())
+                count++
+            }
+            Log.d("MyContentProvider", "deleteAllCourses: $count")
+            1
+
         } else {
             0
         }
