@@ -176,17 +176,8 @@ class MainRepository(private val context: Context) {
                 ContactsContract.Data.MIMETYPE,
                 ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
             )
-            put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, firstName)
-        }
-        context.contentResolver.insert(ContactsContract.Data.CONTENT_URI, contentValues)
-        //contentValues = ContentValues()
-        contentValues = ContentValues().apply {
-            put(ContactsContract.Data.RAW_CONTACT_ID, contactId)
-            put(
-                ContactsContract.Data.MIMETYPE,
-                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-            )
-            put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME_ALTERNATIVE, lastName)
+            put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, firstName)
+            put(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, lastName)
         }
         context.contentResolver.insert(ContactsContract.Data.CONTENT_URI, contentValues)
     }
