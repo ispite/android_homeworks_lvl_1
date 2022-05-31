@@ -11,11 +11,18 @@ import ru.skillbox.a25_29_contentprovidertest.data.Course
 
 class MainRepository(private val context: Context) {
 
-/*    suspend fun saveRandomCourse(*//*id: Long, title: String, duration: Long*//*) =
+    suspend fun saveRandomCourse() =
         withContext(Dispatchers.IO) {
-            val courseID = saveCourseID()
-
-        }*/
+            val titleList = listOf("Programing course", "Design course", "Marketing course")
+            val durationList = listOf(259200000L, 691200000, 417600000)
+            var id: Long = 0
+            try {
+                id = getLastCourseID() + 1
+            } catch (e: Exception) {
+                Log.d("MainRepository", "saveBunchRandomCourses: ", e)
+            }
+            saveCourse(id, titleList.random(), durationList.random())
+        }
 
     suspend fun saveBunchRandomCourses(count: Int) = withContext(Dispatchers.IO) {
         val titleList = listOf("Programing course", "Design course", "Marketing course")
@@ -115,15 +122,32 @@ class MainRepository(private val context: Context) {
         return list
     }
 
-    suspend fun getCourseByID(id: Long):List<Course> = withContext(Dispatchers.IO) {
+    suspend fun getCourseByID(id: Long): List<Course> = withContext(Dispatchers.IO) {
         context.contentResolver.query(
-            Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses"),
+            Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses/$id"),
             null,
-            "/?",
-            arrayOf(id.toString()),
+            null,
+            null,
             null
         )?.use {
+//            Log.d("MainRepository", "getCourseByID: ${it}")
             getCourseFromCursor(it)
         }.orEmpty()
+    }
+
+    fun deleteCourseById(id: Long):Int {
+        return context.contentResolver.delete(
+            Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses/$id"),
+            null,
+            null,
+        )
+    }
+
+    fun deleteAllCourses():Int {
+        return context.contentResolver.delete(
+            Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses"),
+            null,
+            null
+        )
     }
 }

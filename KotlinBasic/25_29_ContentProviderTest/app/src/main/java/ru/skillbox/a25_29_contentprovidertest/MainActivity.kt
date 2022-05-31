@@ -26,6 +26,12 @@ InputIdDialogFragment.InputIdDialogListener{
             //repository.saveRandomCourse()
         }*/
 
+        createRandomCourseButton.setOnClickListener {
+            myActivityScope.launch {
+                repository.saveRandomCourse()
+            }
+        }
+
         saveBunchCoursesButton.setOnClickListener {
             myActivityScope.launch {
                 repository.saveBunchRandomCourses(5)
@@ -40,15 +46,33 @@ InputIdDialogFragment.InputIdDialogListener{
         }
 
         getCourseByIDButton.setOnClickListener {
-            InputIdDialogFragment()
+            InputIdDialogFragment("GET")
                 .show(supportFragmentManager, "Dialog")
 
         }
+
+        deleteCourseByIDButton.setOnClickListener {
+            InputIdDialogFragment("DELETE")
+                .show(supportFragmentManager, "Dialog")
+        }
+
+        deleteAllCoursesButton.setOnClickListener {
+            myActivityScope.launch {
+                val result = repository.deleteAllCourses()
+                Log.d("MainActivity", "onCreate: $result")
+            }
+        }
+
     }
 
-    override fun passID(id: Long) {
+    override fun passID(id: Long, type: String) {
         Log.d("MainActivity", "passID: $id")
-        getCourseByID(id)
+        if (type == "GET") {
+            getCourseByID(id)
+        } else {
+            deleteCourseByID(id)
+        }
+
     }
 
     fun getCourseByID(id: Long) {
@@ -56,6 +80,12 @@ InputIdDialogFragment.InputIdDialogListener{
             val course = repository.getCourseByID(id)
             Log.d("MainActivity", "getCourseByID: $course")
         }
+    }
 
+    fun deleteCourseByID(id: Long) {
+        myActivityScope.launch {
+            val result = repository.deleteCourseById(id)
+            Log.d("MainActivity", "deleteCourseByID: $result")
+        }
     }
 }
