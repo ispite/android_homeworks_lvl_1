@@ -10,7 +10,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class MainActivity(/*application: Application*/) : AppCompatActivity(),
-InputIdDialogFragment.InputIdDialogListener{
+InputIdDialogFragment.InputIdDialogListener , UpdateCourseByIdDialogFragment.UpdateCourseByIdDialogListener{
 
     //val context = applicationContext
     //val context = applicationContext
@@ -63,6 +63,13 @@ InputIdDialogFragment.InputIdDialogListener{
             }
         }
 
+        updateCourseByIDButton.setOnClickListener {
+            myActivityScope.launch {
+                UpdateCourseByIdDialogFragment()
+                    .show(supportFragmentManager, "Dialog")
+            }
+        }
+
     }
 
     override fun passID(id: Long, type: String) {
@@ -75,17 +82,26 @@ InputIdDialogFragment.InputIdDialogListener{
 
     }
 
-    fun getCourseByID(id: Long) {
+    private fun getCourseByID(id: Long) {
         myActivityScope.launch {
             val course = repository.getCourseByID(id)
             Log.d("MainActivity", "getCourseByID: $course")
         }
     }
 
-    fun deleteCourseByID(id: Long) {
+    private fun deleteCourseByID(id: Long) {
         myActivityScope.launch {
             val result = repository.deleteCourseById(id)
             Log.d("MainActivity", "deleteCourseByID: $result")
         }
+    }
+
+    override fun passUpdateArgs(id: Long, title: String, duration: Long) {
+        Log.d("MainActivity", "passUpdateArgs: $id $title $duration")
+        updateCourseByID(id, title, duration)
+    }
+
+    private fun updateCourseByID(id: Long, title: String, duration: Long) {
+
     }
 }
