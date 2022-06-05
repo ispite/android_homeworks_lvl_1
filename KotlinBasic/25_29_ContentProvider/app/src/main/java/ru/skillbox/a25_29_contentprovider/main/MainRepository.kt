@@ -170,7 +170,7 @@ class MainRepository(private val context: Context) {
     }
 
     private fun saveContactName(contactId: Long, firstName: String, lastName: String) {
-        var contentValues = ContentValues().apply {
+        val contentValues = ContentValues().apply {
             put(ContactsContract.Data.RAW_CONTACT_ID, contactId)
             put(
                 ContactsContract.Data.MIMETYPE,

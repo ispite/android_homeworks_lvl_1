@@ -121,29 +121,12 @@ class MyContentProvider : ContentProvider() {
         }
     }
 
-    fun deleteAllCourses(): Int {
-        val courseId = "content://$AUTHORITIES/$PATH_COURSES"
-        Log.d("MyContentProvider", "deleteAllCourses: $courseId")
-        return if (coursePrefs.contains(courseId)) {
-//            coursePrefs
-/*            coursePrefs.edit()
-                .clear()
-                .commit()
-
-            1*/
-
-            //coursePrefs.contains(courseId)
-            val keys2: Map<String, *> = coursePrefs.all
-            val keys: Map<String, *> = coursePrefs.all
+    private fun deleteAllCourses(): Int {
+        return if (coursePrefs.all.isNotEmpty()) {
             var count = 0
-            for ((key, value) in keys) {
-                Log.d("map values", key + ": " +
-                            value.toString())
-                count++
-            }
-            Log.d("MyContentProvider", "deleteAllCourses: $count")
-            1
-
+            for ((key, value) in coursePrefs.all) count++
+            coursePrefs.edit().clear().commit()
+            count
         } else {
             0
         }
