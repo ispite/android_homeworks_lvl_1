@@ -24,4 +24,16 @@
         app:maxImageSize="40dp"
         android:contentDescription="@string/add_new_contact" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/downloadFileFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_download_arrow_circle"
+        app:layout_constraintBottom_toTopOf="@id/addContactFAB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="50dp"
+        android:contentDescription="@string/download_file" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

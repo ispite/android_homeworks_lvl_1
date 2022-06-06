@@ -30,6 +30,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddContactFragment())
         }
 
+        downloadFileFAB.setOnClickListener {
+
+        }
+
         Handler(Looper.getMainLooper()).post{
             constructPermissionsRequest(
                 Manifest.permission.READ_CONTACTS,
