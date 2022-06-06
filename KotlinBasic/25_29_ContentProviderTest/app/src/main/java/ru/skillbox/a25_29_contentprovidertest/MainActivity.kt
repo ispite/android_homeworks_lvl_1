@@ -102,6 +102,7 @@ InputIdDialogFragment.InputIdDialogListener , UpdateCourseByIdDialogFragment.Upd
     }
 
     private fun updateCourseByID(id: Long, title: String, duration: Long) {
-
+        val result = repository.updateCourseById(id, title, duration)
+        Log.d("MainActivity", "updateCourseByID: $result")
     }
 }

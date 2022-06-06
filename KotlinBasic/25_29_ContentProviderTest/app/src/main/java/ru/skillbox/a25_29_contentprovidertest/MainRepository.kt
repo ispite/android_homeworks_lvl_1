@@ -46,6 +46,7 @@ class MainRepository(private val context: Context) {
             null,
             null,
             null,
+            null,
             null
         )?.use {
             getLastIDFromCursor(it)
@@ -85,13 +86,15 @@ class MainRepository(private val context: Context) {
             put("duration", duration)
         }
 
-        val uri = context.contentResolver.insert(
-            Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses"),
-            contentValues
-        )
-
-        Log.d("MainRepository", "saveCourseID: $uri")
-        return uri?.lastPathSegment?.toLongOrNull() ?: error("cannot save raw course")
+        return try {
+            val uri = context.contentResolver.insert(
+                Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses"),
+                contentValues
+            )
+            uri?.lastPathSegment?.toLongOrNull() ?: error("cannot save raw course")
+        } catch (e: Exception) {
+            Log.d("MainRepository", "saveCourse: $e").toLong()
+        }
     }
 
     suspend fun getAllCourses(): List<Course> = withContext(Dispatchers.IO) {
@@ -135,19 +138,46 @@ class MainRepository(private val context: Context) {
         }.orEmpty()
     }
 
-    fun deleteCourseById(id: Long):Int {
-        return context.contentResolver.delete(
-            Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses/$id"),
-            null,
-            null,
-        )
+    fun deleteCourseById(id: Long): Int {
+        return try {
+            context.contentResolver.delete(
+                Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses/$id"),
+                null,
+                null
+            )
+        } catch (e: Exception) {
+            Log.d("MainRepository", "deleteCourseById: $e")
+        }
+
     }
 
-    fun deleteAllCourses():Int {
-        return context.contentResolver.delete(
-            Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses"),
-            null,
-            null
-        )
+    fun deleteAllCourses(): Int {
+        return try {
+            context.contentResolver.delete(
+                Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses"),
+                null,
+                null
+            )
+        } catch (e: Exception) {
+            Log.d("MainRepository", "deleteAllCourses: $e")
+        }
+    }
+
+    fun updateCourseById(id: Long, title: String, duration: Long): Int {
+        val contentValues = ContentValues().apply {
+            put("id", id)
+            put("title", title)
+            put("duration", duration)
+        }
+        return try {
+            context.contentResolver.update(
+                Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses/$id"),
+                contentValues,
+                null,
+                null
+            )
+        } catch (e: Exception) {
+            Log.d("MainRepository", "updateCourseById: $e")
+        }
     }
 }
