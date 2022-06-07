@@ -6,6 +6,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import android.os.Environment
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.RawContacts
@@ -14,6 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.skillbox.a25_29_contentprovider.data.Contact
 import ru.skillbox.a25_29_contentprovider.data.ContactInfo
+import ru.skillbox.a25_29_contentprovider.network.Networking
+import java.io.File
+import java.net.URL
 
 
 class MainRepository(private val context: Context) {
@@ -295,6 +299,39 @@ class MainRepository(private val context: Context) {
                     context.contentResolver.applyBatch(ContactsContract.AUTHORITY, op_list)
             } catch (e: Exception) {
                 e.printStackTrace()
+            }
+        }
+    }
+
+    private fun getFileName(fileUrl: String): String {
+        val timestamp = System.currentTimeMillis() / 1000
+        var fileName = URL(fileUrl).file
+        fileName = fileName.substring(fileName.lastIndexOf('/') + 1)
+        fileName = timestamp.toString() + "_" + fileName
+        return fileName
+    }
+
+    suspend fun downloadFile(
+        fileUrl: String,
+        success: (Boolean, String) -> Unit
+    ) {
+        if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
+            val folder = context.getExternalFilesDir("myFolder")
+            val file = File(folder, getFileName(fileUrl))
+            try {
+                file.outputStream().use { fileOutputStream ->
+                    Networking.api
+                        .getFile(fileUrl)
+                        .byteStream()
+                        .use { inputStream ->
+                            inputStream.copyTo(fileOutputStream)
+                            success(true, file.name)
+                        }
+                }
+            } catch (t: Throwable) {
+                success(false, "")
+                file.delete()
+                Log.d("MainRepository", "delete File: ${t.message}", t)
             }
         }
     }

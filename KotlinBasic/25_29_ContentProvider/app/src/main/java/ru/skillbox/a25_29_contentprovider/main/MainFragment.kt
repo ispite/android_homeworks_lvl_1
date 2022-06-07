@@ -31,7 +31,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         downloadFileFAB.setOnClickListener {
-
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToMainDialogFragment())
         }
 
         Handler(Looper.getMainLooper()).post{

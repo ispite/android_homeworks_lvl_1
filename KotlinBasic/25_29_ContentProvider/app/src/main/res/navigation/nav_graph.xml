@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_mainFragment_to_addContactFragment"
             app:destination="@id/addContactFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_mainDialogFragment"
+            app:destination="@id/mainDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactDetailFragment"
@@ -30,6 +33,11 @@
         android:id="@+id/addContactFragment"
         android:name="ru.skillbox.a25_29_contentprovider.add_contact.AddContactFragment"
         android:label="AddContactFragment"
-        tools:layout="@layout/fragment_add_contact"/>
+        tools:layout="@layout/fragment_add_contact" />
+    <dialog
+        android:id="@+id/mainDialogFragment"
+        android:name="ru.skillbox.a25_29_contentprovider.main.MainDialogFragment"
+        android:label="MainDialogFragment"
+        tools:layout="@layout/dialog_download_file" />
 
 </navigation>
