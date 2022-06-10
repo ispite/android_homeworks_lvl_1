@@ -4,6 +4,7 @@ import android.Manifest
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,7 +17,7 @@ import ru.skillbox.a25_29_contentprovider.R
 import ru.skillbox.a25_29_contentprovider.utils.autoCleared
 import ru.skillbox.a25_29_contentprovider.utils.toast
 
-class MainFragment : Fragment(R.layout.fragment_main) {
+class MainFragment : Fragment(R.layout.fragment_main)/*, MainDialogFragment.MainDialogListener*/ {
 
     private val viewModel by viewModels<MainViewModel>()
     private var contactsAdapter: MainContactsListAdapter by autoCleared()
@@ -75,4 +76,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun onContactPermissionNeverAskAgain() {
         toast(R.string.contact_list_permission_never_ask_again)
     }
+
+/*    override fun passDownloadLink(link: String) {
+        Log.d("MainFragment", "passDownloadLink: $link")
+
+    }*/
 }

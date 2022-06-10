@@ -22,6 +22,10 @@ import java.net.URL
 
 class MainRepository(private val context: Context) {
 
+    private val sharedPrefs by lazy {
+        context.getSharedPreferences(SHARED_PREFS_FILENAME, Context.MODE_PRIVATE)
+    }
+
     suspend fun getAllContacts(): List<Contact> = withContext(Dispatchers.IO) {
         context.contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
@@ -334,5 +338,21 @@ class MainRepository(private val context: Context) {
                 Log.d("MainRepository", "delete File: ${t.message}", t)
             }
         }
+    }
+
+    fun checkFileExistence(fileUrl: String, fileName: (String) -> Unit): Boolean {
+        fileName(sharedPrefs.getString(fileUrl, null).orEmpty())
+        return sharedPrefs.contains(fileUrl)
+    }
+
+    suspend fun saveSharedPrefsInfo(fileUrl: String, fileName: String) {
+        Log.d("MainRepository", "saveSharedPrefsInfo: $fileUrl, $fileName")
+        sharedPrefs.edit()
+            .putString(fileUrl, fileName)
+            .apply()
+    }
+
+    companion object {
+        private const val SHARED_PREFS_FILENAME = "shared_prefs_data"
     }
 }
