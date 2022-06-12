@@ -1,9 +1,9 @@
 package ru.skillbox.a25_29_contentprovider.main
 
 import android.content.ContentProviderOperation
-import android.content.ContentProviderResult
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
@@ -11,8 +11,10 @@ import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.RawContacts
 import android.util.Log
+import androidx.core.content.FileProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.skillbox.a25_29_contentprovider.BuildConfig
 import ru.skillbox.a25_29_contentprovider.data.Contact
 import ru.skillbox.a25_29_contentprovider.data.ContactInfo
 import ru.skillbox.a25_29_contentprovider.network.Networking
@@ -300,7 +302,7 @@ class MainRepository(private val context: Context) {
 
             try {
                 //val results: Array<ContentProviderResult> =
-                    context.contentResolver.applyBatch(ContactsContract.AUTHORITY, op_list)
+                context.contentResolver.applyBatch(ContactsContract.AUTHORITY, op_list)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -319,6 +321,7 @@ class MainRepository(private val context: Context) {
         fileUrl: String,
         success: (Boolean, String) -> Unit
     ) {
+//        Log.d("MainRepository", "downloadFile: ")
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             val folder = context.getExternalFilesDir("myFolder")
             val file = File(folder, getFileName(fileUrl))
@@ -341,7 +344,9 @@ class MainRepository(private val context: Context) {
     }
 
     fun checkFileExistence(fileUrl: String, fileName: (String) -> Unit): Boolean {
+        Log.d("MainRepository", "checkFileExistence: $fileUrl")
         fileName(sharedPrefs.getString(fileUrl, null).orEmpty())
+        Log.d("MainRepository", "checkFileExistence: ${sharedPrefs.all}")
         return sharedPrefs.contains(fileUrl)
     }
 
@@ -349,7 +354,31 @@ class MainRepository(private val context: Context) {
         Log.d("MainRepository", "saveSharedPrefsInfo: $fileUrl, $fileName")
         sharedPrefs.edit()
             .putString(fileUrl, fileName)
-            .apply()
+            .commit()
+//            .apply()
+    }
+
+    suspend fun shareFile(fileName: String):Intent {
+        if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) /*return*/ throw Exception("Disk is not mounted")
+        val folder = context.getExternalFilesDir("myFolder")
+//        Log.d("MainRepository", "shareFile: $")
+        val file = File(folder, fileName)
+        if (file.exists().not()) /*return*/ throw Exception("File does not exist")
+
+        val uri = FileProvider.getUriForFile(
+            context,
+            "${BuildConfig.APPLICATION_ID}.file_provider",
+            file
+        )
+//        Log.d("MainRepository", "shareFile: $uri")
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_STREAM, uri)
+            type = context.contentResolver.getType(uri)
+            setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        val shareIntent = Intent.createChooser(intent, null)
+        return shareIntent
     }
 
     companion object {

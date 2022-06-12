@@ -17,9 +17,10 @@ import ru.skillbox.a25_29_contentprovider.R
 import ru.skillbox.a25_29_contentprovider.utils.autoCleared
 import ru.skillbox.a25_29_contentprovider.utils.toast
 
-class MainFragment : Fragment(R.layout.fragment_main)/*, MainDialogFragment.MainDialogListener*/ {
+class MainFragment : Fragment(R.layout.fragment_main), MainDialogFragment.MainDialogListener {
 
     private val viewModel by viewModels<MainViewModel>()
+//    private val viewModelDialog by viewModels<MainDialogViewModel>()
     private var contactsAdapter: MainContactsListAdapter by autoCleared()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,7 +33,9 @@ class MainFragment : Fragment(R.layout.fragment_main)/*, MainDialogFragment.Main
         }
 
         downloadFileFAB.setOnClickListener {
-            findNavController().navigate(MainFragmentDirections.actionMainFragmentToMainDialogFragment())
+            MainDialogFragment()
+                .show(childFragmentManager, "Dialog")
+//            findNavController().navigate(MainFragmentDirections.actionMainFragmentToMainDialogFragment())
         }
 
         Handler(Looper.getMainLooper()).post{
@@ -45,6 +48,19 @@ class MainFragment : Fragment(R.layout.fragment_main)/*, MainDialogFragment.Main
                     viewModel.loadList() }
             )
                 .launch()
+        }
+
+/*        viewModelDialog.downloadLink.observe(viewLifecycleOwner) {
+            Log.d("MainFragment", "onViewCreated: $it")
+        }*/
+
+        viewModel.fileName.observe(viewLifecycleOwner) {
+            Log.d("MainFragment", "onViewCreated: $it")
+            if (it.isNotEmpty()) viewModel.shareFile()
+        }
+
+        viewModel.shareIntent.observe(viewLifecycleOwner) {
+            startActivity(it)
         }
     }
 
@@ -77,8 +93,10 @@ class MainFragment : Fragment(R.layout.fragment_main)/*, MainDialogFragment.Main
         toast(R.string.contact_list_permission_never_ask_again)
     }
 
-/*    override fun passDownloadLink(link: String) {
-        Log.d("MainFragment", "passDownloadLink: $link")
-
-    }*/
+    override fun passDownloadLink(link: String) {
+//        Log.d("MainFragment", "passDownloadLink: $link")
+        val fileName = viewModel.downloadFile(link)
+//        Log.d("MainFragment", "passDownloadLink: $fileName")
+//        viewModel.shareFile()
+    }
 }
