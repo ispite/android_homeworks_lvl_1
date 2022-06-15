@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="ru.skillbox.a27_31_roomdao.ui.MainFragment"
+        android:name="ru.skillbox.a27_31_roomdao.ui.main.MainFragment"
         android:label="MainFragment" >
         <action
             android:id="@+id/action_mainFragment_to_placeholder"
@@ -14,8 +14,11 @@
         <action
             android:id="@+id/action_mainFragment_to_WorkDepartments"
             app:destination="@id/WorkDepartments" />
+        <action
+            android:id="@+id/action_mainFragment_to_Projects"
+            app:destination="@id/Projects" />
     </fragment>
     <fragment android:id="@+id/Employees" />
     <fragment android:id="@+id/WorkDepartments" />
-    <fragment android:id="@+id/placeholder3" />
+    <fragment android:id="@+id/Projects" />
 </navigation>
