@@ -9,6 +9,6 @@ object Database {
         private set
 
     fun init(context: Context) {
-        Room.databaseBuilder(context, MyDatabase::class.java, MyDatabase.DB_NAME)
+        instance = Room.databaseBuilder(context, MyDatabase::class.java, MyDatabase.DB_NAME).build()
     }
 }

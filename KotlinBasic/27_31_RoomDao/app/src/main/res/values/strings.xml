@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">27_31_RoomDao</string>
     <string name="employees">Сотрудники</string>
+    <string name="user_add_error_incorrect_format">Incorrect form</string>
+    <string name="user_add_error_default">User save error</string>
 </resources>

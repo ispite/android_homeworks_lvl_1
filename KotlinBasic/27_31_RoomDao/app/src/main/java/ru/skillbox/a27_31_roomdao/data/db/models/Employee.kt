@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = EmployeesContract.TABLE_NAME)
 data class Employee(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = EmployeesContract.Columns.ID)
     val id: Long,
     @ColumnInfo(name = EmployeesContract.Columns.COMPANY_ID)

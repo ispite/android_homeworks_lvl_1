@@ -11,6 +11,6 @@ abstract class MyDatabase: RoomDatabase() {
 
     companion object {
         const val DB_VERSION = 1
-        const val DB_NAME = "my-datebase"
+        const val DB_NAME = "my-database"
     }
 }
