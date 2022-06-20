@@ -3,4 +3,10 @@
     <string name="employees">Сотрудники</string>
     <string name="user_add_error_incorrect_format">Incorrect form</string>
     <string name="user_add_error_default">User save error</string>
+    <string name="delete_employee_button">deleteEmployeeButton</string>
+    <string name="add_employee_fab">addEmployeeFab</string>
+    <string name="input_first_name">Введите имя</string>
+    <string name="input_last_name">Введите фамилию</string>
+    <string name="input_birthdate">Введите дату рождения</string>
+    <string name="add_random_employee_fab">add random employee fab</string>
 </resources>

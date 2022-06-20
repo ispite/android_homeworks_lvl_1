@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="4dp"
-    android:layout_marginHorizontal="4dp">
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/idTextView"
             android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="4dp"
@@ -23,44 +23,52 @@
             tools:text="01" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/companyIdTextView"
             android:layout_width="32dp"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:paddingHorizontal="4dp"
-            app:layout_constraintStart_toEndOf="@+id/textView"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/idTextView"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="21"
-            />
+            tools:text="21" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/firstNameTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingEnd="4dp"
             android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintStart_toEndOf="@+id/companyIdTextView"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Ivan" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/lastNameTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintStart_toEndOf="@+id/firstNameTextView"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Sidorov" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/birthdateTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="4dp"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/deleteEmployeeButton"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="21.02.1999" />
+
+        <ImageButton
+            android:id="@+id/deleteEmployeeButton"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_delete"
+            android:contentDescription="@string/delete_employee_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

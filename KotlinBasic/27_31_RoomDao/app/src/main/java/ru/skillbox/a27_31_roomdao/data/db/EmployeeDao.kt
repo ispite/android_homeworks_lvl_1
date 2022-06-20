@@ -13,12 +13,15 @@ interface EmployeeDao {
     @Insert
     suspend fun insertEmployees(employees: List<Employee>)
 
-    @Update
-    suspend fun updateUser(employee: Employee)
-
     @Delete
     suspend fun removeEmployee(employee: Employee)
 
     @Query("DELETE FROM ${EmployeesContract.TABLE_NAME} WHERE ${EmployeesContract.Columns.ID} = :employeeId")
     suspend fun removeEmployeeById(employeeId: Long)
+
+    @Query("SELECT * FROM ${EmployeesContract.TABLE_NAME} WHERE ${EmployeesContract.Columns.ID} = :employeeId")
+    suspend fun getEmployeeById(employeeId: Long): Employee?
+
+    @Update
+    suspend fun updateEmployee(employee: Employee)
 }

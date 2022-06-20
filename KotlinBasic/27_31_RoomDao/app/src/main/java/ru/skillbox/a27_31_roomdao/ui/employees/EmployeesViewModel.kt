@@ -11,6 +11,7 @@ import ru.skillbox.a27_31_roomdao.data.IncorrectFormException
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 import ru.skillbox.a27_31_roomdao.utils.SingleLiveEvent
 import timber.log.Timber
+import kotlin.random.Random
 
 class EmployeesViewModel : ViewModel() {
 
@@ -29,6 +30,10 @@ class EmployeesViewModel : ViewModel() {
 
     val saveSuccess: LiveData<Unit>
         get() = _saveSuccess
+
+    private val employeeFirstNameList = listOf("Иван", "Сергей", "Владимир")
+    private val employeeLastNameList = listOf("Иванов", "Петров", "Сидоров")
+    private val employeeBirthdateList = listOf("21.01.1990", "11.05.1976", "29.02.1986")
 
     fun getAllEmployees() {
         viewModelScope.launch {
@@ -70,6 +75,37 @@ class EmployeesViewModel : ViewModel() {
         }
     }
 
+    fun insertRandomEmployee(
+/*        id: Long,
+        companyId: Long,
+        firstName: String,
+        lastName: String,
+        birthdate: String*/
+    ) {
+        val id = 0L
+        val employee = Employee(
+            id = id,
+            companyId = 0,
+            firstName = employeeFirstNameList.random(),
+            lastName = employeeLastNameList.random(),
+            birthdate = employeeBirthdateList.random()
+        )
+
+        viewModelScope.launch {
+            try {
+                if (id == 0L) {
+                    employeeRepository.insertEmployee(employee)
+                } else {
+                    employeeRepository.updateEmployee(employee)
+                }
+                _saveSuccess.postValue(Unit)
+            } catch (t: Throwable) {
+                Timber.e(t, "employee insert error")
+                showError(t)
+            }
+        }
+    }
+
     fun removeEmployeeById(employee: Employee) {
         viewModelScope.launch {
             try {
@@ -90,7 +126,7 @@ class EmployeesViewModel : ViewModel() {
         )
     }
 
-    private fun reloadList() {
+    fun reloadList() {
         viewModelScope.launch {
             try {
                 _employeeList.postValue(employeeRepository.getAllEmployees())

@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
     <fragment
         android:id="@+id/mainFragment"
         android:name="ru.skillbox.a27_31_roomdao.ui.main.MainFragment"
-        android:label="MainFragment" >
-        <action
-            android:id="@+id/action_mainFragment_to_placeholder"
-            app:destination="@id/Employees" />
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_WorkDepartments"
             app:destination="@id/WorkDepartments" />
         <action
             android:id="@+id/action_mainFragment_to_Projects"
             app:destination="@id/Projects" />
+        <action
+            android:id="@+id/action_mainFragment_to_employeesFragment"
+            app:destination="@id/employeesFragment" />
     </fragment>
-    <fragment android:id="@+id/Employees" />
     <fragment android:id="@+id/WorkDepartments" />
     <fragment android:id="@+id/Projects" />
+    <fragment
+        android:id="@+id/employeesFragment"
+        android:name="ru.skillbox.a27_31_roomdao.ui.employees.EmployeesFragment"
+        android:label="EmployeesFragment"
+        tools:layout="@layout/fragment_employees">
+        <action
+            android:id="@+id/action_employeesFragment_to_addUpdateEmployeeFragment"
+            app:destination="@id/addUpdateEmployeeFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/addUpdateEmployeeFragment"
+        android:name="ru.skillbox.a27_31_roomdao.ui.employees.AddUpdateEmployeeFragment"
+        android:label="AddUpdateEmployeeFragment"
+        tools:layout="@layout/dialog_add_update_employee"/>
 </navigation>

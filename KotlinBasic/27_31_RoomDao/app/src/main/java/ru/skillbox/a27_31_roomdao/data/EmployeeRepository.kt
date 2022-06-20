@@ -18,7 +18,7 @@ class EmployeeRepository {
 
     suspend fun updateEmployee(employee: Employee) {
         if (isEmployeeValid(employee).not()) throw IncorrectFormException()
-        employeeDao.updateUser(employee)
+        employeeDao.updateEmployee(employee)
     }
 
     suspend fun removeEmployeeById(employeeId: Long) {
@@ -29,5 +29,9 @@ class EmployeeRepository {
         return employee.firstName.isNotBlank() &&
                 employee.lastName.isNotBlank() &&
                 employee.birthdate.isNotBlank()
+    }
+
+    suspend fun getEmployeeById(employeeId: Long): Employee? {
+        return employeeDao.getEmployeeById(employeeId)
     }
 }

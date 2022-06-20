@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -33,6 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
@@ -51,8 +55,10 @@ dependencies {
 
     //Recyclerview
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    //Cardview
+    //CardView
     implementation 'androidx.cardview:cardview:1.0.0'
+    //AdapterDelegate
+    implementation 'com.hannesdorfmann:adapterdelegates4:4.3.0'
 
     //RoomDao
     def room_version = "2.4.2"
