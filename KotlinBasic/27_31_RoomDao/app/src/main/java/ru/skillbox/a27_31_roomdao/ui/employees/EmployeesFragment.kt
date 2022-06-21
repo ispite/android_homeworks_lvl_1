@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_employees.*
 import ru.skillbox.a27_31_roomdao.R
+import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 import ru.skillbox.a27_31_roomdao.ui.employees.adapter.EmployeeListAdapter
 import ru.skillbox.a27_31_roomdao.utils.autoCleared
 
@@ -29,7 +30,7 @@ class EmployeesFragment : Fragment(R.layout.fragment_employees) {
     }
 
     private fun initList() {
-        employeeAdapter = EmployeeListAdapter({ ; }, viewModel::removeEmployeeById)
+        employeeAdapter = EmployeeListAdapter(::navigateToEmployeeEdit, viewModel::removeEmployeeById)
         with(employeeListRecyclerView) {
             adapter = employeeAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -40,7 +41,11 @@ class EmployeesFragment : Fragment(R.layout.fragment_employees) {
     private fun bindViewModel() {
         viewModel.employeeList.observe(viewLifecycleOwner) {
             employeeAdapter.items = it
-//            viewModel.reloadList()
         }
+    }
+
+    private fun navigateToEmployeeEdit(employee: Employee) {
+        val direction = EmployeesFragmentDirections.actionEmployeesFragmentToAddUpdateEmployeeFragment(employee.id)
+        findNavController().navigate(direction)
     }
 }
