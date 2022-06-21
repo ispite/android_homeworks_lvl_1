@@ -11,8 +11,8 @@ import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 import ru.skillbox.a27_31_roomdao.utils.inflate
 
 class EmployeeAdapterDelegate(
-    /*private val onEmployeeClick: (Employee) -> Unit,*/
-    /*private val onDeleteEmployee: (Employee) -> Unit*/
+    private val onEmployeeClick: (Employee) -> Unit,
+    private val onDeleteEmployee: (Employee) -> Unit
 ) : AbsListItemAdapterDelegate<Employee, Employee, EmployeeAdapterDelegate.Holder>() {
 
     override fun isForViewType(
@@ -25,7 +25,7 @@ class EmployeeAdapterDelegate(
 
     override fun onCreateViewHolder(parent: ViewGroup): Holder {
         return parent.inflate(R.layout.item_employee).let {
-            Holder(it, /*onEmployeeClick,*/ /*onDeleteEmployee*/)
+            Holder(it, onEmployeeClick, onDeleteEmployee)
         }
     }
 
@@ -35,14 +35,14 @@ class EmployeeAdapterDelegate(
 
     class Holder(
         override val containerView: View,
-        /*onEmployeeClick: (Employee) -> Unit,*/
-        /*onDeleteEmployee: (Employee) -> Unit*/
+        onEmployeeClick: (Employee) -> Unit,
+        onDeleteEmployee: (Employee) -> Unit
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         private var currentEmployee: Employee? = null
 
         init {
-            /*containerView.setOnClickListener { currentEmployee?.let(onEmployeeClick) }*/
-           /* deleteEmployeeButton.setOnClickListener { currentEmployee?.let(onDeleteEmployee) }*/
+            containerView.setOnClickListener { currentEmployee?.let(onEmployeeClick) }
+            deleteEmployeeButton.setOnClickListener { currentEmployee?.let(onDeleteEmployee) }
         }
 
         fun bind(employee: Employee) {
@@ -51,6 +51,7 @@ class EmployeeAdapterDelegate(
             companyIdTextView.text = employee.companyId.toString()
             firstNameTextView.text = employee.firstName
             lastNameTextView.text = employee.lastName
+            birthdateTextView.text = employee.birthdate
         }
     }
 }

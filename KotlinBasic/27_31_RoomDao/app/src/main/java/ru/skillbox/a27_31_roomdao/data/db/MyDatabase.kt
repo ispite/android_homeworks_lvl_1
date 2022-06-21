@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 
 @Database(entities = [Employee::class], version = MyDatabase.DB_VERSION)
-abstract class MyDatabase: RoomDatabase() {
+abstract class MyDatabase : RoomDatabase() {
 
     abstract fun employeeDao(): EmployeeDao
 

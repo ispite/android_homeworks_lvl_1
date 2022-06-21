@@ -29,7 +29,7 @@ class EmployeesFragment : Fragment(R.layout.fragment_employees) {
     }
 
     private fun initList() {
-        employeeAdapter = EmployeeListAdapter(/*{ ; },*/ /*viewModel::removeEmployeeById*/)
+        employeeAdapter = EmployeeListAdapter({ ; }, viewModel::removeEmployeeById)
         with(employeeListRecyclerView) {
             adapter = employeeAdapter
             layoutManager = LinearLayoutManager(requireContext())

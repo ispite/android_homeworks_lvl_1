@@ -5,12 +5,12 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 
 class EmployeeListAdapter(
-    /*onEmployeeClick: (Employee) -> Unit,*/
-    /*onDeleteEmployee: (Employee) -> Unit*/
-):AsyncListDifferDelegationAdapter<Employee>(EmployeeDiffUtilCallback()) {
+    onEmployeeClick: (Employee) -> Unit,
+    onDeleteEmployee: (Employee) -> Unit
+) : AsyncListDifferDelegationAdapter<Employee>(EmployeeDiffUtilCallback()) {
 
     init {
-        delegatesManager.addDelegate(EmployeeAdapterDelegate(/*onEmployeeClick,*/ /*onDeleteEmployee*/ ))
+        delegatesManager.addDelegate(EmployeeAdapterDelegate(onEmployeeClick, onDeleteEmployee))
     }
 
     class EmployeeDiffUtilCallback : DiffUtil.ItemCallback<Employee>() {

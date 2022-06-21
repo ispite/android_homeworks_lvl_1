@@ -11,7 +11,6 @@ import ru.skillbox.a27_31_roomdao.data.IncorrectFormException
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 import ru.skillbox.a27_31_roomdao.utils.SingleLiveEvent
 import timber.log.Timber
-import kotlin.random.Random
 
 class EmployeesViewModel : ViewModel() {
 
@@ -95,6 +94,7 @@ class EmployeesViewModel : ViewModel() {
             try {
                 if (id == 0L) {
                     employeeRepository.insertEmployee(employee)
+                    reloadList()
                 } else {
                     employeeRepository.updateEmployee(employee)
                 }
@@ -130,7 +130,7 @@ class EmployeesViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _employeeList.postValue(employeeRepository.getAllEmployees())
-            } catch (t:Throwable) {
+            } catch (t: Throwable) {
                 Timber.e(t, "employee reload list error")
                 _employeeList.postValue(emptyList())
             }

@@ -2,9 +2,16 @@ package ru.skillbox.a27_31_roomdao.data.db.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = EmployeesContract.TABLE_NAME)
+@Entity(
+    tableName = EmployeesContract.TABLE_NAME,
+    indices = [Index(
+        value = [EmployeesContract.Columns.FIRST_NAME, EmployeesContract.Columns.LAST_NAME, EmployeesContract.Columns.BIRTHDATE],
+        unique = true
+    )]
+)
 data class Employee(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = EmployeesContract.Columns.ID)

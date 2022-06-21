@@ -35,5 +35,5 @@
         android:id="@+id/addUpdateEmployeeFragment"
         android:name="ru.skillbox.a27_31_roomdao.ui.employees.AddUpdateEmployeeFragment"
         android:label="AddUpdateEmployeeFragment"
-        tools:layout="@layout/dialog_add_update_employee"/>
+        tools:layout="@layout/dialog_add_update_employee" />
 </navigation>
