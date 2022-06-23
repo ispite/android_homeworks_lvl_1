@@ -30,7 +30,8 @@ class EmployeesFragment : Fragment(R.layout.fragment_employees) {
     }
 
     private fun initList() {
-        employeeAdapter = EmployeeListAdapter(::navigateToEmployeeEdit, viewModel::removeEmployeeById)
+        employeeAdapter =
+            EmployeeListAdapter(::navigateToEmployeeEdit, viewModel::removeEmployeeById)
         with(employeeListRecyclerView) {
             adapter = employeeAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -45,7 +46,8 @@ class EmployeesFragment : Fragment(R.layout.fragment_employees) {
     }
 
     private fun navigateToEmployeeEdit(employee: Employee) {
-        val direction = EmployeesFragmentDirections.actionEmployeesFragmentToAddUpdateEmployeeFragment(employee.id)
+        val direction =
+            EmployeesFragmentDirections.actionEmployeesFragmentToAddUpdateEmployeeFragment(employee.id)
         findNavController().navigate(direction)
     }
 }
