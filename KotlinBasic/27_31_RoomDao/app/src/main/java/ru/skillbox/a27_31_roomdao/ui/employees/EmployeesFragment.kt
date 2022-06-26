@@ -10,6 +10,7 @@ import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 import ru.skillbox.a27_31_roomdao.ui.employees.adapter.EmployeeListAdapter
 import ru.skillbox.a27_31_roomdao.utils.autoCleared
+import timber.log.Timber
 
 class EmployeesFragment : Fragment(R.layout.fragment_employees) {
 
@@ -20,7 +21,12 @@ class EmployeesFragment : Fragment(R.layout.fragment_employees) {
         super.onViewCreated(view, savedInstanceState)
         initList()
         addEmployeeFab.setOnClickListener {
-            findNavController().navigate(R.id.action_employeesFragment_to_addUpdateEmployeeFragment)
+
+            findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("REFRESH")?.observe(viewLifecycleOwner) {
+                Timber.d("it work $it")
+                viewModel.reloadList()
+            }
+            findNavController().navigate(R.id.action_employeesFragment_to_addUpdateEmployeeDialogFragment)
         }
         addRandomEmployeeFab.setOnClickListener {
             viewModel.insertRandomEmployee()
@@ -47,7 +53,7 @@ class EmployeesFragment : Fragment(R.layout.fragment_employees) {
 
     private fun navigateToEmployeeEdit(employee: Employee) {
         val direction =
-            EmployeesFragmentDirections.actionEmployeesFragmentToAddUpdateEmployeeFragment(employee.id)
+            EmployeesFragmentDirections.actionEmployeesFragmentToAddUpdateEmployeeDialogFragment(employee.id)
         findNavController().navigate(direction)
     }
 }

@@ -28,12 +28,12 @@
         android:label="EmployeesFragment"
         tools:layout="@layout/fragment_employees">
         <action
-            android:id="@+id/action_employeesFragment_to_addUpdateEmployeeFragment"
-            app:destination="@id/addUpdateEmployeeFragment" />
+            android:id="@+id/action_employeesFragment_to_addUpdateEmployeeDialogFragment"
+            app:destination="@id/addUpdateEmployeeDialogFragment" />
     </fragment>
     <dialog
-        android:id="@+id/addUpdateEmployeeFragment"
-        android:name="ru.skillbox.a27_31_roomdao.ui.employees.AddUpdateEmployeeFragment"
+        android:id="@+id/addUpdateEmployeeDialogFragment"
+        android:name="ru.skillbox.a27_31_roomdao.ui.employees.AddUpdateEmployeeDialogFragment"
         android:label="AddUpdateEmployeeFragment"
         tools:layout="@layout/dialog_add_update_employee">
         <argument
