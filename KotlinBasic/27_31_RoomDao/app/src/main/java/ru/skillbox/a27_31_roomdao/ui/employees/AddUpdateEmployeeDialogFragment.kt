@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.view_toolbar.view.*
 import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 import ru.skillbox.a27_31_roomdao.utils.toast
+import timber.log.Timber
 import kotlin.random.Random
 
 class AddUpdateEmployeeDialogFragment : DialogFragment() {
@@ -42,7 +43,9 @@ class AddUpdateEmployeeDialogFragment : DialogFragment() {
             .setNegativeButton("Cancel") { _, _ -> }
             .setPositiveButton("Ok") { _, _ ->
                 insertEmployee(dialogView)
+//                viewModel.saveSuccess.
                 findNavController().previousBackStackEntry?.savedStateHandle?.set("REFRESH", Random.nextInt())
+                Timber.d("Employee inserted")
             }
             .create()
 
@@ -56,7 +59,7 @@ class AddUpdateEmployeeDialogFragment : DialogFragment() {
     private fun bindViewModel(view: View) {
         viewModel.existingEmployee.observe(this) { setExistingEmployee(view, it) }
         viewModel.saveError.observe(this) { toast(it) }
-        viewModel.saveSuccess.observe(this) { findNavController().popBackStack() }
+//        viewModel.saveSuccess.observe(this) { findNavController().popBackStack() }
     }
 
     private fun setExistingEmployee(view: View, employee: Employee) {
