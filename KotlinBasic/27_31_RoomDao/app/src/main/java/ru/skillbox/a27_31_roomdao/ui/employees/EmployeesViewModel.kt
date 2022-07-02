@@ -45,14 +45,7 @@ class EmployeesViewModel : ViewModel() {
     }
 
 
-
-    fun insertRandomEmployee(
-/*        id: Long,
-        companyId: Long,
-        firstName: String,
-        lastName: String,
-        birthdate: String*/
-    ) {
+    fun insertRandomEmployee() {
         val id = 0L
         val employee = Employee(
             id = id,
@@ -61,15 +54,14 @@ class EmployeesViewModel : ViewModel() {
             lastName = employeeLastNameList.random(),
             birthdate = employeeBirthdateList.random()
         )
-
         viewModelScope.launch {
             try {
                 if (id == 0L) {
                     employeeRepository.insertEmployee(employee)
                     reloadList()
-                } else {
+                } /*else {
                     employeeRepository.updateEmployee(employee)
-                }
+                }*/
                 _saveSuccess.postValue(Unit)
             } catch (t: Throwable) {
                 Timber.e(t, "employee insert error")

@@ -15,5 +15,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         employeesButton.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_employeesFragment)
         }
+
+        workDepartmentsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_workDepartmentsFragment)
+        }
     }
 }

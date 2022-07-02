@@ -6,6 +6,16 @@
     android:layout_marginHorizontal="4dp"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/addToolbar"
+        layout="@layout/view_toolbar"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/updateToolbar"
+        layout="@layout/view_toolbar_double_size"
+        android:visibility="gone" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/firstNameTextField"
         android:layout_width="match_parent"
@@ -45,7 +55,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="date"/>
+            android:inputType="date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

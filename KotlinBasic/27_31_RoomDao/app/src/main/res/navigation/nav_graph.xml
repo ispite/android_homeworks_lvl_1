@@ -11,16 +11,15 @@
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
         <action
-            android:id="@+id/action_mainFragment_to_WorkDepartments"
-            app:destination="@id/WorkDepartments" />
-        <action
             android:id="@+id/action_mainFragment_to_Projects"
             app:destination="@id/Projects" />
         <action
             android:id="@+id/action_mainFragment_to_employeesFragment"
             app:destination="@id/employeesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_workDepartmentsFragment"
+            app:destination="@id/workDepartmentsFragment" />
     </fragment>
-    <fragment android:id="@+id/WorkDepartments" />
     <fragment android:id="@+id/Projects" />
     <fragment
         android:id="@+id/employeesFragment"
@@ -41,4 +40,9 @@
             app:argType="long"
             android:defaultValue="0L" />
     </dialog>
+    <fragment
+        android:id="@+id/workDepartmentsFragment"
+        android:name="ru.skillbox.a27_31_roomdao.ui.work_departments.WorkDepartmentsFragment"
+        android:label="WorkDepartmentsFragment"
+        tools:layout="@layout/fragment_work_departments"/>
 </navigation>

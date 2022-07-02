@@ -11,4 +11,10 @@
         android:layout_height="wrap_content"
         android:text="@string/employees" />
 
+    <Button
+        android:id="@+id/workDepartmentsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/work_departments" />
+
 </LinearLayout>

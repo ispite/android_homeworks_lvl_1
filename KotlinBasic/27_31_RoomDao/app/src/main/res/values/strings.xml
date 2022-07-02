@@ -9,4 +9,5 @@
     <string name="input_last_name">Введите фамилию</string>
     <string name="input_birthdate">Введите дату рождения</string>
     <string name="add_random_employee_fab">add random employee fab</string>
+    <string name="work_departments">Отделы</string>
 </resources>
