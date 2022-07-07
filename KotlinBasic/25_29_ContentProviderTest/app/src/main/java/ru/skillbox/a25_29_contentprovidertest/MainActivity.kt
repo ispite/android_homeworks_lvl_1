@@ -10,7 +10,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class MainActivity(/*application: Application*/) : AppCompatActivity(),
-InputIdDialogFragment.InputIdDialogListener , UpdateCourseByIdDialogFragment.UpdateCourseByIdDialogListener{
+    InputIdDialogFragment.InputIdDialogListener,
+    UpdateCourseByIdDialogFragment.UpdateCourseByIdDialogListener {
 
     //val context = applicationContext
     //val context = applicationContext

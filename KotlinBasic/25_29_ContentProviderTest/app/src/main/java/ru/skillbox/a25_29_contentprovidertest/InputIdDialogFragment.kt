@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputEditText
-import java.lang.ClassCastException
 
 class InputIdDialogFragment(private val type: String) : DialogFragment() {
     private var listener: InputIdDialogListener? = null
@@ -31,9 +30,9 @@ class InputIdDialogFragment(private val type: String) : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = try {
-          activity as InputIdDialogListener
+            activity as InputIdDialogListener
         } catch (e: ClassCastException) {
-            throw ClassCastException (context.toString() + "must implement InputIdDialogListener")
+            throw ClassCastException(context.toString() + "must implement InputIdDialogListener")
         }
     }
 

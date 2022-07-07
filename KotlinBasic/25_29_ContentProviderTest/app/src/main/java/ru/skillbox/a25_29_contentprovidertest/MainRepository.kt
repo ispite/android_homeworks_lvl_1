@@ -7,6 +7,7 @@ import android.net.Uri
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.skillbox.a25_29_contentprovidertest.data.Constants
 import ru.skillbox.a25_29_contentprovidertest.data.Course
 
 class MainRepository(private val context: Context) {
@@ -61,24 +62,6 @@ class MainRepository(private val context: Context) {
         return sortedList[0].id
     }
 
-/*    private fun saveCourseID(): Long {
-        val contentValues = ContentValues().apply {
-            put("id", 1L)
-            put("title", "Awesome course")
-            put("duration", 259200000L)
-        }
-
-        val uri = context.contentResolver.insert(
-            //Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider"),
-            Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses"),
-            //Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses/1"),
-            contentValues
-        )
-
-        Log.d("MainRepository", "saveCourseID: $uri")
-        return uri?.lastPathSegment?.toLongOrNull() ?: error("cannot save raw course")
-    }*/
-
     private fun saveCourse(id: Long, title: String, duration: Long): Long {
         val contentValues = ContentValues().apply {
             put("id", id)
@@ -127,7 +110,7 @@ class MainRepository(private val context: Context) {
 
     suspend fun getCourseByID(id: Long): List<Course> = withContext(Dispatchers.IO) {
         context.contentResolver.query(
-            Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses/$id"),
+            Uri.withAppendedPath(Uri.parse(Constants.URI_COURSES), id.toString()),
             null,
             null,
             null,
@@ -141,7 +124,7 @@ class MainRepository(private val context: Context) {
     fun deleteCourseById(id: Long): Int {
         return try {
             context.contentResolver.delete(
-                Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses/$id"),
+                Uri.withAppendedPath(Uri.parse(Constants.URI_COURSES), id.toString()),
                 null,
                 null
             )
@@ -171,7 +154,7 @@ class MainRepository(private val context: Context) {
         }
         return try {
             context.contentResolver.update(
-                Uri.parse("content://ru.skillbox.a25_29_contentprovider.provider/courses/$id"),
+                Uri.withAppendedPath(Uri.parse(Constants.URI_COURSES), id.toString()),
                 contentValues,
                 null,
                 null

@@ -16,7 +16,8 @@ class UpdateCourseByIdDialogFragment : DialogFragment() {
 
         val inputId = view.findViewById<TextInputEditText>(R.id.inputUpdateIdEditText)
         val updateCourseTitle = view.findViewById<TextInputEditText>(R.id.inputUpdateTitleEditText)
-        val updateCourseDuration = view.findViewById<TextInputEditText>(R.id.inputUpdateDurationEditText)
+        val updateCourseDuration =
+            view.findViewById<TextInputEditText>(R.id.inputUpdateDurationEditText)
         return AlertDialog.Builder(requireContext())
             .setView(view)
             .setNegativeButton("Cancel") { _, _ -> }
@@ -35,7 +36,7 @@ class UpdateCourseByIdDialogFragment : DialogFragment() {
         listener = try {
             activity as UpdateCourseByIdDialogListener
         } catch (e: ClassCastException) {
-            throw ClassCastException (context.toString() + "must implement UpdateCourseByIdDialogListener")
+            throw ClassCastException(context.toString() + "must implement UpdateCourseByIdDialogListener")
         }
     }
 
