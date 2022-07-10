@@ -3,7 +3,10 @@ package ru.skillbox.a27_31_roomdao.ui.work_departments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.fragment_work_departments.*
 import kotlinx.coroutines.launch
 import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.db.Database
@@ -15,10 +18,23 @@ class WorkDepartmentsFragment : Fragment(R.layout.fragment_work_departments) {
     private val workDepartmentDao = Database.instance.workDepartmentDao()
     private val departmentPositionDao = Database.instance.departmentPositionDao()
 
+    lateinit var listWorkDepartment: List<WorkDepartment>
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         saveWorkDepartments()
         saveDepartmentPositions()
+        createTabs()
+
+//        workDepartmentViewPager.adapter = WorkDepartmentsViewPagerAdapter()
+
+        workDepartmentViewPager.adapter = WorkDepartmentsFragmentStateAdapter(requireActivity())
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        setCo
+//        createTabs()
     }
 
     private fun saveWorkDepartments() {
@@ -75,5 +91,21 @@ class WorkDepartmentsFragment : Fragment(R.layout.fragment_work_departments) {
         lifecycleScope.launch {
             departmentPositionDao.insertDepartmentPosition(departmentPosition)
         }
+    }
+
+    fun createTabs() {
+        val tabs = listOf(1, 2, 3)
+
+        val adapter = TabLayoutAdapter(tabs, requireActivity())
+        workDepartmentViewPager.adapter = adapter
+        val tabNames = listOf(
+            "1",
+            "2",
+            "3"
+        )
+//        tabLayout.setupWithViewPager(workDepartmentViewPager)
+        TabLayoutMediator(tabLayout, workDepartmentViewPager) { tab, position ->
+            tab.text = tabNames[position]
+        }.attach()
     }
 }
