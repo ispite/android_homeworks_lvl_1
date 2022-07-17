@@ -11,11 +11,14 @@ import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPositionsContract
 interface DepartmentPositionDao {
 
     @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME}")
-    suspend fun getAllDepartmentPositions():List<DepartmentPosition>
+    suspend fun getAllDepartmentPositions(): List<DepartmentPosition>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDepartmentPosition(departmentPosition: List<DepartmentPosition>)
 
     @Query("DELETE FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
     suspend fun removeDepartmentPosition(departmentPositionId: Long)
+
+    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.WORK_DEPARTMENT_ID} = :workDepartmentId")
+    suspend fun getPositionsByWorkDepartmentId(workDepartmentId: Long): List<DepartmentPosition>
 }

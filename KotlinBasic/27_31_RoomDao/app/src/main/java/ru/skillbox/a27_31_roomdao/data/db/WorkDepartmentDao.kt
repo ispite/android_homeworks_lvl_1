@@ -13,7 +13,7 @@ interface WorkDepartmentDao {
     @Query("SELECT * FROM ${WorkDepartmentsContract.TABLE_NAME}")
     suspend fun getAllWorkDepartments():List<WorkDepartment>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertWorkDepartment(workDepartment: List<WorkDepartment>)
 
     @Query("DELETE FROM ${WorkDepartmentsContract.TABLE_NAME} WHERE ${WorkDepartmentsContract.Columns.ID} = :workDepartmentId")

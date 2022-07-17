@@ -25,7 +25,7 @@ class WorkDepartmentsViewPagerAdapter :
 
     override fun onBindViewHolder(holder: WorkDepartmentsHolder, position: Int) {
         holder.itemView.run {
-            departmentPositions.text = "item $position"
+//            departmentPositionsExample.text = "item $position"
             container.setBackgroundResource(colors[position])
         }
     }
