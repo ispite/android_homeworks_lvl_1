@@ -44,5 +44,19 @@
         android:id="@+id/workDepartmentsFragment"
         android:name="ru.skillbox.a27_31_roomdao.ui.work_departments.WorkDepartmentsFragment"
         android:label="WorkDepartmentsFragment"
-        tools:layout="@layout/fragment_work_departments"/>
+        tools:layout="@layout/fragment_work_departments">
+        <action
+            android:id="@+id/action_workDepartmentsFragment_to_employeesDepartmentPositionFragment"
+            app:destination="@id/employeesDepartmentPositionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeesDepartmentPositionFragment"
+        android:name="ru.skillbox.a27_31_roomdao.ui.work_departments.EmployeesDepartmentPositionFragment"
+        android:label="EmployeesDepartmentPositionFragment"
+        tools:layout="@layout/fragment_employees_department_position">
+        <argument
+            android:name="id"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
 </navigation>

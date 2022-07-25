@@ -5,12 +5,12 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPosition
 
 class DepartmentPositionListAdapter(
-    /*onDepartmentPositionClick: (DepartmentPosition) -> Unit,
-    onDeleteDepartmentPosition: (DepartmentPosition) -> Unit*/
+    onDepartmentPositionClick: (DepartmentPosition) -> Unit,
+    onDeleteDepartmentPosition: (DepartmentPosition) -> Unit
 ) : AsyncListDifferDelegationAdapter<DepartmentPosition>(DepartmentPositionDiffUtilCallback()) {
 
     init {
-        delegatesManager.addDelegate(DepartmentPositionDelegate(/*onDepartmentPositionClick, onDeleteDepartmentPosition*/))
+        delegatesManager.addDelegate(DepartmentPositionDelegate(onDepartmentPositionClick, onDeleteDepartmentPosition))
     }
 
     class DepartmentPositionDiffUtilCallback : DiffUtil.ItemCallback<DepartmentPosition>() {

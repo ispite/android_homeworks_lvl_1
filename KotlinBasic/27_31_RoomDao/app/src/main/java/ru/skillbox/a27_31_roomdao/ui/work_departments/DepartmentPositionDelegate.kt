@@ -11,8 +11,8 @@ import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPosition
 import ru.skillbox.a27_31_roomdao.utils.inflate
 
 class DepartmentPositionDelegate(
-/*    private val onDepartmentPositionClick: (DepartmentPosition) -> Unit,
-    private val onDeleteDepartmentPosition: (DepartmentPosition) -> Unit*/
+    private val onDepartmentPositionClick: (DepartmentPosition) -> Unit,
+    private val onDeleteDepartmentPosition: (DepartmentPosition) -> Unit
 ) : AbsListItemAdapterDelegate<DepartmentPosition, DepartmentPosition, DepartmentPositionDelegate.Holder>() {
 
     override fun isForViewType(
@@ -25,7 +25,7 @@ class DepartmentPositionDelegate(
 
     override fun onCreateViewHolder(parent: ViewGroup): Holder {
         return parent.inflate(R.layout.item_department_position).let {
-            Holder(it,/* onDepartmentPositionClick, onDeleteDepartmentPosition*/)
+            Holder(it, onDepartmentPositionClick, onDeleteDepartmentPosition)
         }
     }
 
@@ -39,21 +39,21 @@ class DepartmentPositionDelegate(
 
     class Holder(
         override val containerView: View,
-        /*onDepartmentPositionClick: (DepartmentPosition) -> Unit,
-        onDeleteDepartmentPosition: (DepartmentPosition) -> Unit*/
+        onDepartmentPositionClick: (DepartmentPosition) -> Unit,
+        onDeleteDepartmentPosition: (DepartmentPosition) -> Unit
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         private var currentDepartmentPosition: DepartmentPosition? = null
 
         init {
             containerView.setOnClickListener {
-                /*currentDepartmentPosition?.let(
+                currentDepartmentPosition?.let(
                     onDepartmentPositionClick
-                )*/
+                )
             }
             deleteDepartmentPositionButton.setOnClickListener {
-                /*currentDepartmentPosition?.let(
+                currentDepartmentPosition?.let(
                     onDeleteDepartmentPosition
-                )*/
+                )
             }
         }
 

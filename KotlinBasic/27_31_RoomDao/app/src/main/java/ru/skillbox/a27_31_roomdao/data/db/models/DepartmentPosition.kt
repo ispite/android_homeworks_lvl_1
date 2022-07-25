@@ -1,9 +1,6 @@
 package ru.skillbox.a27_31_roomdao.data.db.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(
     tableName = DepartmentPositionsContract.TABLE_NAME,
@@ -11,6 +8,10 @@ import androidx.room.PrimaryKey
         entity = WorkDepartment::class,
         parentColumns = [WorkDepartmentsContract.Columns.ID],
         childColumns = [DepartmentPositionsContract.Columns.WORK_DEPARTMENT_ID]
+    )],
+    indices = [Index(
+        value = [DepartmentPositionsContract.Columns.JOB_TITLE, DepartmentPositionsContract.Columns.SALARY],
+        unique = true
     )]
 )
 data class DepartmentPosition(

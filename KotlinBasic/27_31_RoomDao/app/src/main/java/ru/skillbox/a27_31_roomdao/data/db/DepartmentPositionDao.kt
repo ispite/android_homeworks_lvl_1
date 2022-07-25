@@ -13,7 +13,7 @@ interface DepartmentPositionDao {
     @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME}")
     suspend fun getAllDepartmentPositions(): List<DepartmentPosition>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertDepartmentPosition(departmentPosition: List<DepartmentPosition>)
 
     @Query("DELETE FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")

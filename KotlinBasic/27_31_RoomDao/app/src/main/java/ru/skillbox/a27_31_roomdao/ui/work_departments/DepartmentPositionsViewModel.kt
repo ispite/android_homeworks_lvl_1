@@ -37,4 +37,10 @@ class DepartmentPositionsViewModel : ViewModel() {
             }
         }
     }
+
+    fun removeDepartmentPosition(departmentPosition: DepartmentPosition) {
+        viewModelScope.launch {
+
+        }
+    }
 }
