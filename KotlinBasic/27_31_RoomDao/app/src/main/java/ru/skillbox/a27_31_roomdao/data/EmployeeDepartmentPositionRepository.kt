@@ -12,6 +12,6 @@ class EmployeeDepartmentPositionRepository {
     }
 
     suspend fun insertEmployeeDepartmentPosition(employeeDepartmentPosition: List<EmployeeDepartmentPosition>) {
-        return employeeDepartmentPositionDao.insertEmployeeDepartmentPosition(employeeDepartmentPosition)
+        employeeDepartmentPositionDao.insertEmployeeDepartmentPosition(employeeDepartmentPosition)
     }
 }

@@ -8,18 +8,17 @@ import kotlinx.coroutines.launch
 import ru.skillbox.a27_31_roomdao.data.DepartmentPositionRepository
 import ru.skillbox.a27_31_roomdao.data.EmployeeDepartmentPositionRepository
 import ru.skillbox.a27_31_roomdao.data.EmployeeRepository
-import ru.skillbox.a27_31_roomdao.data.WorkDepartmentRepository
 import ru.skillbox.a27_31_roomdao.data.db.models.EmployeeDepartmentPosition
 import timber.log.Timber
-import kotlin.random.Random
 
-class EmployeesDepartmentPositionViewModel:ViewModel() {
+class EmployeesDepartmentPositionViewModel : ViewModel() {
 
     private val employeeDepartmentPositionRepository = EmployeeDepartmentPositionRepository()
     private val departmentPositionRepository = DepartmentPositionRepository()
     private val employeesRepository = EmployeeRepository()
 
-    private val _employeesDepartmentPositionList = MutableLiveData<List<EmployeeDepartmentPosition>>()
+    private val _employeesDepartmentPositionList =
+        MutableLiveData<List<EmployeeDepartmentPosition>>()
 
     val employeesDepartmentPositionList: LiveData<List<EmployeeDepartmentPosition>>
         get() = _employeesDepartmentPositionList
@@ -36,18 +35,28 @@ class EmployeesDepartmentPositionViewModel:ViewModel() {
 
     fun makeRelationsBetweenEmployeeAndDepartmentPositions() {
         viewModelScope.launch {
+//            Timber.d("make Relations")
             val employees = employeesRepository.getAllEmployees()
             val departmentPositions = departmentPositionRepository.getAllDepartmentPositions()
+//            Timber.d("departmentPositions $departmentPositions")
 //            var employeesDepartmentPosition: MutableList<EmployeeDepartmentPosition>? = null
 /*            for (employee in employees) {
                 val randomDepartmentPosition = (departmentPositions.indices).random()
                 employeesDepartmentPosition?.add(EmployeeDepartmentPosition(0, employee.id, departmentPositions[randomDepartmentPosition].id))
             }*/
-            val employeesDepartmentPosition = employees.map{ employee ->
+            val employeesDepartmentPosition = employees.map { employee ->
                 val randomDepartmentPosition = (departmentPositions.indices).random()
-                EmployeeDepartmentPosition(0, employee.id, departmentPositions[randomDepartmentPosition].id)
+//                Timber.d("employee $employee")
+                EmployeeDepartmentPosition(
+                    0,
+                    employee.id,
+                    departmentPositions[randomDepartmentPosition].id
+                )
             }
-            employeeDepartmentPositionRepository.insertEmployeeDepartmentPosition(employeesDepartmentPosition)
+//            Timber.d("employeesDepartmentPosition $employeesDepartmentPosition")
+            employeeDepartmentPositionRepository.insertEmployeeDepartmentPosition(
+                employeesDepartmentPosition
+            )
         }
     }
 }

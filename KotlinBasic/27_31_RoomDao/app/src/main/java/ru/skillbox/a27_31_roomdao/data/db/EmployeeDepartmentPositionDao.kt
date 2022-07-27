@@ -13,6 +13,6 @@ interface EmployeeDepartmentPositionDao {
     @Query("SELECT * FROM ${EmployeesDepartmentPositionContract.TABLE_NAME}")
     suspend fun getAllEmployeesDepartmentPosition(): List<EmployeeDepartmentPosition>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert/*(onConflict = OnConflictStrategy.IGNORE)*/
     suspend fun insertEmployeeDepartmentPosition(employeeDepartmentPosition: List<EmployeeDepartmentPosition>)
 }
