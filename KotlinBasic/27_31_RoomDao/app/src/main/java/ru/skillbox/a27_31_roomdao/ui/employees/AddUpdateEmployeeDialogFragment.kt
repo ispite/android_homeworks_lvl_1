@@ -10,11 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.dialog_add_update_employee.view.*
-import kotlinx.android.synthetic.main.view_toolbar.view.*
 import kotlinx.android.synthetic.main.view_toolbar.view.toolbar
 import kotlinx.android.synthetic.main.view_toolbar_double_size.view.*
 import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
+import ru.skillbox.a27_31_roomdao.data.db.models.EmployeeStatus
 import ru.skillbox.a27_31_roomdao.utils.toast
 import timber.log.Timber
 import kotlin.random.Random
@@ -61,7 +61,10 @@ class AddUpdateEmployeeDialogFragment : DialogFragment() {
             .setPositiveButton("Ok") { _, _ ->
                 insertEmployee(dialogView)
 //                viewModel.saveSuccess.
-                findNavController().previousBackStackEntry?.savedStateHandle?.set("REFRESH", Random.nextInt())
+                findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                    "REFRESH",
+                    Random.nextInt()
+                )
                 Timber.d("Employee inserted")
             }
             .create()
@@ -95,7 +98,8 @@ class AddUpdateEmployeeDialogFragment : DialogFragment() {
             companyId = 0,
             firstName = view.firstNameTextField.editText?.text.toString(),
             lastName = view.lastNameTextField.editText?.text.toString(),
-            birthdate = view.birthdateTextField.editText?.text.toString() //this need date picker
+            birthdate = view.birthdateTextField.editText?.text.toString(), //this need date picker
+            status = EmployeeStatus.values().toList().random()
         )
     }
 }

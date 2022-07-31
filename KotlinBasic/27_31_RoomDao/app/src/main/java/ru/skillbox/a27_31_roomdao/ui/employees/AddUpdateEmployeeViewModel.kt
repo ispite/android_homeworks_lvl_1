@@ -9,6 +9,7 @@ import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.EmployeeRepository
 import ru.skillbox.a27_31_roomdao.data.IncorrectFormException
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
+import ru.skillbox.a27_31_roomdao.data.db.models.EmployeeStatus
 import ru.skillbox.a27_31_roomdao.utils.SingleLiveEvent
 import timber.log.Timber
 
@@ -46,14 +47,16 @@ class AddUpdateEmployeeViewModel : ViewModel() {
         companyId: Long,
         firstName: String,
         lastName: String,
-        birthdate: String
+        birthdate: String,
+        status: EmployeeStatus
     ) {
         val employee = Employee(
             id = id,
             companyId = companyId,
             firstName = firstName,
             lastName = lastName,
-            birthdate = birthdate
+            birthdate = birthdate,
+            status = status
         )
 
         viewModelScope.launch {

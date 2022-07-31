@@ -9,5 +9,6 @@ object EmployeesContract {
         const val FIRST_NAME = "first_name"
         const val LAST_NAME = "last_name"
         const val BIRTHDATE = "birthdate"
+        const val STATUS = "status"
     }
 }

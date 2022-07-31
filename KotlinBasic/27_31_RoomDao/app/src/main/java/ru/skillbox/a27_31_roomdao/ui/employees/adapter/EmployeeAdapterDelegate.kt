@@ -1,5 +1,6 @@
 package ru.skillbox.a27_31_roomdao.ui.employees.adapter
 
+import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_employee.*
 import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
+import ru.skillbox.a27_31_roomdao.data.db.models.EmployeeStatus
 import ru.skillbox.a27_31_roomdao.utils.inflate
 
 class EmployeeAdapterDelegate(
@@ -46,7 +48,15 @@ class EmployeeAdapterDelegate(
         }
 
         fun bind(employee: Employee) {
+
             currentEmployee = employee
+
+            val allColors = containerView.resources.getStringArray(R.array.colors)
+            val currentStatus = currentEmployee!!.status
+            val statusList = EmployeeStatus.values()
+            val index = statusList.indexOf(currentStatus)
+            containerView.setBackgroundColor(Color.parseColor(allColors[index]))
+
             idTextView.text = employee.id.toString()
             companyIdTextView.text = employee.companyId.toString()
             firstNameTextView.text = employee.firstName

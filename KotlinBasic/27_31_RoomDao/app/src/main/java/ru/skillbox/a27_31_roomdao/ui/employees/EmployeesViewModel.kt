@@ -9,6 +9,7 @@ import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.EmployeeRepository
 import ru.skillbox.a27_31_roomdao.data.IncorrectFormException
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
+import ru.skillbox.a27_31_roomdao.data.db.models.EmployeeStatus
 import ru.skillbox.a27_31_roomdao.utils.SingleLiveEvent
 import timber.log.Timber
 
@@ -52,7 +53,8 @@ class EmployeesViewModel : ViewModel() {
             companyId = 0,
             firstName = employeeFirstNameList.random(),
             lastName = employeeLastNameList.random(),
-            birthdate = employeeBirthdateList.random()
+            birthdate = employeeBirthdateList.random(),
+            status = EmployeeStatus.values().toList().random()
         )
         viewModelScope.launch {
             try {
