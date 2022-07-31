@@ -26,7 +26,7 @@ class EmployeesFragment : Fragment(R.layout.fragment_employees) {
             findNavController().navigate(R.id.action_employeesFragment_to_addUpdateEmployeeDialogFragment)
         }
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("REFRESH")?.observe(viewLifecycleOwner) {
-            sleep(500)
+//            sleep(500)
             Timber.d("it work $it")
             viewModel.reloadList()
         }

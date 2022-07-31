@@ -25,7 +25,7 @@ class TabLayoutAdapter(
             putInt(ARG_OBJECT, position + 1)
             putString(ARG_STRING, tabs[position].workDepartmentName)
             putLong(ARG_WORK_DEPARTMENT_ID, tabs[position].id)
-            Timber.d("tabs ${tabs[position]}")
+//            Timber.d("tabs ${tabs[position]}")
         }
 //        Timber.d("fragment: $fragment")
         return fragment

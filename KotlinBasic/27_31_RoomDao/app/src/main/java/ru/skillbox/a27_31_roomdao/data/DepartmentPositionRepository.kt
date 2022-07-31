@@ -13,4 +13,8 @@ class DepartmentPositionRepository {
     suspend fun getPositionsByWorkDepartmentId(workDepartmentId: Long): List<DepartmentPosition> {
         return departmentPosition.getPositionsByWorkDepartmentId(workDepartmentId)
     }
+
+    suspend fun getDepartmentPositionById(departmentPositionId: Long): List<DepartmentPosition> {
+        return departmentPosition.getDepartmentPositionById(departmentPositionId)
+    }
 }

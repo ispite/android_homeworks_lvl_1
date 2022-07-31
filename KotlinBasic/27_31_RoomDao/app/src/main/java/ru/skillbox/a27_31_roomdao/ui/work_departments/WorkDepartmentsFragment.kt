@@ -120,15 +120,15 @@ class WorkDepartmentsFragment : Fragment(R.layout.fragment_work_departments) {
     private fun bindViewModel() {
         viewModel.workDepartmentList.observe(viewLifecycleOwner) { it ->
             val tabs = it
-            Timber.d("tabs: $tabs")
+//            Timber.d("tabs: $tabs")
             val adapter = TabLayoutAdapter(tabs, requireActivity())
             workDepartmentViewPager.adapter = adapter
             val tabNames = it.map{ it.workDepartmentName }
-            Timber.d("tabNames: $tabNames")
+//            Timber.d("tabNames: $tabNames")
 //            tabLayout.setupWithViewPager(workDepartmentViewPager)
             TabLayoutMediator(tabLayout, workDepartmentViewPager) {
                 tab, position ->
-                Timber.d("position: $position")
+//                Timber.d("position: $position")
                 tab.text = tabNames[position]
             }.attach()
         }

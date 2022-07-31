@@ -21,4 +21,7 @@ interface DepartmentPositionDao {
 
     @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.WORK_DEPARTMENT_ID} = :workDepartmentId")
     suspend fun getPositionsByWorkDepartmentId(workDepartmentId: Long): List<DepartmentPosition>
+
+    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
+    suspend fun getDepartmentPositionById(departmentPositionId: Long): List<DepartmentPosition>
 }

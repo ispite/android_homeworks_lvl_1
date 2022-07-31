@@ -37,8 +37,8 @@
         tools:layout="@layout/dialog_add_update_employee">
         <argument
             android:name="id"
-            app:argType="long"
-            android:defaultValue="0L" />
+            android:defaultValue="0L"
+            app:argType="long" />
     </dialog>
     <fragment
         android:id="@+id/workDepartmentsFragment"
@@ -55,8 +55,8 @@
         android:label="EmployeesDepartmentPositionFragment"
         tools:layout="@layout/fragment_employees_department_position">
         <argument
-            android:name="id"
-            app:argType="long"
-            android:defaultValue="0L" />
+            android:name="departmentPosition"
+            android:defaultValue="0L"
+            app:argType="long" />
     </fragment>
 </navigation>

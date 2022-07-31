@@ -8,6 +8,8 @@ import kotlinx.coroutines.launch
 import ru.skillbox.a27_31_roomdao.data.DepartmentPositionRepository
 import ru.skillbox.a27_31_roomdao.data.EmployeeDepartmentPositionRepository
 import ru.skillbox.a27_31_roomdao.data.EmployeeRepository
+import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPosition
+import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 import ru.skillbox.a27_31_roomdao.data.db.models.EmployeeDepartmentPosition
 import timber.log.Timber
 
@@ -19,9 +21,22 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
 
     private val _employeesDepartmentPositionList =
         MutableLiveData<List<EmployeeDepartmentPosition>>()
+    private val _departmentPosition = MutableLiveData<DepartmentPosition>()
+    private val _employeeList = MutableLiveData<Employee>()
+    private val _employeePositionsListPair =
+        MutableLiveData<List<Pair<EmployeeDepartmentPosition, Employee>>>()
 
     val employeesDepartmentPositionList: LiveData<List<EmployeeDepartmentPosition>>
         get() = _employeesDepartmentPositionList
+
+    val departmentPosition: LiveData<DepartmentPosition>
+        get() = _departmentPosition
+
+    val employeeList: LiveData<Employee>
+        get() = _employeeList
+
+    val employeePositionsListPair: LiveData<List<Pair<EmployeeDepartmentPosition, Employee>>>
+        get() = _employeePositionsListPair
 
     fun getAllEmployeesDepartmentPosition() {
         viewModelScope.launch {
@@ -29,6 +44,62 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
                 _employeesDepartmentPositionList.postValue(employeeDepartmentPositionRepository.getAllEmployeeDepartmentPosition())
             } catch (t: Throwable) {
                 Timber.e(t, "employeesDepartmentPositionList error")
+            }
+        }
+    }
+
+    fun getDepartmentPositionById(departmentPositionId: Long) {
+        viewModelScope.launch {
+            try {
+                _departmentPosition.postValue(
+                    departmentPositionRepository.getDepartmentPositionById(
+                        departmentPositionId
+                    ).first()
+                )
+            } catch (t: Throwable) {
+                Timber.e(t, "departmentPosition error")
+            }
+        }
+    }
+
+    fun getEmployeeDepartmentPositionByDepartmentId(departmentPositionId: Long) {
+        viewModelScope.launch {
+            try {
+                _employeesDepartmentPositionList.postValue(
+                    employeeDepartmentPositionRepository
+                        .getEmployeeDepartmentPositionByDepartmentId(departmentPositionId)
+                )
+                val tempEmployeesDepartmentPositionList =
+                    employeeDepartmentPositionRepository
+                        .getEmployeeDepartmentPositionByDepartmentId(departmentPositionId)
+//                for (employeeId in tempEmployeesDepartmentPositionList)
+                val tempEmployeeList = tempEmployeesDepartmentPositionList.map {
+                    employeesRepository.getEmployeeById(it.employee_id)
+                }.filterNotNull()
+//                val resultList = mutableListOf<Pair<EmployeeDepartmentPosition, Employee>>()
+//                for (i in tempEmployeesDepartmentPositionList.indices) {
+//                    tempEmployeeList[i]?.let {
+//                        resultList.add(tempEmployeesDepartmentPositionList[i] to it)
+//                        Timber.d("resultList in loop $resultList")
+//                    }
+//                }
+                val resultList = tempEmployeesDepartmentPositionList.zip(tempEmployeeList)
+
+                Timber.d("resultList $resultList")
+                _employeePositionsListPair.postValue(resultList)
+//                employeesRepository.getEmployeeById(tempEmployeesDepartmentPositionList[0].employee_id)
+            } catch (t: Throwable) {
+                Timber.e(t, "employee department position error")
+            }
+        }
+    }
+
+    fun getEmployeeById(employeeId: Long) {
+        viewModelScope.launch {
+            try {
+                _employeeList.postValue(employeesRepository.getEmployeeById(employeeId))
+            } catch (t: Throwable) {
+                Timber.e(t, "employee error")
             }
         }
     }
