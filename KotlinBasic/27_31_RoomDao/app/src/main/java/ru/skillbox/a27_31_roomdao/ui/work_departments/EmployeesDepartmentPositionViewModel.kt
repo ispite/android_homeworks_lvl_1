@@ -8,9 +8,7 @@ import kotlinx.coroutines.launch
 import ru.skillbox.a27_31_roomdao.data.DepartmentPositionRepository
 import ru.skillbox.a27_31_roomdao.data.EmployeeDepartmentPositionRepository
 import ru.skillbox.a27_31_roomdao.data.EmployeeRepository
-import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPosition
-import ru.skillbox.a27_31_roomdao.data.db.models.Employee
-import ru.skillbox.a27_31_roomdao.data.db.models.EmployeeDepartmentPosition
+import ru.skillbox.a27_31_roomdao.data.db.models.*
 import timber.log.Timber
 
 class EmployeesDepartmentPositionViewModel : ViewModel() {
@@ -25,6 +23,12 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
     private val _employeeList = MutableLiveData<Employee>()
     private val _employeePositionsListPair =
         MutableLiveData<List<Pair<EmployeeDepartmentPosition, Employee>>>()
+    private val _departmentPositionWithRelations =
+        MutableLiveData<List<DepartmentPositionWithRelations>>()
+    private val _departmentWithExample =
+        MutableLiveData<List<EmployeesWithDepartmentPositions>>()
+//    private val _departmentAnotherTry =
+//        MutableLiveData<List<EmployeesDepartmentPositionsNew>>()
 
     val employeesDepartmentPositionList: LiveData<List<EmployeeDepartmentPosition>>
         get() = _employeesDepartmentPositionList
@@ -37,6 +41,18 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
 
     val employeePositionsListPair: LiveData<List<Pair<EmployeeDepartmentPosition, Employee>>>
         get() = _employeePositionsListPair
+
+    val departmentPositionWithRelations:
+            LiveData<List<DepartmentPositionWithRelations>>
+        get() = _departmentPositionWithRelations
+
+    val departmentWithExample:
+            LiveData<List<EmployeesWithDepartmentPositions>>
+        get() = _departmentWithExample
+
+//    val departmentAnotherTry:
+//            LiveData<List<EmployeesDepartmentPositionsNew>>
+//        get() = _departmentAnotherTry
 
     fun getAllEmployeesDepartmentPosition() {
         viewModelScope.launch {
@@ -130,4 +146,26 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
             )
         }
     }
+
+    fun getDepartmentPositionWithAllEmployees(departmentPositionId: Long) {
+        viewModelScope.launch {
+            _departmentPositionWithRelations.postValue(
+                departmentPositionRepository.getDepartmentPositionWithAllEmployees(
+                    departmentPositionId
+                )
+            )
+        }
+    }
+
+    fun getEmployeesWithDepartmentPositions(departmentPositionId: Long) {
+        viewModelScope.launch {
+            _departmentWithExample.postValue(departmentPositionRepository.getEmployeesWithDepartmentPositions(departmentPositionId))
+        }
+    }
+
+//    fun getAnotherTry(departmentPositionId: Long) {
+//        viewModelScope.launch {
+//            _departmentAnotherTry.postValue(departmentPositionRepository.getAnotherTry(departmentPositionId))
+//        }
+//    }
 }

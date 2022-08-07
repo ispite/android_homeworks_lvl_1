@@ -37,7 +37,18 @@ class EmployeesDepartmentPositionFragment :
             employeeDepartmentPositionAdapter.notifyDataSetChanged()
 
         }
-
+        testDepartmentPositionWithRelation(args.departmentPosition)
+        viewModel.departmentPositionWithRelations.observe(viewLifecycleOwner) {
+            Timber.d("LIST $it")
+        }
+        viewModel.getEmployeesWithDepartmentPositions(args.departmentPosition)
+        viewModel.departmentWithExample.observe(viewLifecycleOwner) {
+            Timber.d("EXAMPLE $it")
+        }
+//        viewModel.getAnotherTry(args.departmentPosition)
+//        viewModel.departmentAnotherTry.observe(viewLifecycleOwner) {
+//            Timber.d("ANOTHER TRY $it")
+//        }
 //        adapter.addData()
     }
 
@@ -50,4 +61,7 @@ class EmployeesDepartmentPositionFragment :
         }
     }
 
+    private fun testDepartmentPositionWithRelation(departmentPositionId: Long) {
+        viewModel.getDepartmentPositionWithAllEmployees(departmentPositionId)
+    }
 }

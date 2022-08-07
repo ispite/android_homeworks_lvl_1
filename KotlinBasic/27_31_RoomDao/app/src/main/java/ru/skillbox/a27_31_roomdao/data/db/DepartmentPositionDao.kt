@@ -4,8 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPosition
-import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPositionsContract
+import ru.skillbox.a27_31_roomdao.data.db.models.*
 
 @Dao
 interface DepartmentPositionDao {
@@ -15,6 +14,15 @@ interface DepartmentPositionDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertDepartmentPosition(departmentPosition: List<DepartmentPosition>)
+
+    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
+    suspend fun getDepartmentPositionWithAllEmployees(departmentPositionId: Long):List<DepartmentPositionWithRelations>
+
+    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
+    suspend fun getEmployeesWithDepartmentPositions(departmentPositionId: Long):List<EmployeesWithDepartmentPositions>
+
+//    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
+//    suspend fun getAnotherTry(departmentPositionId: Long):List<EmployeesDepartmentPositionsNew>
 
     @Query("DELETE FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
     suspend fun removeDepartmentPosition(departmentPositionId: Long)
