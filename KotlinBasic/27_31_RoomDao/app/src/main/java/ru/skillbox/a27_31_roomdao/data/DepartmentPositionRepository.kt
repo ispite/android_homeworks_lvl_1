@@ -2,6 +2,7 @@ package ru.skillbox.a27_31_roomdao.data
 
 import ru.skillbox.a27_31_roomdao.data.db.Database
 import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPosition
+import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPositionWithEmployees
 import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPositionWithRelations
 //import ru.skillbox.a27_31_roomdao.data.db.models.EmployeesDepartmentPositionsNew
 import ru.skillbox.a27_31_roomdao.data.db.models.EmployeesWithDepartmentPositions
@@ -23,6 +24,10 @@ class DepartmentPositionRepository {
 
     suspend fun getDepartmentPositionWithAllEmployees(departmentPositionId: Long): List<DepartmentPositionWithRelations> {
         return departmentPosition.getDepartmentPositionWithAllEmployees(departmentPositionId)
+    }
+
+    suspend fun getDepartmentPositionWithEmployees(departmentPositionId: Long): List<DepartmentPositionWithEmployees> {
+        return departmentPosition.getDepartmentPositionWithEmployees(departmentPositionId)
     }
 
     suspend fun getEmployeesWithDepartmentPositions(departmentPositionId: Long): List<EmployeesWithDepartmentPositions> {
