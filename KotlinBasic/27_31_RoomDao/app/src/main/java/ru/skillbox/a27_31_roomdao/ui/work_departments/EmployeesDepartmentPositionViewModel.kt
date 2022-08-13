@@ -31,8 +31,11 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
     //    private val _departmentAnotherTry =
 //        MutableLiveData<List<EmployeesDepartmentPositionsNew>>()
 
-    private val _departmentPositionWithEmployees =
-        MutableLiveData<List<DepartmentPositionWithEmployees>>()
+/*    private val _departmentPositionWithEmployees =
+        MutableLiveData<List<DepartmentPositionWithEmployees>>()*/
+
+    private val _departmentWithEmployees =
+        MutableLiveData<List<DepartmentWithEmployees>>()
 
     val employeesDepartmentPositionList: LiveData<List<EmployeeDepartmentPosition>>
         get() = _employeesDepartmentPositionList
@@ -58,9 +61,13 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
 //            LiveData<List<EmployeesDepartmentPositionsNew>>
 //        get() = _departmentAnotherTry
 
-    val departmentPositionWithEmployees:
+/*    val departmentPositionWithEmployees:
             LiveData<List<DepartmentPositionWithEmployees>>
-        get() = _departmentPositionWithEmployees
+        get() = _departmentPositionWithEmployees*/
+
+    val departmentWithEmployees:
+            LiveData<List<DepartmentWithEmployees>>
+        get() = _departmentWithEmployees
 
     fun getAllEmployeesDepartmentPosition() {
         viewModelScope.launch {
@@ -175,11 +182,19 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
         }
     }
 
-    fun getDepartmentPositionWithEmployees(departmentPositionId: Long) {
+/*    fun getDepartmentPositionWithEmployees(departmentPositionId: Long) {
         viewModelScope.launch {
             _departmentPositionWithEmployees.postValue(
                 departmentPositionRepository
                     .getDepartmentPositionWithEmployees(departmentPositionId)
+            )
+        }
+    }*/
+
+    fun getDepartmentWithEmployees(departmentPositionId: Long) {
+        viewModelScope.launch {
+            _departmentWithEmployees.postValue(
+                departmentPositionRepository.getDepartmentWithEmployees(departmentPositionId)
             )
         }
     }

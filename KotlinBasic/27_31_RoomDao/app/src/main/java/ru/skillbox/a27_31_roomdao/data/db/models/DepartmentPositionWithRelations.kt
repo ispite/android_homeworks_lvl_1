@@ -34,7 +34,7 @@ data class DepartmentPositionWithRelations(
 //        parentColumn = EmployeesDepartmentPositionContract.Columns.DEPARTMENT_POSITION_ID,
 //        entityColumn = EmployeesDepartmentPositionContract.Columns.EMPLOYEE_ID,
 
-@Entity(
+/*@Entity(
     primaryKeys = [EmployeesDepartmentPositionContract.Columns.EMPLOYEE_ID,
         EmployeesDepartmentPositionContract.Columns.DEPARTMENT_POSITION_ID]
 )
@@ -52,6 +52,22 @@ data class DepartmentPositionWithEmployees(
         parentColumn = DepartmentPositionsContract.Columns.ID,
         entityColumn = EmployeesContract.Columns.ID,
         associateBy = Junction(EmployeesDepartmentPositionCrossRef::class)
+    )
+    val employees: List<Employee>
+)*/
+
+data class DepartmentWithEmployees(
+    @Embedded
+    val departmentPosition: DepartmentPosition,
+    @Relation(
+        parentColumn = DepartmentPositionsContract.Columns.ID,
+        entity = Employee::class,
+        entityColumn = EmployeesContract.Columns.ID,
+        associateBy = Junction(
+            value = EmployeeDepartmentPosition::class,
+            parentColumn = EmployeesDepartmentPositionContract.Columns.DEPARTMENT_POSITION_ID,
+            entityColumn = EmployeesDepartmentPositionContract.Columns.EMPLOYEE_ID
+        )
     )
     val employees: List<Employee>
 )

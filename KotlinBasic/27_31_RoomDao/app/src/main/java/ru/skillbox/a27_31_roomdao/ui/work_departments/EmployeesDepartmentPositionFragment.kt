@@ -46,8 +46,13 @@ class EmployeesDepartmentPositionFragment :
             Timber.d("EXAMPLE $it")
         }
 
-        viewModel.departmentPositionWithEmployees.observe(viewLifecycleOwner) {
+/*        viewModel.departmentPositionWithEmployees.observe(viewLifecycleOwner) {
             Timber.d("New Try $it")
+        }*/
+
+        viewModel.getDepartmentWithEmployees(args.departmentPosition)
+        viewModel.departmentWithEmployees.observe(viewLifecycleOwner) {
+            Timber.d("CORRECT WORK $it")
         }
 
 //        viewModel.getAnotherTry(args.departmentPosition)

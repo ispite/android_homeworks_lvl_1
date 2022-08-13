@@ -2,10 +2,11 @@ package ru.skillbox.a27_31_roomdao.data
 
 import ru.skillbox.a27_31_roomdao.data.db.Database
 import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPosition
-import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPositionWithEmployees
 import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPositionWithRelations
-//import ru.skillbox.a27_31_roomdao.data.db.models.EmployeesDepartmentPositionsNew
+import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentWithEmployees
 import ru.skillbox.a27_31_roomdao.data.db.models.EmployeesWithDepartmentPositions
+
+//import ru.skillbox.a27_31_roomdao.data.db.models.EmployeesDepartmentPositionsNew
 
 class DepartmentPositionRepository {
     private val departmentPosition = Database.instance.departmentPositionDao()
@@ -26,12 +27,16 @@ class DepartmentPositionRepository {
         return departmentPosition.getDepartmentPositionWithAllEmployees(departmentPositionId)
     }
 
-    suspend fun getDepartmentPositionWithEmployees(departmentPositionId: Long): List<DepartmentPositionWithEmployees> {
+/*    suspend fun getDepartmentPositionWithEmployees(departmentPositionId: Long): List<DepartmentPositionWithEmployees> {
         return departmentPosition.getDepartmentPositionWithEmployees(departmentPositionId)
-    }
+    }*/
 
     suspend fun getEmployeesWithDepartmentPositions(departmentPositionId: Long): List<EmployeesWithDepartmentPositions> {
         return departmentPosition.getEmployeesWithDepartmentPositions(departmentPositionId)
+    }
+
+    suspend fun getDepartmentWithEmployees(departmentPositionId: Long): List<DepartmentWithEmployees> {
+        return departmentPosition.getDepartmentWithEmployees(departmentPositionId)
     }
 
 /*    suspend fun getAnotherTry(departmentPositionId: Long): List<EmployeesDepartmentPositionsNew> {

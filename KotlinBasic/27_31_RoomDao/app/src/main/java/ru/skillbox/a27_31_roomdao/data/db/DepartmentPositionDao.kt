@@ -1,9 +1,6 @@
 package ru.skillbox.a27_31_roomdao.data.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import ru.skillbox.a27_31_roomdao.data.db.models.*
 
 @Dao
@@ -21,11 +18,15 @@ interface DepartmentPositionDao {
     @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
     suspend fun getEmployeesWithDepartmentPositions(departmentPositionId: Long):List<EmployeesWithDepartmentPositions>
 
-    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
-    suspend fun getDepartmentPositionWithEmployees(departmentPositionId: Long):List<DepartmentPositionWithEmployees>
+/*    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
+    suspend fun getDepartmentPositionWithEmployees(departmentPositionId: Long):List<DepartmentPositionWithEmployees>*/
 
 //    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
 //    suspend fun getAnotherTry(departmentPositionId: Long):List<EmployeesDepartmentPositionsNew>
+
+    @Transaction //??
+    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
+    suspend fun getDepartmentWithEmployees(departmentPositionId: Long): List<DepartmentWithEmployees>
 
     @Query("DELETE FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
     suspend fun removeDepartmentPosition(departmentPositionId: Long)
