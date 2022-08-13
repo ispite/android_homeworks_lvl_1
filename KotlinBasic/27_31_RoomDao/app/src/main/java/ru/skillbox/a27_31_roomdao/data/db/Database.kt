@@ -9,6 +9,9 @@ object Database {
         private set
 
     fun init(context: Context) {
-        instance = Room.databaseBuilder(context, MyDatabase::class.java, MyDatabase.DB_NAME).build()
+        instance = Room.databaseBuilder(context, MyDatabase::class.java, MyDatabase.DB_NAME)
+            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_2_3)
+            .build()
     }
 }
