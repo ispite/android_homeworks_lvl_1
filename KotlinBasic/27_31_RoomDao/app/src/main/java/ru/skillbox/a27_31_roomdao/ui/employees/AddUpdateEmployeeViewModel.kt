@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.EmployeeRepository
@@ -42,14 +43,14 @@ class AddUpdateEmployeeViewModel : ViewModel() {
         }
     }
 
-    fun insertEmployee(
+    suspend fun insertEmployeeAsync(
         id: Long,
         companyId: Long,
         firstName: String,
         lastName: String,
         birthdate: String,
         status: EmployeeStatus
-    ) {
+    ) = viewModelScope.async {
         val employee = Employee(
             id = id,
             companyId = companyId,
@@ -58,19 +59,18 @@ class AddUpdateEmployeeViewModel : ViewModel() {
             birthdate = birthdate,
             status = status
         )
-
-        viewModelScope.launch {
-            try {
-                if (id == 0L) {
-                    employeeRepository.insertEmployee(employee)
-                } else {
-                    employeeRepository.updateEmployee(employee)
-                }
-                _saveSuccess.postValue(Unit)
-            } catch (t: Throwable) {
-                Timber.e(t, "employee insert error")
-                showError(t)
+        try {
+            if (id == 0L) {
+                employeeRepository.insertEmployee(employee)
+            } else {
+                employeeRepository.updateEmployee(employee)
             }
+            _saveSuccess.postValue(Unit)
+            true
+        } catch (t: Throwable) {
+            Timber.e(t, "employee insert error")
+            showError(t)
+            false
         }
     }
 
