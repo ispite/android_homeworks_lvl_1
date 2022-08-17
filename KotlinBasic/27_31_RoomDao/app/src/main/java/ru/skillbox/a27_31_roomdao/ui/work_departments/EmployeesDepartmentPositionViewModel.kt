@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import ru.skillbox.a27_31_roomdao.data.DepartmentPositionRepository
 import ru.skillbox.a27_31_roomdao.data.EmployeeDepartmentPositionRepository
@@ -138,7 +141,7 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
     fun makeRelationsBetweenEmployeeAndDepartmentPositions() {
         viewModelScope.launch {
 //            Timber.d("make Relations")
-            val employees = employeesRepository.getAllEmployees()
+            val employees = employeesRepository.getAllEmployees().toList().flatten()
             val departmentPositions = departmentPositionRepository.getAllDepartmentPositions()
 //            Timber.d("departmentPositions $departmentPositions")
 //            var employeesDepartmentPosition: MutableList<EmployeeDepartmentPosition>? = null

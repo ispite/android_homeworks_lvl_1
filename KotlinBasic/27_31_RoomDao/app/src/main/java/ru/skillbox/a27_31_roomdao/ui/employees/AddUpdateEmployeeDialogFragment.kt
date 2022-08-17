@@ -7,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.dialog_add_update_employee.view.*
 import kotlinx.android.synthetic.main.view_toolbar.view.toolbar
 import kotlinx.android.synthetic.main.view_toolbar_double_size.view.*
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 import ru.skillbox.a27_31_roomdao.data.db.models.EmployeeStatus
@@ -49,9 +48,23 @@ class AddUpdateEmployeeDialogFragment : DialogFragment() {
             .setView(dialogView)
             .setNegativeButton("Cancel") { _, _ -> }
             .setPositiveButton("Ok") { _, _ ->
-                GlobalScope.launch {
-                    insertEmployeeAsync(dialogView).await()
+                /*lifecycleScope.launch {
+                    delay(5000)
+                }*/
+                runBlocking {
+                    GlobalScope.launch {
+                        insertEmployeeAsync(dialogView).await()
+                        delay(5000)
+//                    Thread.sleep(5000)
+                    }
                 }
+
+                runBlocking {
+                    lifecycleScope.launch {
+                        delay(5000)
+                    }
+                }
+
                 Timber.d("Employee inserted")
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(
                     "REFRESH",

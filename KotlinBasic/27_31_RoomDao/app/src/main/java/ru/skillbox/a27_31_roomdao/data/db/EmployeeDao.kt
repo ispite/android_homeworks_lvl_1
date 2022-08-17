@@ -1,6 +1,7 @@
 package ru.skillbox.a27_31_roomdao.data.db
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 import ru.skillbox.a27_31_roomdao.data.db.models.EmployeesContract
 
@@ -8,7 +9,7 @@ import ru.skillbox.a27_31_roomdao.data.db.models.EmployeesContract
 interface EmployeeDao {
 
     @Query("SELECT * FROM ${EmployeesContract.TABLE_NAME}")
-    suspend fun getAllEmployees(): List<Employee>
+    /*suspend*/ fun getAllEmployees(): Flow<List<Employee>>
 
     @Insert
     suspend fun insertEmployees(employees: List<Employee>)
