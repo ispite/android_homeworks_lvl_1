@@ -1,5 +1,6 @@
 package ru.skillbox.a27_31_roomdao.data
 
+import kotlinx.coroutines.flow.Flow
 import ru.skillbox.a27_31_roomdao.data.db.Database
 import ru.skillbox.a27_31_roomdao.data.db.models.EmployeeDepartmentPosition
 
@@ -18,8 +19,8 @@ class EmployeeDepartmentPositionRepository {
         employeeDepartmentPositionDao.insertEmployeeDepartmentPosition(employeeDepartmentPosition)
     }
 
-    suspend fun getEmployeeDepartmentPositionByDepartmentId(employeeDepartmentPositionId: Long):
-            List<EmployeeDepartmentPosition> {
+    fun getEmployeeDepartmentPositionByDepartmentId(employeeDepartmentPositionId: Long):
+            Flow<List<EmployeeDepartmentPosition>> {
         return employeeDepartmentPositionDao
             .getEmployeeDepartmentPositionByDepartmentId(employeeDepartmentPositionId)
     }

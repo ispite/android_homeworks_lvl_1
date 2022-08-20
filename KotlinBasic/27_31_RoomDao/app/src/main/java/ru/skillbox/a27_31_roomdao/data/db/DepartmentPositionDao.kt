@@ -1,6 +1,7 @@
 package ru.skillbox.a27_31_roomdao.data.db
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 import ru.skillbox.a27_31_roomdao.data.db.models.*
 
 @Dao
@@ -13,10 +14,10 @@ interface DepartmentPositionDao {
     suspend fun insertDepartmentPosition(departmentPosition: List<DepartmentPosition>)
 
     @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
-    suspend fun getDepartmentPositionWithAllEmployees(departmentPositionId: Long):List<DepartmentPositionWithRelations>
+    fun getDepartmentPositionWithAllEmployees(departmentPositionId: Long): Flow<List<DepartmentPositionWithRelations>>
 
     @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
-    suspend fun getEmployeesWithDepartmentPositions(departmentPositionId: Long):List<EmployeesWithDepartmentPositions>
+    suspend fun getEmployeesWithDepartmentPositions(departmentPositionId: Long): List<EmployeesWithDepartmentPositions>
 
 /*    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
     suspend fun getDepartmentPositionWithEmployees(departmentPositionId: Long):List<DepartmentPositionWithEmployees>*/
@@ -32,7 +33,7 @@ interface DepartmentPositionDao {
     suspend fun removeDepartmentPosition(departmentPositionId: Long)
 
     @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.WORK_DEPARTMENT_ID} = :workDepartmentId")
-    suspend fun getPositionsByWorkDepartmentId(workDepartmentId: Long): List<DepartmentPosition>
+    fun getPositionsByWorkDepartmentId(workDepartmentId: Long): Flow<List<DepartmentPosition>>
 
     @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
     suspend fun getDepartmentPositionById(departmentPositionId: Long): List<DepartmentPosition>

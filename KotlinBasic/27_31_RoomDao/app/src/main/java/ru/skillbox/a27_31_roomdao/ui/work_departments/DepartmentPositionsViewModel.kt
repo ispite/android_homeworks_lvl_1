@@ -31,10 +31,10 @@ class DepartmentPositionsViewModel : ViewModel() {
     fun getPositionsByWorkDepartmentId(workDepartmentId: Long) {
         viewModelScope.launch {
             try {
-                _departmentPositionList.postValue(
-                    departmentPositionRepository
-                        .getPositionsByWorkDepartmentId(workDepartmentId)
-                )
+
+                departmentPositionRepository.getPositionsByWorkDepartmentId(workDepartmentId)
+                    .collect { _departmentPositionList.postValue(it) }
+
             } catch (t: Throwable) {
                 Timber.e(t, "department position list error")
             }

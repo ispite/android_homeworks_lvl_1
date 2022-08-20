@@ -29,9 +29,9 @@ class DepartmentPositionsViewPagerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        bindViewModel()
         initList()
 //        viewModel.getAllDepartmentPositions()
-        bindViewModel()
 /*        departmentPositionsExample.setTextColor(
             ContextCompat.getColor(
                 requireContext(),

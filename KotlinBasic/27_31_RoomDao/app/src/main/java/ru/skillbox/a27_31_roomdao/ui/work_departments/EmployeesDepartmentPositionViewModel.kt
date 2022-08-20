@@ -4,9 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import ru.skillbox.a27_31_roomdao.data.DepartmentPositionRepository
 import ru.skillbox.a27_31_roomdao.data.EmployeeDepartmentPositionRepository
@@ -99,17 +96,15 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
     fun getEmployeeDepartmentPositionByDepartmentId(departmentPositionId: Long) {
         viewModelScope.launch {
             try {
-                _employeesDepartmentPositionList.postValue(
-                    employeeDepartmentPositionRepository
-                        .getEmployeeDepartmentPositionByDepartmentId(departmentPositionId)
-                )
-                val tempEmployeesDepartmentPositionList =
-                    employeeDepartmentPositionRepository
-                        .getEmployeeDepartmentPositionByDepartmentId(departmentPositionId)
-//                for (employeeId in tempEmployeesDepartmentPositionList)
-                val tempEmployeeList = tempEmployeesDepartmentPositionList.map {
-                    employeesRepository.getEmployeeById(it.employee_id)
-                }.filterNotNull()
+                employeeDepartmentPositionRepository.getEmployeeDepartmentPositionByDepartmentId(
+                    departmentPositionId
+                ).collect { employeesDepartmentPosition ->
+                    _employeesDepartmentPositionList.postValue(employeesDepartmentPosition)
+
+                    //                for (employeeId in tempEmployeesDepartmentPositionList)
+                    val tempEmployeeList = employeesDepartmentPosition.map {
+                        employeesRepository.getEmployeeById(it.employee_id)
+                    }.filterNotNull()
 //                val resultList = mutableListOf<Pair<EmployeeDepartmentPosition, Employee>>()
 //                for (i in tempEmployeesDepartmentPositionList.indices) {
 //                    tempEmployeeList[i]?.let {
@@ -117,10 +112,13 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
 //                        Timber.d("resultList in loop $resultList")
 //                    }
 //                }
-                val resultList = tempEmployeesDepartmentPositionList.zip(tempEmployeeList)
+                    val resultList = employeesDepartmentPosition.zip(tempEmployeeList)
 
-                Timber.d("resultList $resultList")
-                _employeePositionsListPair.postValue(resultList)
+                    Timber.d("resultList $resultList")
+                    _employeePositionsListPair.postValue(resultList)
+                }
+
+
 //                employeesRepository.getEmployeeById(tempEmployeesDepartmentPositionList[0].employee_id)
             } catch (t: Throwable) {
                 Timber.e(t, "employee department position error")
@@ -139,39 +137,52 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
     }
 
     fun makeRelationsBetweenEmployeeAndDepartmentPositions() {
+        Timber.d("start make Relations")
         viewModelScope.launch {
-//            Timber.d("make Relations")
-            val employees = employeesRepository.getAllEmployees()
-            val departmentPositions = departmentPositionRepository.getAllDepartmentPositions()
+            Timber.d("   make Relations")
+//            val employees = employeesRepository.getAllEmployees().asLiveData().value
+//            val employees = employeesRepository.getAllEmployees().flattenToList()
+//            Timber.d("employees ${employees}")
+
+            employeesRepository.getAllEmployees().collect { employees ->
+                val departmentPositions = departmentPositionRepository.getAllDepartmentPositions()
 //            Timber.d("departmentPositions $departmentPositions")
 //            var employeesDepartmentPosition: MutableList<EmployeeDepartmentPosition>? = null
 /*            for (employee in employees) {
                 val randomDepartmentPosition = (departmentPositions.indices).random()
                 employeesDepartmentPosition?.add(EmployeeDepartmentPosition(0, employee.id, departmentPositions[randomDepartmentPosition].id))
             }*/
-            val employeesDepartmentPosition = employees.map { employee ->
-                val randomDepartmentPosition = (departmentPositions.indices).random()
-//                Timber.d("employee $employee")
-                EmployeeDepartmentPosition(
-                    0,
-                    employee.id,
-                    departmentPositions[randomDepartmentPosition].id
+
+//                for (employee in employees) {
+//                    val randomDepartmentPosition = (departmentPositions.indices).random()
+//                    employeesDepartmentPosition?.add(EmployeeDepartmentPosition(0, employee.id, departmentPositions[randomDepartmentPosition].id))
+
+                val employeesDepartmentPosition = employees.map { employee ->
+                    val randomDepartmentPosition = (departmentPositions.indices).random()
+                    //                Timber.d("employee $employee")
+                    EmployeeDepartmentPosition(
+                        0,
+                        employee.id,
+                        departmentPositions[randomDepartmentPosition].id
+                    )
+                }
+                Timber.d("employeesDepartmentPosition $employeesDepartmentPosition")
+                employeeDepartmentPositionRepository.insertEmployeeDepartmentPosition(
+                    employeesDepartmentPosition
                 )
             }
-//            Timber.d("employeesDepartmentPosition $employeesDepartmentPosition")
-            employeeDepartmentPositionRepository.insertEmployeeDepartmentPosition(
-                employeesDepartmentPosition
-            )
+
         }
     }
 
     fun getDepartmentPositionWithAllEmployees(departmentPositionId: Long) {
         viewModelScope.launch {
-            _departmentPositionWithRelations.postValue(
-                departmentPositionRepository.getDepartmentPositionWithAllEmployees(
-                    departmentPositionId
-                )
-            )
+
+            departmentPositionRepository.getDepartmentPositionWithAllEmployees(departmentPositionId)
+                .collect {
+                    _departmentPositionWithRelations.postValue(it)
+                }
+
         }
     }
 

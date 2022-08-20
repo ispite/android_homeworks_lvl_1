@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import ru.skillbox.a27_31_roomdao.data.db.models.WorkDepartment
 import ru.skillbox.a27_31_roomdao.data.db.models.WorkDepartmentsContract
 
@@ -11,7 +12,7 @@ import ru.skillbox.a27_31_roomdao.data.db.models.WorkDepartmentsContract
 interface WorkDepartmentDao {
 
     @Query("SELECT * FROM ${WorkDepartmentsContract.TABLE_NAME}")
-    suspend fun getAllWorkDepartments():List<WorkDepartment>
+    fun getAllWorkDepartments(): Flow<List<WorkDepartment>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertWorkDepartment(workDepartment: List<WorkDepartment>)

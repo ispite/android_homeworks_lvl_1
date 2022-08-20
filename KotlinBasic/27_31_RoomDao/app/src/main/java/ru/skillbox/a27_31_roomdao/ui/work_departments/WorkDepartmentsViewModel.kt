@@ -9,7 +9,7 @@ import ru.skillbox.a27_31_roomdao.data.WorkDepartmentRepository
 import ru.skillbox.a27_31_roomdao.data.db.models.WorkDepartment
 import timber.log.Timber
 
-class WorkDepartmentsViewModel: ViewModel() {
+class WorkDepartmentsViewModel : ViewModel() {
 
     private val workDepartmentRepository = WorkDepartmentRepository()
 
@@ -21,7 +21,9 @@ class WorkDepartmentsViewModel: ViewModel() {
     fun getAllWorkDepartments() {
         viewModelScope.launch {
             try {
-                _workDepartmentList.postValue(workDepartmentRepository.getAllWorkDepartments())
+                workDepartmentRepository.getAllWorkDepartments().collect {
+                    _workDepartmentList.postValue(it)
+                }
             } catch (t: Throwable) {
                 Timber.e(t, "workDepartment list error")
             }

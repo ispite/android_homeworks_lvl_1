@@ -37,10 +37,11 @@ class EmployeesDepartmentPositionFragment :
             employeeDepartmentPositionAdapter.notifyDataSetChanged()
 
         }
-        testDepartmentPositionWithRelation(args.departmentPosition)
+
         viewModel.departmentPositionWithRelations.observe(viewLifecycleOwner) {
             Timber.d("LIST $it")
         }
+        testDepartmentPositionWithRelation(args.departmentPosition)
         viewModel.getEmployeesWithDepartmentPositions(args.departmentPosition)
         viewModel.departmentWithExample.observe(viewLifecycleOwner) {
             Timber.d("EXAMPLE $it")
