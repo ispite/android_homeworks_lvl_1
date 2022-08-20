@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import kotlinx.android.synthetic.main.dialog_add_update_employee.*
 import kotlinx.android.synthetic.main.dialog_add_update_employee.view.*
 import kotlinx.android.synthetic.main.view_toolbar.view.toolbar
 import kotlinx.android.synthetic.main.view_toolbar_double_size.view.*
@@ -52,22 +50,13 @@ class AddUpdateEmployeeDialogFragment : DialogFragment() {
                 GlobalScope.launch {
                     withContext(Dispatchers.IO) { insertEmployeeAsync(dialogView) }
                     Timber.d("Employee inserted")
-//                    progressBar.visibility = View.VISIBLE
-//                    delay(3000)
-//                    progressBar.visibility = View.GONE
                     withContext(Dispatchers.Main) {
-                        findNavController().previousBackStackEntry?.savedStateHandle?.set( "REFRESH",  Random.nextInt() )
+                        findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                            "REFRESH",
+                            Random.nextInt()
+                        )
                     }
                 }
-
-
-
-
-/*                Timber.d("Employee inserted")
-                findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                    "REFRESH",
-                    Random.nextInt()
-                )*/
             }
             .create()
     }

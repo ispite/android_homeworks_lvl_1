@@ -11,11 +11,8 @@ import kotlinx.android.synthetic.main.item_page.*
 import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.db.models.DepartmentPosition
 import ru.skillbox.a27_31_roomdao.utils.autoCleared
-import ru.skillbox.a27_31_roomdao.utils.withArguments
 
 class DepartmentPositionsViewPagerFragment : Fragment() {
-
-//    private var myAdapter by AutoClearedValue<WorkDepartmentsViewPagerAdapter>(this)
 
     private val viewModel = DepartmentPositionsViewModel()
     private var departmentPositionAdapter: DepartmentPositionListAdapter by autoCleared()
@@ -31,41 +28,16 @@ class DepartmentPositionsViewPagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         bindViewModel()
         initList()
-//        viewModel.getAllDepartmentPositions()
-/*        departmentPositionsExample.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.black
-            )
-        )*/
         arguments?.let {
-//            Timber.d("bundle: $it")
-//            container.setBackgroundResource(it.getInt("color"))
-//            departmentPositions.text = "Item ${it.getInt("position")}"
-//            Timber.d("argument: ${it.getInt(ARG_OBJECT)}")
-//            departmentPositionsExample.text = "Item ${it.getString(ARG_STRING)}"
-
-
             bindViewModelWithParameter(it.getLong(ARG_WORK_DEPARTMENT_ID))
-//            departmentPositions.text = "Item ${it.getInt(ARG_OBJECT)}"
         }
-
-        val args = requireArguments()
-//        myAdapter =
-
-/*        args.getInt(KEY_TAB_NUMBER).let {
-            departmentPositions.text = "Item $it"
-            Timber.d("args value: ${args.getInt(KEY_TAB_NUMBER)}")
-        }*/
-
-        /*args.let {
-            container.setBackgroundResource(it.getInt("color"))
-            departmentPositions.text = "Item ${it.getInt("position")}"
-        }*/
     }
 
     private fun initList() {
-        departmentPositionAdapter = DepartmentPositionListAdapter(::navigateToEmployeesDepartmentPosition, viewModel::removeDepartmentPosition)
+        departmentPositionAdapter = DepartmentPositionListAdapter(
+            ::navigateToEmployeesDepartmentPosition,
+            viewModel::removeDepartmentPosition
+        )
         with(departmentPositions) {
             adapter = departmentPositionAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -81,13 +53,6 @@ class DepartmentPositionsViewPagerFragment : Fragment() {
 
     private fun bindViewModelWithParameter(workDepartmentId: Long) {
         viewModel.getPositionsByWorkDepartmentId(workDepartmentId)
-/*        viewModel.departmentPositionList.observe(viewLifecycleOwner) {
-            departmentPositionAdapter.items = it
-        }*/
-    }
-
-    fun passArguments() {
-
     }
 
     private fun navigateToEmployeesDepartmentPosition(departmentPosition: DepartmentPosition) {
@@ -103,11 +68,5 @@ class DepartmentPositionsViewPagerFragment : Fragment() {
         const val ARG_STRING = "string"
         const val ARG_WORK_DEPARTMENT_ID = "work_department_id"
         private const val KEY_TAB_NUMBER = "tab_number"
-
-        fun newInstance(tabNumber: Int): DepartmentPositionsViewPagerFragment {
-            return DepartmentPositionsViewPagerFragment().withArguments {
-                putInt(KEY_TAB_NUMBER, tabNumber)
-            }
-        }
     }
 }

@@ -1,13 +1,11 @@
 package ru.skillbox.a27_31_roomdao.ui.employees
 
 import android.os.Bundle
-import android.os.SystemClock.sleep
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_employees.*
-import kotlinx.coroutines.delay
 import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 import ru.skillbox.a27_31_roomdao.ui.employees.adapter.EmployeeListAdapter
@@ -25,11 +23,11 @@ class EmployeesFragment : Fragment(R.layout.fragment_employees) {
         addEmployeeFab.setOnClickListener {
             findNavController().navigate(R.id.action_employeesFragment_to_addUpdateEmployeeDialogFragment)
         }
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("REFRESH")?.observe(viewLifecycleOwner) {
-//            sleep(500)
-            Timber.d("it work $it")
-            viewModel.reloadList()
-        }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("REFRESH")
+            ?.observe(viewLifecycleOwner) {
+                Timber.d("it work $it")
+                viewModel.reloadList()
+            }
         addRandomEmployeeFab.setOnClickListener {
             viewModel.insertRandomEmployee()
         }
@@ -55,7 +53,9 @@ class EmployeesFragment : Fragment(R.layout.fragment_employees) {
 
     private fun navigateToEmployeeEdit(employee: Employee) {
         val direction =
-            EmployeesFragmentDirections.actionEmployeesFragmentToAddUpdateEmployeeDialogFragment(employee.id)
+            EmployeesFragmentDirections.actionEmployeesFragmentToAddUpdateEmployeeDialogFragment(
+                employee.id
+            )
         findNavController().navigate(direction)
     }
 }

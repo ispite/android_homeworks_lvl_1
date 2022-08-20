@@ -19,12 +19,6 @@ interface DepartmentPositionDao {
     @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
     suspend fun getEmployeesWithDepartmentPositions(departmentPositionId: Long): List<EmployeesWithDepartmentPositions>
 
-/*    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
-    suspend fun getDepartmentPositionWithEmployees(departmentPositionId: Long):List<DepartmentPositionWithEmployees>*/
-
-//    @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
-//    suspend fun getAnotherTry(departmentPositionId: Long):List<EmployeesDepartmentPositionsNew>
-
     @Transaction //??
     @Query("SELECT * FROM ${DepartmentPositionsContract.TABLE_NAME} WHERE ${DepartmentPositionsContract.Columns.ID} = :departmentPositionId")
     suspend fun getDepartmentWithEmployees(departmentPositionId: Long): List<DepartmentWithEmployees>

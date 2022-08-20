@@ -10,7 +10,12 @@ class DepartmentPositionListAdapter(
 ) : AsyncListDifferDelegationAdapter<DepartmentPosition>(DepartmentPositionDiffUtilCallback()) {
 
     init {
-        delegatesManager.addDelegate(DepartmentPositionDelegate(onDepartmentPositionClick, onDeleteDepartmentPosition))
+        delegatesManager.addDelegate(
+            DepartmentPositionDelegate(
+                onDepartmentPositionClick,
+                onDeleteDepartmentPosition
+            )
+        )
     }
 
     class DepartmentPositionDiffUtilCallback : DiffUtil.ItemCallback<DepartmentPosition>() {

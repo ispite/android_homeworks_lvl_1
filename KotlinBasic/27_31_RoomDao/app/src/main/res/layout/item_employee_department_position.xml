@@ -71,15 +71,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="21.02.1999" />
 
-        <!--        <ImageButton
-                    android:id="@+id/deleteEmployeeDepartmentPositionButton"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_delete"
-                    android:contentDescription="@string/delete_employee_button" />-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

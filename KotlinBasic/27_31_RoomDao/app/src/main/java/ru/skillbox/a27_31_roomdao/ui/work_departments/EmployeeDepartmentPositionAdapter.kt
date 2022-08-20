@@ -12,7 +12,6 @@ import ru.skillbox.a27_31_roomdao.data.db.models.EmployeeDepartmentPosition
 class EmployeeDepartmentPositionAdapter :
     RecyclerView.Adapter<EmployeeDepartmentPositionAdapter.EmployeeDepartmentPositionViewHolder>() {
 
-    //    private var employeesDepartmentPosition: List<EmployeeDepartmentPosition> = emptyList()
     private var employeeDepartmentPositionListPair:
             List<Pair<EmployeeDepartmentPosition, Employee>> = emptyList()
 

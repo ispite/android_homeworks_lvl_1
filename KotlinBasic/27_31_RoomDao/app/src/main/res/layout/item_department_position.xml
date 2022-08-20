@@ -42,7 +42,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Manager" />
 
-
         <TextView
             android:id="@+id/salaryTextView"
             android:layout_width="0dp"

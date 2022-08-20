@@ -1,7 +1,9 @@
 package ru.skillbox.a27_31_roomdao.ui.employees
 
-import androidx.lifecycle.*
-import kotlinx.coroutines.flow.collect
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.skillbox.a27_31_roomdao.R
 import ru.skillbox.a27_31_roomdao.data.EmployeeRepository
@@ -23,29 +25,26 @@ class EmployeesViewModel : ViewModel() {
     val employeeList: LiveData<List<Employee>>
         get() = _employeeList
 
-    val saveError: LiveData<Int>
-        get() = _saveError
+//    val saveError: LiveData<Int>
+//        get() = _saveError
 
-    val saveSuccess: LiveData<Unit>
-        get() = _saveSuccess
+//    val saveSuccess: LiveData<Unit>
+//        get() = _saveSuccess
 
     private val employeeFirstNameList = listOf("Иван", "Сергей", "Владимир")
     private val employeeLastNameList = listOf("Иванов", "Петров", "Сидоров")
     private val employeeBirthdateList = listOf("21.01.1990", "11.05.1976", "29.02.1986")
 
-    fun getAllEmployees() {
+/*    fun getAllEmployees() {
         viewModelScope.launch {
             try {
                 Timber.d("FLOW ${employeeRepository.getAllEmployees().asLiveData().value}")
                 _employeeList.postValue(employeeRepository.getAllEmployees().asLiveData().value)
-//                _employeeList = employeeRepository.getAllEmployees().asLiveData() as MutableLiveData<List<Employee>>
-//                        as LiveData<List<Employee>>
             } catch (t: Throwable) {
                 Timber.e(t, "employee list error")
             }
         }
-    }
-
+    }*/
 
     fun insertRandomEmployee() {
         val id = 0L
@@ -62,9 +61,7 @@ class EmployeesViewModel : ViewModel() {
                 if (id == 0L) {
                     employeeRepository.insertEmployee(employee)
                     reloadList()
-                } /*else {
-                    employeeRepository.updateEmployee(employee)
-                }*/
+                }
                 _saveSuccess.postValue(Unit)
             } catch (t: Throwable) {
                 Timber.e(t, "employee insert error")
@@ -97,12 +94,9 @@ class EmployeesViewModel : ViewModel() {
         viewModelScope.launch {
             Timber.d("reloadList start ")
             try {
-//                Timber.d("FLOW ${employeeRepository.getAllEmployees().collect()}")
                 employeeRepository.getAllEmployees().collect {
                     _employeeList.postValue(it)
                 }
-//                val qwe = ert{ }
-//                _employeeList.postValue(employeeRepository.getAllEmployees().asLiveData().collect {  })
             } catch (t: Throwable) {
                 Timber.e(t, "employee reload list error")
                 _employeeList.postValue(emptyList())

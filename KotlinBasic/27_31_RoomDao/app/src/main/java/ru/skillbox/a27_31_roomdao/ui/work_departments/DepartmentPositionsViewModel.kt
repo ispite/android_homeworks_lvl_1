@@ -18,7 +18,7 @@ class DepartmentPositionsViewModel : ViewModel() {
     val departmentPositionList: LiveData<List<DepartmentPosition>>
         get() = _departmentPositionList
 
-    fun getAllDepartmentPositions() {
+/*    fun getAllDepartmentPositions() {
         viewModelScope.launch {
             try {
                 _departmentPositionList.postValue(departmentPositionRepository.getAllDepartmentPositions())
@@ -26,7 +26,7 @@ class DepartmentPositionsViewModel : ViewModel() {
                 Timber.e(t, "department position list error")
             }
         }
-    }
+    }*/
 
     fun getPositionsByWorkDepartmentId(workDepartmentId: Long) {
         viewModelScope.launch {
@@ -43,7 +43,6 @@ class DepartmentPositionsViewModel : ViewModel() {
 
     fun removeDepartmentPosition(departmentPosition: DepartmentPosition) {
         viewModelScope.launch {
-
         }
     }
 }

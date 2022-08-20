@@ -20,7 +20,6 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
     private val _employeesDepartmentPositionList =
         MutableLiveData<List<EmployeeDepartmentPosition>>()
     private val _departmentPosition = MutableLiveData<DepartmentPosition>()
-    private val _employeeList = MutableLiveData<Employee>()
     private val _employeePositionsListPair =
         MutableLiveData<List<Pair<EmployeeDepartmentPosition, Employee>>>()
     private val _departmentPositionWithRelations =
@@ -28,23 +27,11 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
     private val _departmentWithExample =
         MutableLiveData<List<EmployeesWithDepartmentPositions>>()
 
-    //    private val _departmentAnotherTry =
-//        MutableLiveData<List<EmployeesDepartmentPositionsNew>>()
-
-/*    private val _departmentPositionWithEmployees =
-        MutableLiveData<List<DepartmentPositionWithEmployees>>()*/
-
     private val _departmentWithEmployees =
         MutableLiveData<List<DepartmentWithEmployees>>()
 
-    val employeesDepartmentPositionList: LiveData<List<EmployeeDepartmentPosition>>
-        get() = _employeesDepartmentPositionList
-
     val departmentPosition: LiveData<DepartmentPosition>
         get() = _departmentPosition
-
-    val employeeList: LiveData<Employee>
-        get() = _employeeList
 
     val employeePositionsListPair: LiveData<List<Pair<EmployeeDepartmentPosition, Employee>>>
         get() = _employeePositionsListPair
@@ -57,19 +44,12 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
             LiveData<List<EmployeesWithDepartmentPositions>>
         get() = _departmentWithExample
 
-//    val departmentAnotherTry:
-//            LiveData<List<EmployeesDepartmentPositionsNew>>
-//        get() = _departmentAnotherTry
-
-/*    val departmentPositionWithEmployees:
-            LiveData<List<DepartmentPositionWithEmployees>>
-        get() = _departmentPositionWithEmployees*/
 
     val departmentWithEmployees:
             LiveData<List<DepartmentWithEmployees>>
         get() = _departmentWithEmployees
 
-    fun getAllEmployeesDepartmentPosition() {
+/*    fun getAllEmployeesDepartmentPosition() {
         viewModelScope.launch {
             try {
                 _employeesDepartmentPositionList.postValue(employeeDepartmentPositionRepository.getAllEmployeeDepartmentPosition())
@@ -77,7 +57,7 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
                 Timber.e(t, "employeesDepartmentPositionList error")
             }
         }
-    }
+    }*/
 
     fun getDepartmentPositionById(departmentPositionId: Long) {
         viewModelScope.launch {
@@ -101,32 +81,21 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
                 ).collect { employeesDepartmentPosition ->
                     _employeesDepartmentPositionList.postValue(employeesDepartmentPosition)
 
-                    //                for (employeeId in tempEmployeesDepartmentPositionList)
                     val tempEmployeeList = employeesDepartmentPosition.map {
                         employeesRepository.getEmployeeById(it.employee_id)
                     }.filterNotNull()
-//                val resultList = mutableListOf<Pair<EmployeeDepartmentPosition, Employee>>()
-//                for (i in tempEmployeesDepartmentPositionList.indices) {
-//                    tempEmployeeList[i]?.let {
-//                        resultList.add(tempEmployeesDepartmentPositionList[i] to it)
-//                        Timber.d("resultList in loop $resultList")
-//                    }
-//                }
                     val resultList = employeesDepartmentPosition.zip(tempEmployeeList)
 
                     Timber.d("resultList $resultList")
                     _employeePositionsListPair.postValue(resultList)
                 }
-
-
-//                employeesRepository.getEmployeeById(tempEmployeesDepartmentPositionList[0].employee_id)
             } catch (t: Throwable) {
                 Timber.e(t, "employee department position error")
             }
         }
     }
 
-    fun getEmployeeById(employeeId: Long) {
+/*    fun getEmployeeById(employeeId: Long) {
         viewModelScope.launch {
             try {
                 _employeeList.postValue(employeesRepository.getEmployeeById(employeeId))
@@ -134,32 +103,17 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
                 Timber.e(t, "employee error")
             }
         }
-    }
+    }*/
 
     fun makeRelationsBetweenEmployeeAndDepartmentPositions() {
         Timber.d("start make Relations")
         viewModelScope.launch {
             Timber.d("   make Relations")
-//            val employees = employeesRepository.getAllEmployees().asLiveData().value
-//            val employees = employeesRepository.getAllEmployees().flattenToList()
-//            Timber.d("employees ${employees}")
 
             employeesRepository.getAllEmployees().collect { employees ->
                 val departmentPositions = departmentPositionRepository.getAllDepartmentPositions()
-//            Timber.d("departmentPositions $departmentPositions")
-//            var employeesDepartmentPosition: MutableList<EmployeeDepartmentPosition>? = null
-/*            for (employee in employees) {
-                val randomDepartmentPosition = (departmentPositions.indices).random()
-                employeesDepartmentPosition?.add(EmployeeDepartmentPosition(0, employee.id, departmentPositions[randomDepartmentPosition].id))
-            }*/
-
-//                for (employee in employees) {
-//                    val randomDepartmentPosition = (departmentPositions.indices).random()
-//                    employeesDepartmentPosition?.add(EmployeeDepartmentPosition(0, employee.id, departmentPositions[randomDepartmentPosition].id))
-
                 val employeesDepartmentPosition = employees.map { employee ->
                     val randomDepartmentPosition = (departmentPositions.indices).random()
-                    //                Timber.d("employee $employee")
                     EmployeeDepartmentPosition(
                         0,
                         employee.id,
@@ -171,18 +125,15 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
                     employeesDepartmentPosition
                 )
             }
-
         }
     }
 
     fun getDepartmentPositionWithAllEmployees(departmentPositionId: Long) {
         viewModelScope.launch {
-
             departmentPositionRepository.getDepartmentPositionWithAllEmployees(departmentPositionId)
                 .collect {
                     _departmentPositionWithRelations.postValue(it)
                 }
-
         }
     }
 
@@ -196,15 +147,6 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
         }
     }
 
-/*    fun getDepartmentPositionWithEmployees(departmentPositionId: Long) {
-        viewModelScope.launch {
-            _departmentPositionWithEmployees.postValue(
-                departmentPositionRepository
-                    .getDepartmentPositionWithEmployees(departmentPositionId)
-            )
-        }
-    }*/
-
     fun getDepartmentWithEmployees(departmentPositionId: Long) {
         viewModelScope.launch {
             _departmentWithEmployees.postValue(
@@ -212,10 +154,4 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
             )
         }
     }
-
-//    fun getAnotherTry(departmentPositionId: Long) {
-//        viewModelScope.launch {
-//            _departmentAnotherTry.postValue(departmentPositionRepository.getAnotherTry(departmentPositionId))
-//        }
-//    }
 }

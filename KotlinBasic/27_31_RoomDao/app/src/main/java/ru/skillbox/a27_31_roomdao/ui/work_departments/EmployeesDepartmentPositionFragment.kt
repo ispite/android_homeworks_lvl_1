@@ -19,7 +19,6 @@ class EmployeesDepartmentPositionFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        Timber.d("EmployeesDepartmentPositionFragment onViewCreated")
         viewModel.makeRelationsBetweenEmployeeAndDepartmentPositions()
         initList()
         Timber.d("args ${args.departmentPosition}")
@@ -28,10 +27,6 @@ class EmployeesDepartmentPositionFragment :
         viewModel.departmentPosition.observe(viewLifecycleOwner) {
             departmentPositionTextView.text = it.jobTitle + " " + it.salary
         }
-//        viewModel.employeesDepartmentPositionList.observe(viewLifecycleOwner) {
-//            employeeDepartmentPositionAdapter.addData(it)
-//            employeeDepartmentPositionAdapter.notifyDataSetChanged()
-//        }
         viewModel.employeePositionsListPair.observe(viewLifecycleOwner) {
             employeeDepartmentPositionAdapter.addData(it)
             employeeDepartmentPositionAdapter.notifyDataSetChanged()
@@ -47,20 +42,10 @@ class EmployeesDepartmentPositionFragment :
             Timber.d("EXAMPLE $it")
         }
 
-/*        viewModel.departmentPositionWithEmployees.observe(viewLifecycleOwner) {
-            Timber.d("New Try $it")
-        }*/
-
         viewModel.getDepartmentWithEmployees(args.departmentPosition)
         viewModel.departmentWithEmployees.observe(viewLifecycleOwner) {
             Timber.d("CORRECT WORK $it")
         }
-
-//        viewModel.getAnotherTry(args.departmentPosition)
-//        viewModel.departmentAnotherTry.observe(viewLifecycleOwner) {
-//            Timber.d("ANOTHER TRY $it")
-//        }
-//        adapter.addData()
     }
 
     private fun initList() {

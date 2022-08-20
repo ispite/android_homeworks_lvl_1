@@ -29,8 +29,8 @@ class AddUpdateEmployeeViewModel : ViewModel() {
     val saveError: LiveData<Int>
         get() = _saveError
 
-    val saveSuccess: LiveData<Unit>
-        get() = _saveSuccess
+//    val saveSuccess: LiveData<Unit>
+//        get() = _saveSuccess
 
     fun init(employeeId: Long) {
         viewModelScope.launch {
