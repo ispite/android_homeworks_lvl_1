@@ -48,28 +48,23 @@ class AddUpdateEmployeeDialogFragment : DialogFragment() {
             .setView(dialogView)
             .setNegativeButton("Cancel") { _, _ -> }
             .setPositiveButton("Ok") { _, _ ->
-                /*lifecycleScope.launch {
-                    delay(5000)
-                }*/
-                runBlocking {
-                    GlobalScope.launch {
-                        insertEmployeeAsync(dialogView).await()
-                        delay(5000)
-//                    Thread.sleep(5000)
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) { insertEmployeeAsync(dialogView) }
+                    Timber.d("Employee inserted")
+                    delay(3000)
+                    withContext(Dispatchers.Main) {
+                        findNavController().previousBackStackEntry?.savedStateHandle?.set( "REFRESH",  Random.nextInt() )
                     }
                 }
 
-                runBlocking {
-                    lifecycleScope.launch {
-                        delay(5000)
-                    }
-                }
 
-                Timber.d("Employee inserted")
+
+
+/*                Timber.d("Employee inserted")
                 findNavController().previousBackStackEntry?.savedStateHandle?.set(
                     "REFRESH",
                     Random.nextInt()
-                )
+                )*/
             }
             .create()
     }
