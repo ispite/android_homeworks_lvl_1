@@ -141,7 +141,7 @@ class EmployeesDepartmentPositionViewModel : ViewModel() {
     fun makeRelationsBetweenEmployeeAndDepartmentPositions() {
         viewModelScope.launch {
 //            Timber.d("make Relations")
-            val employees = employeesRepository.getAllEmployees().toList().flatten()
+            val employees = employeesRepository.getAllEmployees()
             val departmentPositions = departmentPositionRepository.getAllDepartmentPositions()
 //            Timber.d("departmentPositions $departmentPositions")
 //            var employeesDepartmentPosition: MutableList<EmployeeDepartmentPosition>? = null

@@ -1,8 +1,5 @@
 package ru.skillbox.a27_31_roomdao.data
 
-import androidx.lifecycle.LiveData
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.transform
 import ru.skillbox.a27_31_roomdao.data.db.Database
 import ru.skillbox.a27_31_roomdao.data.db.models.Employee
 
@@ -10,7 +7,7 @@ class EmployeeRepository {
 
     private val employeeDao = Database.instance.employeeDao()
 
-    suspend fun getAllEmployees(): Flow<List<Employee>> {
+    suspend fun getAllEmployees(): List<Employee> {
         return employeeDao.getAllEmployees()
     }
 
