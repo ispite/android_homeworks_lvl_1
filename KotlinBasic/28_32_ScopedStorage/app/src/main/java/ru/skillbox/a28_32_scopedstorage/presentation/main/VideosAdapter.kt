@@ -1,25 +1,32 @@
 package ru.skillbox.a28_32_scopedstorage.presentation.main
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.skillbox.a28_32_scopedstorage.data.Video
 import ru.skillbox.a28_32_scopedstorage.databinding.ItemVideoBinding
+import ru.skillbox.a28_32_scopedstorage.utils.inflate
 
 class VideosAdapter : RecyclerView.Adapter<VideosAdapter.VideoViewHolder>() {
 
     private var videoList: List<Video> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
-        TODO("Not yet implemented")
+        val some = parent.inflate(ItemVideoBinding::inflate).let { VideoViewHolder(it) }
+
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemVideoBinding.inflate(inflater, parent, false)
+        val result = VideoViewHolder(binding)
+
+        return result //some
     }
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val currentVideo = videoList[position]
+        holder.bind(currentVideo)
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getItemCount(): Int = videoList.size
 
     fun submitList(videoList: List<Video>) {
         this.videoList = videoList
