@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">28_32_ScopedStorage</string>
+
+    <string name="video_list_error">Load video list error</string>
 </resources>

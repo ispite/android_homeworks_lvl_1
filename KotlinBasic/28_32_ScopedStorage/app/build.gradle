@@ -51,4 +51,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     //CardView
     implementation 'androidx.cardview:cardview:1.0.0'
+
+    //Logging
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 }
