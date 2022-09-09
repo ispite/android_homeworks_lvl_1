@@ -2,11 +2,30 @@ package ru.skillbox.a28_32_scopedstorage.data
 
 import android.content.ContentUris
 import android.content.Context
+import android.database.ContentObserver
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class VideosRepository(private val context: Context) {
+
+    private var observer: ContentObserver? = null
+
+    fun observeVideos(onChange: () -> Unit) {
+        observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
+            override fun onChange(selfChange: Boolean) {
+                super.onChange(selfChange)
+                onChange()
+            }
+        }
+        context.contentResolver.registerContentObserver(
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+            true,
+            observer!!
+        )
+    }
 
     suspend fun getVideos(): List<Video> {
         val videos = mutableListOf<Video>()

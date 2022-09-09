@@ -18,6 +18,9 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _videoList = MutableLiveData<List<Video>>()
     private val _toast = SingleLiveEvent<Int>()
+    private val _permissionGranted = MutableLiveData(true)
+
+    private var isObservingState: Boolean = false
 
     val videoList: LiveData<List<Video>>
         get() = _videoList
@@ -25,8 +28,28 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
     val toast: LiveData<Int>
         get() = _toast
 
+    val permissionGranted: LiveData<Boolean>
+        get() = _permissionGranted
+
+    fun updatePermissionState(isGranted: Boolean) {
+        if (isGranted) {
+            permissionGranted()
+        } else {
+            permissionDenied()
+        }
+    }
+
     fun permissionGranted() {
         loadVideos()
+        if (isObservingState.not()) {
+            videosRepository.observeVideos { loadVideos() }
+            isObservingState = true
+        }
+        _permissionGranted.postValue(true)
+    }
+
+    fun permissionDenied() {
+        _permissionGranted.postValue(false)
     }
 
     private fun loadVideos() {
