@@ -14,6 +14,7 @@ import ru.skillbox.a28_32_scopedstorage.utils.ViewBindingFragment
 import ru.skillbox.a28_32_scopedstorage.utils.autoCleared
 import ru.skillbox.a28_32_scopedstorage.utils.haveQ
 import ru.skillbox.a28_32_scopedstorage.utils.toast
+import timber.log.Timber
 
 class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
@@ -24,11 +25,13 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.d("onCreate")
         initPermissionResultListener()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Timber.d("onViewCreated")
         initList()
         bindViewModel()
         if (hasPermission().not()) {
@@ -38,12 +41,15 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
 
     override fun onResume() {
         super.onResume()
+        Timber.d("onResume")
         viewModel.updatePermissionState(hasPermission())
     }
 
     private fun bindViewModel() {
         viewModel.toast.observe(viewLifecycleOwner) { toast(it) }
-        viewModel.videoList.observe(viewLifecycleOwner) { videosAdapter.submitList(it) }
+        viewModel.videoList.observe(viewLifecycleOwner) {
+            Timber.d("videoList $it")
+            videosAdapter.submitList(it) }
     }
 
     private fun hasPermission(): Boolean {
@@ -56,18 +62,22 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
     }
 
     private fun initPermissionResultListener() {
+        Timber.d("initPermissionResultListener")
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { permissionToGrantedMap: Map<String, Boolean> ->
             if (permissionToGrantedMap.values.all { it }) {
+                Timber.d("permissionGranted")
                 viewModel.permissionGranted()
             } else {
+                Timber.d("permissionDenied")
                 viewModel.permissionDenied()
             }
         }
     }
 
     private fun initList() {
+        Timber.d("initList")
         videosAdapter = VideosAdapter()
         with(binding.videosRecyclerView) {
             adapter = videosAdapter

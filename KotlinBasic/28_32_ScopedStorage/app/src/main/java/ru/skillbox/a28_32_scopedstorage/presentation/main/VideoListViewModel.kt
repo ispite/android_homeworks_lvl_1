@@ -40,6 +40,7 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun permissionGranted() {
+        Timber.d("start permissionGranted")
         loadVideos()
         if (isObservingState.not()) {
             videosRepository.observeVideos { loadVideos() }
@@ -54,11 +55,13 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun loadVideos() {
         viewModelScope.launch {
+            Timber.d("start loadVideos")
             try {
                 val videos = videosRepository.getVideos()
+                Timber.d("videos $videos")
                 _videoList.postValue(videos)
             } catch (t: Throwable) {
-                Timber.e(t)
+                Timber.e("loadVideos error: $t")
                 _videoList.postValue(emptyList())
                 _toast.postValue(R.string.video_list_error)
             }
