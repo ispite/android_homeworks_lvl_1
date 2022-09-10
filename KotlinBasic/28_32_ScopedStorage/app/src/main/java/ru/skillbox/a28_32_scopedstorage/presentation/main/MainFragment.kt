@@ -98,9 +98,9 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
     }
 
     private fun requestPermissions() {
-//        requestPermissionLauncher.launch(*PERMISSIONS.toTypedArray())
+        requestPermissionLauncher.launch(*PERMISSIONS.toTypedArray())
         Timber.d("requestPermissions")
-        requestPermissionLauncher.launch(PERMISSIONS.toTypedArray())
+//        requestPermissionLauncher.launch(PERMISSIONS.toTypedArray())
     }
 
     companion object {
