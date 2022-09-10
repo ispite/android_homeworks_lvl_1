@@ -3,6 +3,7 @@ package ru.skillbox.a28_32_scopedstorage.presentation.main
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,15 +26,16 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.d("onCreate")
+//        Timber.d("onCreate")
         initPermissionResultListener()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("onViewCreated")
+//        Timber.d("onViewCreated")
         initList()
         bindViewModel()
+        Timber.d("onViewCreated hasPermission ${hasPermission()}")
         if (hasPermission().not()) {
             requestPermissions()
         }
@@ -41,7 +43,7 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
 
     override fun onResume() {
         super.onResume()
-        Timber.d("onResume")
+//        Timber.d("onResume")
         viewModel.updatePermissionState(hasPermission())
     }
 
@@ -49,15 +51,19 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
         viewModel.toast.observe(viewLifecycleOwner) { toast(it) }
         viewModel.videoList.observe(viewLifecycleOwner) {
             Timber.d("videoList $it")
-            videosAdapter.submitList(it) }
+            videosAdapter.submitList(it)
+        }
     }
 
     private fun hasPermission(): Boolean {
         return PERMISSIONS.all {
-            ActivityCompat.checkSelfPermission(
+//            Timber.d("hasPermission $it")
+            val result = ActivityCompat.checkSelfPermission(
                 requireContext(),
                 it
             ) == PackageManager.PERMISSION_GRANTED
+            Timber.d("hasPermission $it  =  $result")
+            result
         }
     }
 
@@ -66,6 +72,11 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { permissionToGrantedMap: Map<String, Boolean> ->
+//            Timber.d("${permissionToGrantedMap.values.all}")
+            permissionToGrantedMap.values.all {
+                Timber.d("permissionToGrantedMap $it")
+                true
+            }
             if (permissionToGrantedMap.values.all { it }) {
                 Timber.d("permissionGranted")
                 viewModel.permissionGranted()
@@ -87,7 +98,9 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
     }
 
     private fun requestPermissions() {
-        requestPermissionLauncher.launch(*PERMISSIONS.toTypedArray())
+//        requestPermissionLauncher.launch(*PERMISSIONS.toTypedArray())
+        Timber.d("requestPermissions")
+        requestPermissionLauncher.launch(PERMISSIONS.toTypedArray())
     }
 
     companion object {
