@@ -6,10 +6,16 @@ import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.launch
 import ru.skillbox.a29_33_notifications.NotificationChannels
 import ru.skillbox.a29_33_notifications.R
 import ru.skillbox.a29_33_notifications.databinding.FragmentMainBinding
+import timber.log.Timber
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
@@ -19,6 +25,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         binding.sendSimpleNotification.setOnClickListener { showSimpleNotification() }
         binding.sendPriorityNotification.setOnClickListener { showPriorityNotification() }
+        binding.getFirebaseToken.setOnClickListener { getToken() }
     }
 
     private fun showSimpleNotification() {
@@ -51,6 +58,26 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         NotificationManagerCompat.from(requireContext())
             .notify(HIGH_PRIORITY_NOTIFICATION_ID, notification)
+    }
+
+    private fun getToken() {
+        lifecycleScope.launch {
+            val token = getTokenSuspend()
+            Timber.d("token=$token")
+        }
+    }
+
+    private suspend fun getTokenSuspend(): String? = suspendCoroutine { continuation ->
+        FirebaseMessaging.getInstance().token
+            .addOnSuccessListener { token ->
+                continuation.resume(token)
+            }
+            .addOnFailureListener { exception ->
+                continuation.resume(null)
+            }
+            .addOnCanceledListener {
+                continuation.resume(null)
+            }
     }
 
     companion object {

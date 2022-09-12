@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1025036505732",
+    "project_id": "my-hw-notification-app",
+    "storage_bucket": "my-hw-notification-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025036505732:android:453207caf16f851432a8d1",
+        "android_client_info": {
+          "package_name": "ru.skillbox.a29_33_notifications"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025036505732-gm8ii4cofg1npej3243a4uoc7frohh1r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPVq2NAsnXJEtU2KyK56ZN2q7t-_VMckE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025036505732-gm8ii4cofg1npej3243a4uoc7frohh1r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
