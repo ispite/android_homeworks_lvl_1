@@ -54,4 +54,17 @@ dependencies {
 
     //Logging
     implementation 'com.jakewharton.timber:timber:5.0.1'
+
+    def lifecycleVersion = '2.5.1'
+
+    //ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.fragment:fragment-ktx:1.5.2"
+    //LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
 }

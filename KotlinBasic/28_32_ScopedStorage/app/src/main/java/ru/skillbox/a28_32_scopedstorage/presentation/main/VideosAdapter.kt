@@ -1,8 +1,9 @@
 package ru.skillbox.a28_32_scopedstorage.presentation.main
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import ru.skillbox.a28_32_scopedstorage.R
 import ru.skillbox.a28_32_scopedstorage.data.Video
 import ru.skillbox.a28_32_scopedstorage.databinding.ItemVideoBinding
 import ru.skillbox.a28_32_scopedstorage.utils.inflate
@@ -14,11 +15,11 @@ class VideosAdapter : RecyclerView.Adapter<VideosAdapter.VideoViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         val some = parent.inflate(ItemVideoBinding::inflate).let { VideoViewHolder(it) }
 
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemVideoBinding.inflate(inflater, parent, false)
-        val result = VideoViewHolder(binding)
+//        val inflater = LayoutInflater.from(parent.context)
+//        val binding = ItemVideoBinding.inflate(inflater, parent, false)
+//        val result = VideoViewHolder(binding)
 
-        return result //some
+        return /*result*/ some
     }
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
@@ -40,7 +41,13 @@ class VideosAdapter : RecyclerView.Adapter<VideosAdapter.VideoViewHolder>() {
         fun bind(item: Video) {
             currentVideoId = item.id
             with(binding) {
-                someText.text = item.name
+                videoTitle.text = item.name
+                videoSize.text = item.size.toString()
+                videoSize.text = this.root.context.getString(R.string.video_size_string, item.size)
+
+                Glide.with(videoThumbnail)
+                    .load(item.uri)
+                    .into(videoThumbnail)
             }
         }
     }
