@@ -9,5 +9,13 @@
         android:id="@+id/mainFragment"
         android:name="ru.skillbox.a28_32_scopedstorage.presentation.main.MainFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_downloadFragment"
+            app:destination="@id/downloadFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/downloadFragment"
+        android:name="ru.skillbox.a28_32_scopedstorage.presentation.main.download.DownloadFragment"
+        android:label="DownloadFragment" />
 </navigation>

@@ -3,4 +3,9 @@
 
     <string name="video_list_error">Load video list error</string>
     <string name="video_size_string">Размер видео: %d байт</string>
+    <string name="download_video_file">Скачать видеофайл</string>
+    <string name="title_video_file">Название видео файла</string>
+    <string name="url_video_file">Ссылка на видео файл</string>
+    <string name="download">Скачать</string>
+    <string name="video_download_error">Video download error</string>
 </resources>

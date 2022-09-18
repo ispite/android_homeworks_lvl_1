@@ -8,6 +8,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.skillbox.a28_32_scopedstorage.databinding.FragmentMainBinding
 import ru.skillbox.a28_32_scopedstorage.utils.ViewBindingFragment
@@ -30,6 +31,7 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
+        initCallback()
         bindViewModel()
         if (hasPermission().not()) {
             requestPermissions()
@@ -39,6 +41,12 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
     override fun onResume() {
         super.onResume()
         viewModel.updatePermissionState(hasPermission())
+    }
+
+    private fun initCallback() {
+        binding.downloadFab.setOnClickListener {
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToDownloadFragment())
+        }
     }
 
     private fun bindViewModel() {
