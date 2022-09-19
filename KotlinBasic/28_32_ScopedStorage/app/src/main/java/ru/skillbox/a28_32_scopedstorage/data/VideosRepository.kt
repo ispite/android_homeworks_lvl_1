@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.skillbox.a28_32_scopedstorage.network.Networking
 import ru.skillbox.a28_32_scopedstorage.utils.haveQ
+import timber.log.Timber
 
 class VideosRepository(private val context: Context) {
 
@@ -90,10 +91,15 @@ class VideosRepository(private val context: Context) {
     }
 
     private suspend fun downloadVideo(url: String, uri: Uri) {
-        context.contentResolver.openOutputStream(uri)?.use { outputStream ->
-            Networking.api.getFile(url).byteStream().use { inputStream ->
-                inputStream.copyTo(outputStream)
+        try {
+            context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+                Networking.api.getFile(url).byteStream().use { inputStream ->
+                    inputStream.copyTo(outputStream)
+                }
             }
+        } catch (t: Throwable) {
+            context.contentResolver.delete(uri, null, null)
+            Timber.e(t)
         }
     }
 
