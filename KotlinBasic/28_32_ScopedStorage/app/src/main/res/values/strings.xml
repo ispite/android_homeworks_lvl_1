@@ -8,4 +8,5 @@
     <string name="url_video_file">Ссылка на видео файл</string>
     <string name="download">Скачать</string>
     <string name="video_download_error">Video download error</string>
+    <string name="video_delete_error">Ошибка при удалении видео</string>
 </resources>

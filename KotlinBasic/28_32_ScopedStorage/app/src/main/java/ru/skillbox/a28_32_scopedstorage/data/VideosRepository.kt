@@ -110,4 +110,11 @@ class VideosRepository(private val context: Context) {
         }
         context.contentResolver.update(videoUri, videoDetails, null, null)
     }
+
+    suspend fun deleteImage(id: Long) {
+        withContext(Dispatchers.IO) {
+            val uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
+            context.contentResolver.delete(uri, null, null)
+        }
+    }
 }
