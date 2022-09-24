@@ -90,7 +90,7 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
     }
 
     private fun initList() {
-        videosAdapter = VideosAdapter()
+        videosAdapter = VideosAdapter(viewModel::deleteVideo)
         with(binding.videosRecyclerView) {
             adapter = videosAdapter
             layoutManager = LinearLayoutManager(requireContext())

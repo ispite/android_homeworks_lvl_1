@@ -8,11 +8,13 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.webkit.MimeTypeMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.skillbox.a28_32_scopedstorage.network.Networking
 import ru.skillbox.a28_32_scopedstorage.utils.haveQ
 import timber.log.Timber
+
 
 class VideosRepository(private val context: Context) {
 
@@ -114,7 +116,35 @@ class VideosRepository(private val context: Context) {
     suspend fun deleteImage(id: Long) {
         withContext(Dispatchers.IO) {
             val uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
+            Timber.d("MIME type is: ${getMimeType(uri)}")
             context.contentResolver.delete(uri, null, null)
         }
     }
+
+    private fun getMimeType(uri: Uri) =
+        MimeTypeMap.getSingleton().getExtensionFromMimeType(context.contentResolver.getType(uri))
+
+
+/*    var cR = context.contentResolver
+    var mime = MimeTypeMap.getSingleton()
+    var type = mime.getExtensionFromMimeType(cR.getType(uri))*/
+
+/*    fun getMimeType(file: File?, context: Context): String? {
+        val uri = Uri.fromFile(file)
+        val cR = context.contentResolver
+        val mime = MimeTypeMap.getSingleton()
+        return mime.getExtensionFromMimeType(cR.getType(uri))
+    }*/
+
+    // url = file path or whatever suitable URL you want.
+/*    fun getMimeType(url: String?): String? {
+        var type: String? = null
+        val extension = MimeTypeMap.getFileExtensionFromUrl(url)
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+        }
+        return type
+    }*/
+
+
 }
