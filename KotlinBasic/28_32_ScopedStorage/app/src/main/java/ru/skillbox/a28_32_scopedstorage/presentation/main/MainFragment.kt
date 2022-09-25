@@ -14,7 +14,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.skillbox.a28_32_scopedstorage.databinding.FragmentMainBinding
@@ -70,19 +69,9 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
             videosAdapter.submitList(it)
         }
         viewModel.recoverableAction.observe(viewLifecycleOwner, ::handleRecoverableAction)
-        viewModel.permissionNeededForDelete.observe(viewLifecycleOwner, Observer { intentSender ->
-            intentSender?.let {
-                startIntentSenderForResult(
-                    intentSender,
-                    DELETE_PERMISSION_REQUEST,
-                    null,
-                    0,
-                    0,
-                    0,
-                    null
-                )
-            }
-        })
+        viewModel.permissionNeededForDelete.observe(viewLifecycleOwner, ::handleMoveToTrash)
+
+
     }
 
     private fun hasPermission(): Boolean {
