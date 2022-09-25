@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.skillbox.a28_32_scopedstorage.network.Networking
 import ru.skillbox.a28_32_scopedstorage.utils.haveQ
+import ru.skillbox.a28_32_scopedstorage.utils.haveR
 import timber.log.Timber
 
 
@@ -54,10 +55,18 @@ class VideosRepository(private val context: Context) {
                         cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME))
                     val size =
                         cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE))
+
+
                     val uri =
                         ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
 
-                    videos += Video(id, uri, name, size)
+                    if (haveR()) {
+                        val favorite =
+                            cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.IS_FAVORITE))
+                        videos += Video(id, uri, name, size, favorite)
+                    } else {
+                        videos += Video(id, uri, name, size, null)
+                    }
                 }
             }
         }
@@ -129,14 +138,23 @@ class VideosRepository(private val context: Context) {
 
 
     @RequiresApi(Build.VERSION_CODES.R) // R версия = 11 android, API 30
-//    fun addToTrash(/*context: Context,*/ media: List<Video>, state: Boolean): IntentSender {
-    fun addToTrash(/*context: Context,*/ id: Long, state: Boolean): IntentSender {
+    fun addToTrash(id: Long, state: Boolean): IntentSender {
         val uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
-//        val uris = media.map { it.uri }
         return MediaStore.createTrashRequest(
             context.contentResolver,
             listOf(uri),
             state
+        ).intentSender
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    fun addToFavorite(id: Long, state: Boolean): IntentSender {
+        val uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
+
+        return MediaStore.createFavoriteRequest(
+            context.contentResolver,
+            listOf(uri),
+            state.not()
         ).intentSender
     }
 }

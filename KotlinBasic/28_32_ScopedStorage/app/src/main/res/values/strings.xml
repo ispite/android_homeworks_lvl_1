@@ -11,4 +11,5 @@
     <string name="video_delete_error">Ошибка при удалении видео</string>
     <string name="download_fab">Скачать видео файл</string>
     <string name="video_move_to_trash_error">Ошибка при перемещении видео в корзину</string>
+    <string name="video_mark_as_favorite_error">Ошибка при добавлении в избранное видео</string>
 </resources>

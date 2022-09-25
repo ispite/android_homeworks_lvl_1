@@ -5,7 +5,6 @@ import android.app.RecoverableSecurityException
 import android.app.RemoteAction
 import android.content.IntentSender
 import android.os.Build
-import androidx.activity.result.IntentSenderRequest
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -28,6 +27,7 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
     private val _permissionGranted = MutableLiveData(true)
     private val _recoverableAction = MutableLiveData<RemoteAction>()
     private val _permissionNeededForDelete = MutableLiveData<IntentSender>()
+    private val _permissionNeededForFavorite = MutableLiveData<IntentSender>()
 
     private var isObservingState: Boolean = false
     private var pendingDelete: Long? = null
@@ -46,6 +46,9 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
 
     val permissionNeededForDelete: LiveData<IntentSender>
         get() = _permissionNeededForDelete
+
+    val permissionNeededForFavorite: LiveData<IntentSender>
+        get() = _permissionNeededForFavorite
 
     fun updatePermissionState(isGranted: Boolean) {
         if (isGranted) {
@@ -113,15 +116,27 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
 
     @RequiresApi(Build.VERSION_CODES.R)
     fun moveToTrash(id: Long) {
-        Timber.d("move to trash ViewModel")
         viewModelScope.launch {
             try {
-//                val intentSender = videosRepository.addToTrash(id, true)
-//                _recoverableAction.pos
                 _permissionNeededForDelete.postValue(videosRepository.addToTrash(id, true))
             } catch (t: Throwable) {
                 Timber.e(t)
                 _toast.postValue(R.string.video_move_to_trash_error)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    fun markAsFavorite(id: Long, favoriteState: Boolean) {
+        Timber.d("id: $id, favoriteState: $favoriteState")
+        viewModelScope.launch {
+            try {
+                _permissionNeededForFavorite.postValue(
+                    videosRepository.addToFavorite(id, favoriteState)
+                )
+            } catch (t: Throwable) {
+                Timber.e(t)
+                _toast.postValue(R.string.video_mark_as_favorite_error)
             }
         }
     }

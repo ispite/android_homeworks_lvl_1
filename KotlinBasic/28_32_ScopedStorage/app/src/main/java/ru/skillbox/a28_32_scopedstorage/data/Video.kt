@@ -6,5 +6,6 @@ data class Video(
     val id: Long,
     val uri: Uri,
     val name: String,
-    val size: Int
+    val size: Int,
+    val isFavorite: Int?
 )

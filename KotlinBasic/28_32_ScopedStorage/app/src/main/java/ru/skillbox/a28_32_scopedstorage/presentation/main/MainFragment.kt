@@ -70,8 +70,7 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
         }
         viewModel.recoverableAction.observe(viewLifecycleOwner, ::handleRecoverableAction)
         viewModel.permissionNeededForDelete.observe(viewLifecycleOwner, ::handleMoveToTrash)
-
-
+        viewModel.permissionNeededForFavorite.observe(viewLifecycleOwner, ::handleMarkAsFavorite)
     }
 
     private fun hasPermission(): Boolean {
@@ -100,7 +99,8 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
     }
 
     private fun initList() {
-        videosAdapter = VideosAdapter(viewModel::deleteVideo, viewModel::moveToTrash)
+        videosAdapter =
+            VideosAdapter(viewModel::deleteVideo, viewModel::moveToTrash, viewModel::markAsFavorite)
         with(binding.videosRecyclerView) {
             adapter = videosAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -133,6 +133,11 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
     }
 
     private fun handleMoveToTrash(intentSender: IntentSender) {
+        val intentSenderRequest = IntentSenderRequest.Builder(intentSender).build()
+        recoverableActionLauncher.launch(intentSenderRequest)
+    }
+
+    private fun handleMarkAsFavorite(intentSender: IntentSender) {
         val intentSenderRequest = IntentSenderRequest.Builder(intentSender).build()
         recoverableActionLauncher.launch(intentSenderRequest)
     }
