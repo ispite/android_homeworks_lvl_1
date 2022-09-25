@@ -1,22 +1,27 @@
 package ru.skillbox.a28_32_scopedstorage.presentation.main
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.skillbox.a28_32_scopedstorage.R
 import ru.skillbox.a28_32_scopedstorage.data.Video
 import ru.skillbox.a28_32_scopedstorage.databinding.ItemVideoBinding
+import ru.skillbox.a28_32_scopedstorage.utils.haveR
 import ru.skillbox.a28_32_scopedstorage.utils.inflate
+import timber.log.Timber
 
 class VideosAdapter(
-    private val onDeleteVideo: (id: Long) -> Unit
+    private val onDeleteVideo: (id: Long) -> Unit,
+    private val onMoveToTrash: (id: Long) -> Unit
 ) : RecyclerView.Adapter<VideosAdapter.VideoViewHolder>() {
 
     private var videoList: List<Video> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         val some =
-            parent.inflate(ItemVideoBinding::inflate).let { VideoViewHolder(it, onDeleteVideo) }
+            parent.inflate(ItemVideoBinding::inflate)
+                .let { VideoViewHolder(it, onDeleteVideo, onMoveToTrash) }
 
 //        val inflater = LayoutInflater.from(parent.context)
 //        val binding = ItemVideoBinding.inflate(inflater, parent, false)
@@ -39,7 +44,8 @@ class VideosAdapter(
 
     class VideoViewHolder(
         private val binding: ItemVideoBinding,
-        onDeleteVideo: (id: Long) -> Unit
+        onDeleteVideo: (id: Long) -> Unit,
+        onMoveToTrash: (id: Long) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
         private var currentVideoId: Long? = null
@@ -48,6 +54,14 @@ class VideosAdapter(
             binding.deleteVideoButton.setOnClickListener {
                 currentVideoId?.let(onDeleteVideo)
             }
+            if (haveR()) {
+                binding.moveToTrashButton.visibility = View.VISIBLE
+                binding.moveToTrashButton.setOnClickListener {
+                    Timber.d("button clicked")
+                    currentVideoId?.let(onMoveToTrash)
+                }
+            }
+
         }
 
         fun bind(item: Video) {

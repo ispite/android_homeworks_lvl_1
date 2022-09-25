@@ -23,6 +23,10 @@ fun haveQ(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q // Q версия = 10 android, API 29
 }
 
+fun haveR(): Boolean {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R // R версия = 11 android, API 30
+}
+
 fun <T : Fragment> T.toast(@StringRes message: Int) {
     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 }

@@ -3,6 +3,7 @@ package ru.skillbox.a28_32_scopedstorage.presentation.main
 import android.Manifest
 import android.app.Activity
 import android.app.RemoteAction
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.skillbox.a28_32_scopedstorage.databinding.FragmentMainBinding
@@ -20,6 +22,11 @@ import ru.skillbox.a28_32_scopedstorage.utils.ViewBindingFragment
 import ru.skillbox.a28_32_scopedstorage.utils.autoCleared
 import ru.skillbox.a28_32_scopedstorage.utils.haveQ
 import ru.skillbox.a28_32_scopedstorage.utils.toast
+
+/**
+ * Code used with [IntentSender] to request user permission to delete an image with scoped storage.
+ */
+private const val DELETE_PERMISSION_REQUEST = 0x1033
 
 class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
@@ -54,6 +61,7 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
         binding.downloadFab.setOnClickListener {
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToDownloadFragment())
         }
+//        binding.
     }
 
     private fun bindViewModel() {
@@ -62,6 +70,19 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
             videosAdapter.submitList(it)
         }
         viewModel.recoverableAction.observe(viewLifecycleOwner, ::handleRecoverableAction)
+        viewModel.permissionNeededForDelete.observe(viewLifecycleOwner, Observer { intentSender ->
+            intentSender?.let {
+                startIntentSenderForResult(
+                    intentSender,
+                    DELETE_PERMISSION_REQUEST,
+                    null,
+                    0,
+                    0,
+                    0,
+                    null
+                )
+            }
+        })
     }
 
     private fun hasPermission(): Boolean {
@@ -90,7 +111,7 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
     }
 
     private fun initList() {
-        videosAdapter = VideosAdapter(viewModel::deleteVideo)
+        videosAdapter = VideosAdapter(viewModel::deleteVideo, viewModel::moveToTrash)
         with(binding.videosRecyclerView) {
             adapter = videosAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -120,6 +141,11 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
         val request = IntentSenderRequest.Builder(action.actionIntent.intentSender)
             .build()
         recoverableActionLauncher.launch(request)
+    }
+
+    private fun handleMoveToTrash(intentSender: IntentSender) {
+        val intentSenderRequest = IntentSenderRequest.Builder(intentSender).build()
+        recoverableActionLauncher.launch(intentSenderRequest)
     }
 
     companion object {

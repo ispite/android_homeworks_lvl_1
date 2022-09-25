@@ -3,6 +3,10 @@ package ru.skillbox.a28_32_scopedstorage.presentation.main
 import android.app.Application
 import android.app.RecoverableSecurityException
 import android.app.RemoteAction
+import android.content.IntentSender
+import android.os.Build
+import androidx.activity.result.IntentSenderRequest
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +27,7 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
     private val _toast = SingleLiveEvent<Int>()
     private val _permissionGranted = MutableLiveData(true)
     private val _recoverableAction = MutableLiveData<RemoteAction>()
+    private val _permissionNeededForDelete = MutableLiveData<IntentSender>()
 
     private var isObservingState: Boolean = false
     private var pendingDelete: Long? = null
@@ -38,6 +43,9 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
 
     val recoverableAction: LiveData<RemoteAction>
         get() = _recoverableAction
+
+    val permissionNeededForDelete: LiveData<IntentSender>
+        get() = _permissionNeededForDelete
 
     fun updatePermissionState(isGranted: Boolean) {
         if (isGranted) {
@@ -79,7 +87,7 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
     fun deleteVideo(id: Long) {
         viewModelScope.launch {
             try {
-                videosRepository.deleteImage(id)
+                videosRepository.deleteVideo(id)
                 pendingDelete = null
             } catch (t: Throwable) {
                 Timber.e(t)
@@ -101,5 +109,20 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
 
     fun declineDelete() {
         pendingDelete = null
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    fun moveToTrash(id: Long) {
+        Timber.d("move to trash ViewModel")
+        viewModelScope.launch {
+            try {
+//                val intentSender = videosRepository.addToTrash(id, true)
+//                _recoverableAction.pos
+                _permissionNeededForDelete.postValue(videosRepository.addToTrash(id, true))
+            } catch (t: Throwable) {
+                Timber.e(t)
+                _toast.postValue(R.string.video_move_to_trash_error)
+            }
+        }
     }
 }
