@@ -157,4 +157,11 @@ class VideosRepository(private val context: Context) {
             state.not()
         ).intentSender
     }
+
+    fun createVideoFileWithPicker(uri: Uri) {
+        context.contentResolver.openOutputStream(uri)?.bufferedWriter()
+            ?.use {
+                it.write("asd")
+            }
+    }
 }

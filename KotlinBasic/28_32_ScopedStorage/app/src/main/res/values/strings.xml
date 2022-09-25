@@ -10,6 +10,11 @@
     <string name="video_download_error">Video download error</string>
     <string name="video_delete_error">Ошибка при удалении видео</string>
     <string name="download_fab">Скачать видео файл</string>
+    <string name="select_directory_fab">Выбрать папку</string>
     <string name="video_move_to_trash_error">Ошибка при перемещении видео в корзину</string>
     <string name="video_mark_as_favorite_error">Ошибка при добавлении в избранное видео</string>
+    <string name="select_directory_error_toast_message">Вы не выбрали папку</string>
+    <string name="select_directory_toast_message">Вы выбрали папку = %s</string>
+    <string name="create_video_error_toast_message">Ошибка при создании видео</string>
+
 </resources>
