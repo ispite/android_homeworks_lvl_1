@@ -14,24 +14,17 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.skillbox.a28_32_scopedstorage.R
 import ru.skillbox.a28_32_scopedstorage.databinding.FragmentMainBinding
 import ru.skillbox.a28_32_scopedstorage.utils.ViewBindingFragment
 import ru.skillbox.a28_32_scopedstorage.utils.autoCleared
 import ru.skillbox.a28_32_scopedstorage.utils.haveQ
 import ru.skillbox.a28_32_scopedstorage.utils.toast
-
-/**
- * Code used with [IntentSender] to request user permission to delete an image with scoped storage.
- */
-private const val DELETE_PERMISSION_REQUEST = 0x1033
+import timber.log.Timber
 
 class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
@@ -40,16 +33,13 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var recoverableActionLauncher: ActivityResultLauncher<IntentSenderRequest>
-
-    //    private lateinit var selectDirectoryLauncher: ActivityResultLauncher<Uri?>
     private lateinit var createVideoLauncher: ActivityResultLauncher<String>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initPermissionResultListener()
         initRecoverableActionListener()
-//        initSelectDirectory()
+        initCreateVideoLauncher()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,11 +59,13 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
 
     private fun initCallback() {
         binding.downloadFab.setOnClickListener {
-            findNavController().navigate(MainFragmentDirections.actionMainFragmentToDownloadFragment())
+            findNavController().navigate(
+                MainFragmentDirections.actionMainFragmentToDownloadFragment(null)
+            )
         }
-/*        binding.selectDirectoryFab.setOnClickListener {
-            selectDirectory()
-        }*/
+        binding.selectFileFab.setOnClickListener {
+            createVideo()
+        }
     }
 
     private fun bindViewModel() {
@@ -84,6 +76,14 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
         viewModel.recoverableAction.observe(viewLifecycleOwner, ::handleRecoverableAction)
         viewModel.permissionNeededForDelete.observe(viewLifecycleOwner, ::handleMoveToTrash)
         viewModel.permissionNeededForFavorite.observe(viewLifecycleOwner, ::handleMarkAsFavorite)
+        viewModel.loading.observe(viewLifecycleOwner, ::setLoading)
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Pair<Uri, String>>(
+            "URL"
+        )
+            ?.observe(viewLifecycleOwner) { pair ->
+                Timber.d("url from DownloadFragment ${pair.second}")
+                viewModel.downloadVideoByteArray(pair.first, pair.second)
+            }
     }
 
     private fun hasPermission(): Boolean {
@@ -134,19 +134,11 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
         }
     }
 
-/*    private fun initSelectDirectory() {
-        selectDirectoryLauncher = registerForActivityResult(
-            ActivityResultContracts.OpenDocumentTree()
-        ) { uri ->
-            handleSelectDirectory(uri)
-        }
-    }*/
-
     private fun initCreateVideoLauncher() {
         createVideoLauncher = registerForActivityResult(
             ActivityResultContracts.CreateDocument("video/*")
         ) { uri ->
-
+            handleCreateVideo(uri)
         }
     }
 
@@ -171,37 +163,26 @@ class MainFragment : ViewBindingFragment<FragmentMainBinding>(FragmentMainBindin
         recoverableActionLauncher.launch(intentSenderRequest)
     }
 
-/*    private fun selectDirectory() {
-        selectDirectoryLauncher.launch(null)
-    }*/
-
-    private fun handleSelectDirectory(uri: Uri?) {
-        if (uri == null) {
-            toast(R.string.select_directory_error_toast_message)
-            return
-        }
-//        getString(R.string.select_directory_toast_message, uri)
-        toast(getString(R.string.select_directory_toast_message, uri.lastPathSegment))
-    }
-
     private fun handleCreateVideo(uri: Uri?) {
         if (uri == null) {
             toast(R.string.create_video_error_toast_message)
             return
         }
-
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                requireContext().contentResolver.openOutputStream(uri)?.bufferedWriter()
-                    ?.use {
-                        it.write("asdasd")
-                    }
-            }
-        }
+        findNavController().navigate(
+            MainFragmentDirections.actionMainFragmentToDownloadFragment(uri, false)
+        )
     }
+
 
     private fun createVideo() {
         createVideoLauncher.launch("new video.mp4")
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        binding.mainFragmentProgressBar.isVisible = isLoading
+//        binding.fabGroup.isEnabled = isLoading.not()
+        binding.selectFileFab.isEnabled = isLoading.not()
+        binding.downloadFab.isEnabled = isLoading.not()
     }
 
     companion object {

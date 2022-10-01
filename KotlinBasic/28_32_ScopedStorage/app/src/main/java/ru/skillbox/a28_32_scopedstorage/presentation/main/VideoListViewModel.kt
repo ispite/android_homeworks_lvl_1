@@ -4,12 +4,14 @@ import android.app.Application
 import android.app.RecoverableSecurityException
 import android.app.RemoteAction
 import android.content.IntentSender
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.skillbox.a28_32_scopedstorage.R
 import ru.skillbox.a28_32_scopedstorage.data.Video
@@ -28,6 +30,8 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
     private val _recoverableAction = MutableLiveData<RemoteAction>()
     private val _permissionNeededForDelete = MutableLiveData<IntentSender>()
     private val _permissionNeededForFavorite = MutableLiveData<IntentSender>()
+
+    private val _loading = MutableLiveData(false)
 
     private var isObservingState: Boolean = false
     private var pendingDelete: Long? = null
@@ -49,6 +53,9 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
 
     val permissionNeededForFavorite: LiveData<IntentSender>
         get() = _permissionNeededForFavorite
+
+    val loading: LiveData<Boolean>
+        get() = _loading
 
     fun updatePermissionState(isGranted: Boolean) {
         if (isGranted) {
@@ -137,6 +144,20 @@ class VideoListViewModel(app: Application) : AndroidViewModel(app) {
             } catch (t: Throwable) {
                 Timber.e(t)
                 _toast.postValue(R.string.video_mark_as_favorite_error)
+            }
+        }
+    }
+
+    fun downloadVideoByteArray(uri: Uri, url: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _loading.postValue(true)
+            try {
+                videosRepository.downloadVideoFromUrl(uri, url) { }
+            } catch (t: Throwable) {
+                Timber.e(t)
+                _toast.postValue(R.string.video_download_error)
+            } finally {
+                _loading.postValue(false)
             }
         }
     }

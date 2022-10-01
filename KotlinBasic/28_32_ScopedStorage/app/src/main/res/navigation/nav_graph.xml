@@ -17,5 +17,15 @@
     <dialog
         android:id="@+id/downloadFragment"
         android:name="ru.skillbox.a28_32_scopedstorage.presentation.main.download.DownloadFragment"
-        android:label="DownloadFragment" />
+        android:label="DownloadFragment"
+        tools:layout="@layout/fragment_download_file">
+        <argument
+            android:name="fileNameEnabled"
+            android:defaultValue="true"
+            app:argType="boolean" />
+        <argument
+            android:name="uri"
+            app:argType="android.net.Uri"
+            app:nullable="true" />
+    </dialog>
 </navigation>

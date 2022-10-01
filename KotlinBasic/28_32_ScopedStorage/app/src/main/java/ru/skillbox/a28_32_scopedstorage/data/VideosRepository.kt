@@ -86,9 +86,6 @@ class VideosRepository(private val context: Context) {
             MediaStore.VOLUME_EXTERNAL_PRIMARY
         } else {
             MediaStore.VOLUME_EXTERNAL
-            // Чтобы убрать предупреждение по идее надо восполдьзоваться этим рещением
-            // https://stackoverflow.com/a/63756762
-//            MediaStore.Video.Media.EXTERNAL_CONTENT_URI
         }
 
         val videoCollectionUri = MediaStore.Video.Media.getContentUri(volume)
@@ -117,6 +114,25 @@ class VideosRepository(private val context: Context) {
         }
     }
 
+    suspend fun downloadVideoFromUrl(
+        uri: Uri,
+        url: String,
+        success: (Boolean) -> Unit
+    ) {
+        try {
+            context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+                Networking.api.getFile(url).byteStream().use { inputStream ->
+                    Timber.d("Started copying")
+                    inputStream.copyTo(outputStream)
+                    success(true)
+                }
+            }
+        } catch (t: Throwable) {
+            Timber.e(t)
+            success(false)
+        }
+    }
+
     private fun makeVideoReady(videoUri: Uri) {
         if (haveQ().not()) return
         val videoDetails = ContentValues().apply {
@@ -127,14 +143,16 @@ class VideosRepository(private val context: Context) {
 
     suspend fun deleteVideo(id: Long) {
         withContext(Dispatchers.IO) {
-            val uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
+            val uri =
+                ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
             Timber.d("MIME type is: ${getMimeType(uri)}")
             context.contentResolver.delete(uri, null, null)
         }
     }
 
     private fun getMimeType(uri: Uri) =
-        MimeTypeMap.getSingleton().getExtensionFromMimeType(context.contentResolver.getType(uri))
+        MimeTypeMap.getSingleton()
+            .getExtensionFromMimeType(context.contentResolver.getType(uri))
 
 
     @RequiresApi(Build.VERSION_CODES.R) // R версия = 11 android, API 30
@@ -156,12 +174,5 @@ class VideosRepository(private val context: Context) {
             listOf(uri),
             state.not()
         ).intentSender
-    }
-
-    fun createVideoFileWithPicker(uri: Uri) {
-        context.contentResolver.openOutputStream(uri)?.bufferedWriter()
-            ?.use {
-                it.write("asd")
-            }
     }
 }
