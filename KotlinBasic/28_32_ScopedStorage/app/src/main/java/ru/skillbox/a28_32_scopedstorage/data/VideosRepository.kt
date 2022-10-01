@@ -120,7 +120,7 @@ class VideosRepository(private val context: Context) {
         success: (Boolean) -> Unit
     ) {
         try {
-            context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+            context.contentResolver.openOutputStream(uri)?.buffered()?.use { outputStream ->
                 Networking.api.getFile(url).byteStream().use { inputStream ->
                     Timber.d("Started copying")
                     inputStream.copyTo(outputStream)
