@@ -74,6 +74,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
             .addOnFailureListener { exception ->
                 continuation.resume(null)
+                Timber.e(exception)
             }
             .addOnCanceledListener {
                 continuation.resume(null)
