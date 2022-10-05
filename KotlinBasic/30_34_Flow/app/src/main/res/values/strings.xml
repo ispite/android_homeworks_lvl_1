@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">30_34_Flow</string>
+    <string name="movies">Фильмы</string>
+    <string name="series">Сериалы</string>
+    <string name="episodes">Эпизоды</string>
+    <string name="input_request">Введите запрос</string>
 </resources>

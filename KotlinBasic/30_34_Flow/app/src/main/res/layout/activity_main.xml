@@ -7,12 +7,47 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/searchHint"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="4dp"
+        android:text="@string/input_request"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/searchRequest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/searchHint" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:layout_constraintTop_toBottomOf="@id/searchRequest">
+
+        <RadioButton
+            android:id="@+id/radioMovies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/movies" />
+
+        <RadioButton
+            android:id="@+id/radioSeries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/series" />
+
+        <RadioButton
+            android:id="@+id/radioEpisode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/episodes" />
+
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
