@@ -4,6 +4,7 @@
     package="ru.skillbox.a30_34_flow">
 
     <application
+        android:name=".app.FlowApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
