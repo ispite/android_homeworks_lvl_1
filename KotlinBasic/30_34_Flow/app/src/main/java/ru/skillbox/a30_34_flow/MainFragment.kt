@@ -9,9 +9,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ru.skillbox.a30_34_flow.data.MovieType
 import ru.skillbox.a30_34_flow.databinding.FragmentMainBinding
 import ru.skillbox.a30_34_flow.utils.textChangedFlow
 import timber.log.Timber
@@ -54,10 +54,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             flow
-//                .map {  }
+                .map {
+                    when (it) {
+                        2131231072 -> MovieType.MOVIE
+                        2131231073 -> MovieType.SERIES
+                        /*2131231070*/ else -> MovieType.EPISODE
+                    }
+                }
                 .collect {
-                Timber.d(it.toString())
-            }
+                    Timber.d(it.toString())
+                }
         }
     }
 }
