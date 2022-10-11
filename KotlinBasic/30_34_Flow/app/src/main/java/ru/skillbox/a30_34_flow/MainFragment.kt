@@ -6,7 +6,6 @@ import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
@@ -37,28 +36,23 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun radioGroupChanged() {
         val flow = callbackFlow<Int> {
             val radioGroupChangedListener = object : RadioGroup.OnCheckedChangeListener {
-                override fun onCheckedChanged(radioGroup: RadioGroup, p1: Int) {
-//                    Timber.d("radioGroup =$radioGroup, p1=$p1")
-                    trySendBlocking(p1)
+                override fun onCheckedChanged(radioGroup: RadioGroup, viewId: Int) {
+                    trySendBlocking(viewId)
                 }
             }
-//            val radioGroupLayoutChangedListener = object :
-//        binding.radioGroup.addOnLayoutChangeListener()
             binding.radioGroup.setOnCheckedChangeListener(radioGroupChangedListener)
-//            binding.radioGroup.addOnLayoutChangeListener()
-            awaitClose {
+/*            awaitClose {
                 Timber.d("awaitClose radioGroup")
-//                binding.radioGroup.remove
-            }
+            }*/
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             flow
                 .map {
                     when (it) {
-                        2131231072 -> MovieType.MOVIE
-                        2131231073 -> MovieType.SERIES
-                        /*2131231070*/ else -> MovieType.EPISODE
+                        R.id.radioMovies -> MovieType.MOVIE
+                        R.id.radioSeries -> MovieType.SERIES
+                        else -> MovieType.EPISODE
                     }
                 }
                 .collect {
