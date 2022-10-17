@@ -13,32 +13,39 @@ import ru.skillbox.a30_34_flow.data.MovieType
 import ru.skillbox.a30_34_flow.databinding.FragmentMainBinding
 import ru.skillbox.a30_34_flow.utils.radioGroupChangedFlow
 import ru.skillbox.a30_34_flow.utils.textChangedFlow
-import timber.log.Timber
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val binding: FragmentMainBinding by viewBinding(FragmentMainBinding::bind)
     private val viewModel: MainViewModel by viewModels()
 
+    private lateinit var textChangedFlow: Flow<String>
+    private lateinit var radioGroupChangedFlow: Flow<MovieType>
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         flowTextChanged()
         radioGroupChanged()
+        viewModel.bind(textChangedFlow, radioGroupChangedFlow)
+        binding.radioGroup.check(R.id.radioMovies)
 //        bind()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.cancelJob()
     }
 
     private fun flowTextChanged() {
         viewLifecycleOwner.lifecycleScope.launch {
-            binding.searchRequest.textChangedFlow().collect {
-                Timber.d(it)
-                viewModel.editTextFlow.postValue(it)
-            }
+            textChangedFlow = binding.searchRequest.textChangedFlow()
         }
     }
 
+
     private fun radioGroupChanged() {
         viewLifecycleOwner.lifecycleScope.launch {
-            binding.radioGroup.radioGroupChangedFlow()
+            radioGroupChangedFlow = binding.radioGroup.radioGroupChangedFlow()
                 .map {
                     when (it) {
                         R.id.radioMovies -> MovieType.MOVIE
@@ -46,17 +53,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         else -> MovieType.EPISODE
                     }
                 }
-                .collect {
-//                    return@launch it
-                    Timber.d(it.toString())
-                    viewModel.radioGroupFlow.postValue(it)
-                }
         }
     }
 
-    private fun bind(queryFlow: Flow<String>, movieTypeFlow: Flow<MovieType>) {
+/*    private fun bind(queryFlow: Flow<String>, movieTypeFlow: Flow<MovieType>) {
 
-    }
+    }*/
 
 /*    private fun bindViewModel() {
 
