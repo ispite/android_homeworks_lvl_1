@@ -8,6 +8,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import ru.skillbox.a30_34_flow.data.MovieRepository
 import ru.skillbox.a30_34_flow.data.MovieType
+import ru.skillbox.a30_34_flow.data.db.models.MovieDB
 
 class MainViewModel : ViewModel() {
 
@@ -31,6 +32,11 @@ class MainViewModel : ViewModel() {
             .mapLatest { pair ->
                 repository.searchMovies(pair.first, pair.second)
             }
+/*            .onEach { omdbResponse ->
+                omdbResponse.search?.forEach { movie ->
+                    repository.insertMovie(MovieDB.convertFromResponse(movie))
+                }
+            }*/
             .launchIn(viewModelScope)
     }
 

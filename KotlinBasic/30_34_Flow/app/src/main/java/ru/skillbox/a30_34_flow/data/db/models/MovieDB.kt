@@ -1,0 +1,40 @@
+package ru.skillbox.a30_34_flow.data.db.models
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import ru.skillbox.a30_34_flow.data.Movie
+
+@Entity(tableName = MovieContract.TABLE_NAME)
+data class MovieDB(
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = MovieContract.Columns.ID)
+    val id: Long,
+
+    @ColumnInfo(name = MovieContract.Columns.IMDB_ID)
+    val imdbId: String,
+
+    @ColumnInfo(name = MovieContract.Columns.TITLE)
+    val title: String,
+
+    @ColumnInfo(name = MovieContract.Columns.TYPE)
+    val type: String,
+
+    @ColumnInfo(name = MovieContract.Columns.YEAR)
+    val year: String,
+
+    @ColumnInfo(name = MovieContract.Columns.POSTER)
+    val poster: String
+) {
+    companion object {
+        fun convertFromResponse(movie: Movie) = MovieDB(
+            0,
+            movie.id,
+            movie.title,
+            movie.type,
+            movie.year,
+            movie.poster
+        )
+
+    }
+}
