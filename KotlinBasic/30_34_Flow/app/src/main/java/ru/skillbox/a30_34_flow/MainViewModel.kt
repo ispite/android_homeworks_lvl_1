@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
+import ru.skillbox.a30_34_flow.data.MovieRepository
 import ru.skillbox.a30_34_flow.data.MovieType
-import timber.log.Timber
 
 class MainViewModel : ViewModel() {
+
+    private val repository = MovieRepository()
 
     lateinit var job: Job
 
@@ -18,26 +20,18 @@ class MainViewModel : ViewModel() {
         get() = _resultFlow
 
     fun bind(queryFlow: Flow<String>, movieTypeFlow: Flow<MovieType>) {
-//        viewModelScope.launch {
-/*        movieTypeFlow
-            .onEach { Timber.d("movieType $movieTypeFlow") }
-            .launchIn(viewModelScope)*/
-
         job = combine(
             queryFlow,
-            movieTypeFlow/*.onStart { emit(MovieType.MOVIE) }*/
+            movieTypeFlow
         ) { query, movieType ->
             query to movieType
         }
-            .debounce(250)
+            .debounce(500)
             .distinctUntilChanged()
-            .onEach { Timber.d("query to movieType $it") }
+            .mapLatest { pair ->
+                repository.searchMovies(pair.first, pair.second)
+            }
             .launchIn(viewModelScope)
-/*                .collect {
-                    Timber.d("_resultFlow $it")
-                    _resultFlow.postValue(it)
-                }*/
-//        }
     }
 
     fun cancelJob() {
