@@ -50,4 +50,14 @@
 
     </RadioGroup>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/videosRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroup"
+        tools:itemCount="9"
+        tools:listitem="@layout/item_movie" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

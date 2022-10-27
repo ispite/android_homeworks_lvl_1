@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
+import ru.skillbox.a30_34_flow.data.Movie
 import ru.skillbox.a30_34_flow.data.MovieRepository
 import ru.skillbox.a30_34_flow.data.MovieType
 import ru.skillbox.a30_34_flow.data.db.models.MovieDB
@@ -16,9 +17,9 @@ class MainViewModel : ViewModel() {
 
     lateinit var job: Job
 
-    private val _resultFlow = MutableLiveData<Pair<String, MovieType>>()
-    val resultFlow: LiveData<Pair<String, MovieType>>
-        get() = _resultFlow
+    private val _videoList = MutableLiveData<List<Movie>>()
+    val videoList: LiveData<List<Movie>>
+        get() = _videoList
 
     fun bind(queryFlow: Flow<String>, movieTypeFlow: Flow<MovieType>) {
         job = combine(
@@ -33,6 +34,7 @@ class MainViewModel : ViewModel() {
                 repository.searchMovies(pair.first, pair.second)
             }
             .onEach { omdbResponse ->
+                omdbResponse.search?.let { _videoList.postValue(it) }
                 omdbResponse.search?.forEach { movie ->
                     repository.insertMovie(MovieDB.convertFromResponse(movie))
                 }

@@ -4,4 +4,5 @@
     <string name="series">Сериалы</string>
     <string name="episodes">Эпизоды</string>
     <string name="input_request">Введите запрос</string>
+    <string name="video_poster">Постер видео</string>
 </resources>
