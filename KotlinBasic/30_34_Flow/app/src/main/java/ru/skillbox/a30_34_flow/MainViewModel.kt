@@ -32,11 +32,11 @@ class MainViewModel : ViewModel() {
             .mapLatest { pair ->
                 repository.searchMovies(pair.first, pair.second)
             }
-/*            .onEach { omdbResponse ->
+            .onEach { omdbResponse ->
                 omdbResponse.search?.forEach { movie ->
                     repository.insertMovie(MovieDB.convertFromResponse(movie))
                 }
-            }*/
+            }
             .launchIn(viewModelScope)
     }
 

@@ -6,8 +6,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 import ru.skillbox.a30_34_flow.data.ApiKey.API_KEY
+import ru.skillbox.a30_34_flow.utils.haveP
 
 object Networking {
+
+    private val baseUrlProtocol: String = if (haveP()) "https" else "http"
 
     private val okHttpClient = OkHttpClient.Builder()
         .addNetworkInterceptor(ApiKeyAdderInterceptor(API_KEY))
@@ -15,7 +18,7 @@ object Networking {
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://www.omdbapi.com/")
+        .baseUrl("$baseUrlProtocol://www.omdbapi.com/")
         .addConverterFactory(MoshiConverterFactory.create())
         .client(okHttpClient)
         .build()

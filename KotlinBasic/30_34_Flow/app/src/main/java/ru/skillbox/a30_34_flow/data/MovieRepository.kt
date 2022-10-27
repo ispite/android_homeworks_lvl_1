@@ -8,18 +8,17 @@ class MovieRepository {
 
     private val movieDao = Database.instance.movieDao()
 
-    suspend fun searchMovies(query: String, movieType: MovieType)/*: OmdbResponse*/ {
+    suspend fun searchMovies(query: String, movieType: MovieType): OmdbResponse =
         Networking.omdbApi.getSearchMovieCall(query, movieType.toString())
-    }
 
-/*    suspend fun insertMovie(movie: MovieDB) {
+    suspend fun insertMovie(movie: MovieDB) {
         if (isMovieValid(movie).not()) throw RuntimeException("incorrect form")
         movieDao.insertMovies(listOf(movie))
-    }*/
+    }
 
-/*    private fun isMovieValid(movie: MovieDB): Boolean {
+    private fun isMovieValid(movie: MovieDB): Boolean {
         return movie.title.isNotBlank() &&
                 movie.type.isNotBlank() &&
                 movie.imdbId.isNotBlank()
-    }*/
+    }
 }
