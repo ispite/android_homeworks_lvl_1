@@ -10,6 +10,7 @@ import ru.skillbox.a30_34_flow.data.Movie
 import ru.skillbox.a30_34_flow.data.MovieRepository
 import ru.skillbox.a30_34_flow.data.MovieType
 import ru.skillbox.a30_34_flow.data.db.models.MovieDB
+import timber.log.Timber
 
 class MainViewModel : ViewModel() {
 
@@ -33,6 +34,7 @@ class MainViewModel : ViewModel() {
             .mapLatest { pair ->
                 repository.searchMovies(pair.first, pair.second)
             }
+            .catch { Timber.e("exception $it") }
             .onEach { omdbResponse ->
                 omdbResponse.search?.let { _videoList.postValue(it) }
                 omdbResponse.search?.forEach { movie ->
