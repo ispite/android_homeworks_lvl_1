@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import ru.skillbox.a30_34_flow.data.Movie
 import ru.skillbox.a30_34_flow.data.MovieRepository
@@ -34,12 +35,22 @@ class MainViewModel : ViewModel() {
             .mapLatest { pair ->
                 repository.searchMovies(pair.first, pair.second)
             }
-            .catch { Timber.e("exception $it") }
+/*            .retryWhen { cause, attempt ->
+                Timber.d("retryWhen attempts")
+                delay(200)
+                attempt < 100
+            }*/
+//            .catch { Timber.e("exception $it") }
             .onEach { omdbResponse ->
                 omdbResponse.search?.let { _videoList.postValue(it) }
                 omdbResponse.search?.forEach { movie ->
                     repository.insertMovie(MovieDB.convertFromResponse(movie))
                 }
+            }
+            .retryWhen { cause, attempt ->
+                Timber.d("retryWhen attempts")
+                delay(200)
+                attempt < 100
             }
             .launchIn(viewModelScope)
     }
