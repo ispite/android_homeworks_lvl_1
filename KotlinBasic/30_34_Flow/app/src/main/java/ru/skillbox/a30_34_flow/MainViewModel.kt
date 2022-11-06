@@ -12,6 +12,7 @@ import ru.skillbox.a30_34_flow.data.MovieRepository
 import ru.skillbox.a30_34_flow.data.MovieType
 import ru.skillbox.a30_34_flow.data.db.models.MovieDB
 import timber.log.Timber
+import java.io.IOException
 
 class MainViewModel : ViewModel() {
 
@@ -33,24 +34,33 @@ class MainViewModel : ViewModel() {
             .debounce(500)
             .distinctUntilChanged()
             .mapLatest { pair ->
-                repository.searchMovies(pair.first, pair.second)
-            }
-/*            .retryWhen { cause, attempt ->
-                Timber.d("retryWhen attempts")
-                delay(200)
-                attempt < 100
-            }*/
-//            .catch { Timber.e("exception $it") }
-            .onEach { omdbResponse ->
-                omdbResponse.search?.let { _videoList.postValue(it) }
-                omdbResponse.search?.forEach { movie ->
-                    repository.insertMovie(MovieDB.convertFromResponse(movie))
-                }
-            }
-            .retryWhen { cause, attempt ->
-                Timber.d("retryWhen attempts")
-                delay(200)
-                attempt < 100
+                repository.searchMoviesFlow(pair.first, pair.second)
+                    .retryWhen { cause, attempt ->
+                        Timber.d("retryWhen attempt= $attempt")
+                        delay(500)
+                        cause is IOException && attempt < 2
+                    }
+                    .catch {
+                        Timber.e("exception $it")
+                        val dbResponse =
+                            repository.getMovieByTitleAndType(pair.first, pair.second.toString())
+                        val movieList = dbResponse.map { movieDb ->
+                            MovieDB.convertFromDb(movieDb)
+                        }
+                        _videoList.postValue(movieList)
+
+                    }
+                    .onEach { omdbResponse ->
+//                        Timber.d("OmdbResponse $it")
+                        omdbResponse.search?.let { _videoList.postValue(it) }
+                        omdbResponse.search?.forEach { movie ->
+                            repository.insertMovie(MovieDB.convertFromResponse(movie))
+                            repository.observeMovies().collect {
+                                Timber.d("observe movies after insert $it")
+                            }
+                        }
+                    }
+                    .launchIn(viewModelScope)
             }
             .launchIn(viewModelScope)
     }

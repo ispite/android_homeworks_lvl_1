@@ -12,5 +12,7 @@ class FlowApp : Application() {
             Timber.plant(Timber.DebugTree())
         }
         Database.init(this)
+        // Force open database
+        // Database.instance.openHelper.writableDatabase
     }
 }

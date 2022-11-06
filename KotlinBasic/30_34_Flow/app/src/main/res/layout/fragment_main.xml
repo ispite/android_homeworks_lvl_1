@@ -50,13 +50,20 @@
 
     </RadioGroup>
 
+    <Button
+        android:id="@+id/toDbListButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_list_of_videos_in_db"
+        app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/videosRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@id/toDbListButton"
         tools:itemCount="9"
         tools:listitem="@layout/item_movie" />
 

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.flow.Flow
@@ -33,7 +34,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         viewModel.bind(textChangedFlow, radioGroupChangedFlow)
         binding.radioGroup.check(R.id.radioMovies)
         bindViewModel()
-//        bind()
+        bind()
     }
 
     override fun onDestroyView() {
@@ -75,11 +76,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-/*    private fun bind(queryFlow: Flow<String>, movieTypeFlow: Flow<MovieType>) {
+    private fun bind() {
+        binding.toDbListButton.setOnClickListener { findNavController().navigate(R.id.action_mainFragment_to_dbListFragment) }
+    }
 
-    }*/
-
-/*    private fun bindViewModel() {
-
-    }*/
 }

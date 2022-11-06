@@ -38,6 +38,7 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
 
                 Glide.with(itemView)
                     .load(item.poster)
+                    .placeholder(R.drawable.ic_image)
                     .into(videoPoster)
             }
         }

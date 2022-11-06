@@ -2,10 +2,17 @@ package ru.skillbox.a30_34_flow.data.db.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import ru.skillbox.a30_34_flow.data.Movie
 
-@Entity(tableName = MovieContract.TABLE_NAME)
+@Entity(
+    tableName = MovieContract.TABLE_NAME,
+    indices = [Index(
+        value = [MovieContract.Columns.IMDB_ID],
+        unique = true
+    )]
+)
 data class MovieDB(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = MovieContract.Columns.ID)
@@ -36,5 +43,12 @@ data class MovieDB(
             movie.poster
         )
 
+        fun convertFromDb(movieDb: MovieDB) = Movie(
+            movieDb.imdbId,
+            movieDb.title,
+            movieDb.type,
+            movieDb.year,
+            movieDb.poster
+        )
     }
 }
