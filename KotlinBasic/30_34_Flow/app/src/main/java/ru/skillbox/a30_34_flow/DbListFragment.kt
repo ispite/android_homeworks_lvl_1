@@ -36,10 +36,6 @@ class DbListFragment : Fragment(R.layout.fragment_db_list) {
     }
 
     private fun bindViewModel() {
-/*        viewModel.videoList.observe(viewLifecycleOwner) {
-            videoAdapter.submitList(it)
-        }*/
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.videoListFlow.collect { videoAdapter.submitList(it) }

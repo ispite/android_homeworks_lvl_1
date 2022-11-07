@@ -51,13 +51,23 @@ class MainViewModel : ViewModel() {
 
                     }
                     .onEach { omdbResponse ->
-//                        Timber.d("OmdbResponse $it")
-                        omdbResponse.search?.let { _videoList.postValue(it) }
-                        omdbResponse.search?.forEach { movie ->
+                        val movieList = omdbResponse.search ?: emptyList()
+                        Timber.d("movieList $movieList")
+                        movieList.let { _videoList.postValue(it) }
+
+                        repository.observeMovies().collect { movieDbList ->
+//                        Timber.d("movieDbList=$movieDbList")
+                            val imdbIdMovieDbList = movieDbList.map { it.imdbId }
+//                        Timber.d("imdbIdMovieDbList $imdbIdMovieDbList")
+                            val newMovies =
+                                movieList.filterNot { movie -> imdbIdMovieDbList.contains(movie.id) }
+                            Timber.d("newMovies $newMovies")
+                        }
+
+                        Timber.d("movieList before forEach=$movieList")
+                        movieList.forEach { movie ->
+                            Timber.d("insert $movie")
                             repository.insertMovie(MovieDB.convertFromResponse(movie))
-                            repository.observeMovies().collect {
-                                Timber.d("observe movies after insert $it")
-                            }
                         }
                     }
                     .launchIn(viewModelScope)
