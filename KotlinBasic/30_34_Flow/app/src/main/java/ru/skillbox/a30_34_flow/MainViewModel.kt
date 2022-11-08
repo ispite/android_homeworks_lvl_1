@@ -55,18 +55,14 @@ class MainViewModel : ViewModel() {
                         Timber.d("movieList $movieList")
                         movieList.let { _videoList.postValue(it) }
 
-                        repository.observeMovies().collect { movieDbList ->
-//                        Timber.d("movieDbList=$movieDbList")
-                            val imdbIdMovieDbList = movieDbList.map { it.imdbId }
-//                        Timber.d("imdbIdMovieDbList $imdbIdMovieDbList")
-                            val newMovies =
-                                movieList.filterNot { movie -> imdbIdMovieDbList.contains(movie.id) }
-                            Timber.d("newMovies $newMovies")
-                        }
-
-                        Timber.d("movieList before forEach=$movieList")
+                        repository.observeMovies()
+                            .map { movieDbList ->
+                                val imdbIdMovieDbList = movieDbList.map { it.imdbId }
+                                val newMovies =
+                                    movieList.filterNot { movie -> imdbIdMovieDbList.contains(movie.id) }
+                                Timber.d("newMovies size=${newMovies.size} newMovies: $newMovies ")
+                            }.launchIn(viewModelScope)
                         movieList.forEach { movie ->
-                            Timber.d("insert $movie")
                             repository.insertMovie(MovieDB.convertFromResponse(movie))
                         }
                     }
