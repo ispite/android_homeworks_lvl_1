@@ -202,3 +202,5 @@ gradlew.bat
 **/.idea/deploymentTargetDropDown.xml
 **/.idea/libraries/
 **/.idea/.name
+
+.idea/
