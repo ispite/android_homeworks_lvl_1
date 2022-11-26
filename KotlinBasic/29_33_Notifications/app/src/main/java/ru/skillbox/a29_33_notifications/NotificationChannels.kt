@@ -10,8 +10,14 @@ import androidx.core.app.NotificationManagerCompat
 
 object NotificationChannels {
 
-    val HIGH_PRIORITY_CHANNEL_ID = "high_priority"
-    val LOW_PRIORITY_CHANNEL_ID = "low_priority"
+    // Channels
+    const val HIGH_PRIORITY_CHANNEL_ID = "high_priority"
+    const val LOW_PRIORITY_CHANNEL_ID = "low_priority"
+
+    // Notification ID's
+    const val SIMPLE_NOTIFICATION_ID = 12341
+    const val HIGH_PRIORITY_NOTIFICATION_ID = 12342
+    const val PROMO_NOTIFICATION_ID = 12343
 
     fun create(context: Context) {
         // O версия = 8 android, API 26

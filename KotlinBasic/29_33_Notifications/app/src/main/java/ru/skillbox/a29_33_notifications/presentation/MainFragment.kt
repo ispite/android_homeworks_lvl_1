@@ -11,6 +11,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 import ru.skillbox.a29_33_notifications.NotificationChannels
+import ru.skillbox.a29_33_notifications.NotificationChannels.HIGH_PRIORITY_NOTIFICATION_ID
+import ru.skillbox.a29_33_notifications.NotificationChannels.SIMPLE_NOTIFICATION_ID
 import ru.skillbox.a29_33_notifications.R
 import ru.skillbox.a29_33_notifications.databinding.FragmentMainBinding
 import timber.log.Timber
@@ -79,10 +81,5 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             .addOnCanceledListener {
                 continuation.resume(null)
             }
-    }
-
-    companion object {
-        private const val SIMPLE_NOTIFICATION_ID = 12341
-        private const val HIGH_PRIORITY_NOTIFICATION_ID = 12342
     }
 }
