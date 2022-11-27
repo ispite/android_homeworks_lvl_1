@@ -9,5 +9,14 @@
         android:id="@+id/mainFragment"
         android:name="ru.skillbox.a29_33_notifications.presentation.MainFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_synchronizationFragment"
+            app:destination="@id/synchronizationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/synchronizationFragment"
+        android:name="ru.skillbox.a29_33_notifications.presentation.SynchronizationFragment"
+        android:label="SynchronizationFragment"
+        tools:layout="@layout/fragment_synchronization" />
 </navigation>

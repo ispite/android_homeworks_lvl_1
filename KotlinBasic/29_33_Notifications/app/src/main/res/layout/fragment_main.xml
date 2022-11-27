@@ -9,21 +9,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
-        android:text="Отправить приоритетное оповещение" />
+        android:text="@string/send_priority_notification" />
 
     <Button
         android:id="@+id/sendSimpleNotification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
-        android:text="Отправить обычное оповещение" />
+        android:text="@string/send_normal_notification" />
 
     <Button
         android:id="@+id/getFirebaseToken"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
-        android:text="Получить токен firebase" />
+        android:text="@string/get_firebase_token" />
+
+    <Button
+        android:id="@+id/toSynchronizationFragmentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:text="@string/transit_to_sync_screen" />
 
 
 </LinearLayout>

@@ -18,6 +18,7 @@ object NotificationChannels {
     const val SIMPLE_NOTIFICATION_ID = 12341
     const val HIGH_PRIORITY_NOTIFICATION_ID = 12342
     const val PROMO_NOTIFICATION_ID = 12343
+    const val SYNCHRONIZATION_NOTIFICATION_ID = 12344
 
     fun create(context: Context) {
         // O версия = 8 android, API 26
