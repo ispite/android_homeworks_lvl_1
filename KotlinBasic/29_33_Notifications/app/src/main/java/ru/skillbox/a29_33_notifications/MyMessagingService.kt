@@ -3,8 +3,10 @@ package ru.skillbox.a29_33_notifications
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Bundle
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.navigation.NavDeepLinkBuilder
 import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -50,6 +52,16 @@ class MyMessagingService : FirebaseMessagingService() {
         val intent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 123, intent, 0)
 
+        // Пример https://www.kodeco.com/4332831-navigation-component-for-android-part-2-graphs-and-deep-links
+        val bundle = Bundle()
+        bundle.putString("KEY", "something for example")
+
+        val anotherPendingIntent = NavDeepLinkBuilder(this)
+            .setGraph(R.navigation.nav_graph)
+            .setDestination(R.id.chatFragment)
+            .setArguments(bundle)
+            .createPendingIntent()
+
         val notification = NotificationCompat.Builder(
             this,
             NotificationChannels.HIGH_PRIORITY_CHANNEL_ID
@@ -58,7 +70,7 @@ class MyMessagingService : FirebaseMessagingService() {
             .setContentText(text)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSmallIcon(R.drawable.ic_message)
-            .setContentIntent(pendingIntent)
+            .setContentIntent(anotherPendingIntent)
             .setAutoCancel(true)
             .build()
 
