@@ -5,4 +5,5 @@
     <string name="send_normal_notification">Отправить обычное оповещение</string>
     <string name="get_firebase_token">Получить токен firebase</string>
     <string name="transit_to_sync_screen">Перейти на экран синхронизации</string>
+    <string name="to_the_chat">К чатику</string>
 </resources>

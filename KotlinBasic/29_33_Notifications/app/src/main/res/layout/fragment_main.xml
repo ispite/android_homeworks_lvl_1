@@ -32,5 +32,12 @@
         android:layout_marginHorizontal="4dp"
         android:text="@string/transit_to_sync_screen" />
 
+    <Button
+        android:id="@+id/toChatFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:text="@string/to_the_chat" />
+
 
 </LinearLayout>

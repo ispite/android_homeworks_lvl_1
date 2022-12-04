@@ -60,4 +60,7 @@ dependencies {
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.14.2'
+
+    //AdapterDelegate
+    implementation 'com.hannesdorfmann:adapterdelegates4:4.3.0'
 }

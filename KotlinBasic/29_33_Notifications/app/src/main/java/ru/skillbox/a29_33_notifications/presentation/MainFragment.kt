@@ -30,6 +30,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.sendPriorityNotification.setOnClickListener { showPriorityNotification() }
         binding.getFirebaseToken.setOnClickListener { getToken() }
         binding.toSynchronizationFragmentButton.setOnClickListener { findNavController().navigate(R.id.action_mainFragment_to_synchronizationFragment) }
+        binding.toChatFragment.setOnClickListener { findNavController().navigate(R.id.chatFragment) }
     }
 
     private fun showSimpleNotification() {
