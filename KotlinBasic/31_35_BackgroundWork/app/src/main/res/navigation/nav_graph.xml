@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="ru.skillbox.a31_35_backgroundwork.MainFragment"
+        android:name="ru.skillbox.a31_35_backgroundwork.presentation.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main" />
 </navigation>
