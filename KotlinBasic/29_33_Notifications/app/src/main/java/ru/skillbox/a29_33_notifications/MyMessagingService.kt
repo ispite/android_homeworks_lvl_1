@@ -10,11 +10,20 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import ru.skillbox.a29_33_notifications.NotificationChannels.PROMO_NOTIFICATION_ID
+import ru.skillbox.a29_33_notifications.data.MessageDbRepository
+import ru.skillbox.a29_33_notifications.data.db.models.MessageDb
 import ru.skillbox.a29_33_notifications.presentation.MainActivity
 import timber.log.Timber
 
 class MyMessagingService : FirebaseMessagingService() {
+
+    private val myScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val repository = MessageDbRepository()
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
@@ -33,10 +42,20 @@ class MyMessagingService : FirebaseMessagingService() {
             "message" -> {
                 // сделал userId Int вместо Long, для использования в качестве номера уведомления
                 val userId = message.data["userId"]?.toInt()
-                val userName = message.data["userName"]
+                val userName = message.data["userName"] ?: ""
                 val createdAt = message.data["createdAt"]?.toLong()
-                val text = message.data["text"]
+                val text = message.data["text"] ?: ""
                 Timber.d("userId=$userId userName=$userName createdAt=$createdAt")
+
+                // это так должно быть?
+                myScope.launch {
+                    try {
+                        repository.insertMessage(MessageDb(0, userName, text))
+                    } catch (t: Throwable) {
+                        Timber.e(t)
+                    }
+                }
+
                 if (userId != null && userName != null && createdAt != null && text != null)
                     showMessageNotification(userId, userName, createdAt, text)
             }

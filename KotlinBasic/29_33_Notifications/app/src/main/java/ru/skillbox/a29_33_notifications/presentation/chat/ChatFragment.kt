@@ -6,23 +6,29 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import kotlinx.coroutines.launch
 import ru.skillbox.a29_33_notifications.R
-import ru.skillbox.a29_33_notifications.data.Message
+import ru.skillbox.a29_33_notifications.data.db.models.MessageDb
 import ru.skillbox.a29_33_notifications.databinding.FragmentChatBinding
 import ru.skillbox.a29_33_notifications.utils.autoCleared
-import timber.log.Timber
 
 
 class ChatFragment : Fragment(R.layout.fragment_chat) {
 
     private val binding: FragmentChatBinding by viewBinding(FragmentChatBinding::bind)
     private var messageAdapter: MessageAdapter by autoCleared()
+    private val viewModel: ChatViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initList()
+        bindViewModel()
 
         //  https://stackoverflow.com/a/8063533/3780442
         binding.typeMessage.setOnEditorActionListener(
@@ -30,13 +36,9 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || event != null && event.action === KeyEvent.ACTION_DOWN && event.keyCode === KeyEvent.KEYCODE_ENTER) {
                     if (event == null || !event.isShiftPressed) {
                         // the user is done typing.
-                        Timber.d("Typed message ${v.text}")
-                        val oldList = messageAdapter.items
-                        val size = messageAdapter.items.size
-                        val myMessage = Message.MyMessage(size + 1L, v.text.toString())
-                        var newList = oldList + myMessage
-//                        newList = oldList.add(myMessage) //didn't work
-                        messageAdapter.items = newList
+//                        Timber.d("Typed message ${v.text}")
+                        val message = MessageDb(0, "ME", v.text.toString())
+                        viewModel.addMyMessageToDb(message)
                         binding.typeMessage.text.clear()
                         return@OnEditorActionListener true // consume.
                     }
@@ -52,6 +54,14 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             adapter = messageAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
+        }
+    }
+
+    private fun bindViewModel() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.messageListFlow.collect { messageAdapter.items = it }
+            }
         }
     }
 }
