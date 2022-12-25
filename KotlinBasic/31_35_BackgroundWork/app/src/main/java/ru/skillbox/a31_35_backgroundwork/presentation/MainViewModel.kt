@@ -2,6 +2,7 @@ package ru.skillbox.a31_35_backgroundwork.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
@@ -19,32 +20,36 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val contextInInit = application.applicationContext
     }*/
 
-    private val workInfo = MutableLiveData<WorkInfo>()
-
+    private val _workInfo = MutableLiveData<WorkInfo>()
+    val workInfo: LiveData<WorkInfo>
+        get() = _workInfo
 
     // https://stackoverflow.com/a/57090590
-    val observer = object : Observer<WorkInfo> {
+    private val observer = object : Observer<WorkInfo> {
         override fun onChanged(t: WorkInfo?) {
             Timber.d("observer $t")
         }
     }
 
     fun startDownload(urlToDownload: String) {
-//        val context = getApplication<Application>().applicationContext
+        val context = getApplication<Application>().applicationContext
 
         // ограничение по размеру 10Кбайт
         val workData = workDataOf(DownloadWorker.DOWNLOAD_URL_KEY to urlToDownload)
 
-        repository.startDownload(getApplication<Application>().applicationContext, workData)
+//        repository.startDownload(context, workData)
 
         val workRequest = repository.workRequest(workData)
 
+        WorkManager.getInstance(context)
+            .enqueue(workRequest)
 
-        WorkManager.getInstance(getApplication<Application>().applicationContext)
+        WorkManager.getInstance(context)
             .getWorkInfoByIdLiveData(workRequest.id)
             .observeForever { it ->
-                workInfo.postValue(it)
+                _workInfo.postValue(it)
                 observer.onChanged(it)
+
             }
 //            .observe(, {  })
 
@@ -53,8 +58,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     override fun onCleared() {
-        workInfo.removeObserver {  } // ???
+        _workInfo.removeObserver(observer) // ???
 //        observer.
         super.onCleared()
     }
+
+/*    private fun handleWorkInfo(workInfo: WorkInfo) {
+        Timber.d("handleWorkInfo state=${workInfo.state}")
+        val isFinished = workInfo.state.isFinished
+    }*/
 }
