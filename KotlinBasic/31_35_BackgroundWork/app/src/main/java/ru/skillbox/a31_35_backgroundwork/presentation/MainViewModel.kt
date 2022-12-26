@@ -5,9 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
-import androidx.work.workDataOf
+import androidx.work.*
 import ru.skillbox.a31_35_backgroundwork.DownloadWorker
 import ru.skillbox.a31_35_backgroundwork.data.DownloadWorkerRepository
 import timber.log.Timber
@@ -39,7 +37,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 //        repository.startDownload(context, workData)
 
-        val workRequest = repository.workRequest(workData)
+        val workConstraints = Constraints.Builder()
+//            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiredNetworkType(NetworkType.NOT_ROAMING)
+            .setRequiresBatteryNotLow(true)
+            .build()
+
+        val workRequest = repository.workRequest(workData, workConstraints)
 
         WorkManager.getInstance(context)
             .enqueue(workRequest)
@@ -51,6 +55,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 observer.onChanged(it)
 
             }
+
+/*        WorkManager.getInstance(context)
+            .enqueue(workRequest)*/
+
 //            .observe(, {  })
 
 

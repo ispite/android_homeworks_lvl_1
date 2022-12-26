@@ -1,8 +1,11 @@
 package ru.skillbox.a31_35_backgroundwork.data
 
+import androidx.work.BackoffPolicy
+import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import ru.skillbox.a31_35_backgroundwork.DownloadWorker
+import java.util.concurrent.TimeUnit
 
 class DownloadWorkerRepository {
 
@@ -19,9 +22,12 @@ class DownloadWorkerRepository {
             .observe(viewLif)*//*
     }*/
 
-    fun workRequest(workData: Data) = OneTimeWorkRequestBuilder<DownloadWorker>()
-        .setInputData(workData)
-        .build()
+    fun workRequest(workData: Data, workConstraints: Constraints) =
+        OneTimeWorkRequestBuilder<DownloadWorker>()
+            .setInputData(workData)
+            .setBackoffCriteria(BackoffPolicy.LINEAR, 20, TimeUnit.SECONDS)
+            .setConstraints(workConstraints)
+            .build()
 
 
 }
