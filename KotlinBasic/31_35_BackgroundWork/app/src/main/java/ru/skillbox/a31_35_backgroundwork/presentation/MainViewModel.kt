@@ -46,7 +46,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val workRequest = repository.workRequest(workData, workConstraints)
 
         WorkManager.getInstance(context)
-            .enqueue(workRequest)
+            .enqueueUniqueWork(DOWNLOAD_WORKER_ID, ExistingWorkPolicy.KEEP, workRequest)
+//            .enqueue(workRequest, ExistingWorkPolicy.KEEP)
 
         WorkManager.getInstance(context)
             .getWorkInfoByIdLiveData(workRequest.id)
@@ -71,8 +72,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         super.onCleared()
     }
 
+    //TODO доделать 7й пункт: отмена задачи
+    fun cancelWork() {
+        val context = getApplication<Application>().applicationContext
+        Timber.d("cancelWork")
+        WorkManager.getInstance(context).cancelUniqueWork(DOWNLOAD_WORKER_ID)
+    }
+
 /*    private fun handleWorkInfo(workInfo: WorkInfo) {
         Timber.d("handleWorkInfo state=${workInfo.state}")
         val isFinished = workInfo.state.isFinished
     }*/
+
+    companion object {
+        private const val DOWNLOAD_WORKER_ID = "download worker"
+    }
 }

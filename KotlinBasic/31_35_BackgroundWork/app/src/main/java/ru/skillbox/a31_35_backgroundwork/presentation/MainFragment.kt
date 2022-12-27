@@ -2,6 +2,7 @@ package ru.skillbox.a31_35_backgroundwork.presentation
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,6 +20,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         bindViewModel()
         binding.downloadButton.setOnClickListener { startDownload() }
+        binding.cancelDownload.setOnClickListener {
+            Timber.d("cancelDownload")
+            cancelWork()
+        }
     }
 
     private fun startDownload() {
@@ -43,5 +48,42 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val isFinished = workInfo.state.isFinished
         binding.downloadButton.isEnabled = isFinished
         binding.downloadProgressBar.isVisible = !isFinished
+        binding.errorTextView.isVisible = !isFinished
+        Timber.d("workInfo.state=${workInfo.state}")
+        when (workInfo.state) {
+/*            WorkInfo.State.BLOCKED -> {
+                binding.errorTextView.text = "Ждём подключение к Wi-fi"
+            } */
+            WorkInfo.State.ENQUEUED -> {
+                binding.errorTextView.text = "Ждём подключение к Wi-fi"
+                binding.cancelDownload.isVisible = true
+            }
+            WorkInfo.State.RUNNING -> {
+                binding.errorTextView.isVisible = false
+                binding.cancelDownload.isVisible = true
+            }
+            WorkInfo.State.FAILED -> {
+                //TODO
+                // как сделать пункт 5.3 - FAILED?
+                binding.retryDownload.isVisible = true
+                binding.cancelDownload.isVisible = false
+            }
+            WorkInfo.State.SUCCEEDED -> {
+                Toast.makeText(
+                    requireContext(),
+                    "work finished with state = ${workInfo.state}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                binding.cancelDownload.isVisible = false
+            }
+            else -> {
+                binding.cancelDownload.isVisible = false
+            }
+        }
+    }
+
+    //TODO доделать 7й пункт: отмена задачи
+    private fun cancelWork() {
+        viewModel.cancelWork()
     }
 }
