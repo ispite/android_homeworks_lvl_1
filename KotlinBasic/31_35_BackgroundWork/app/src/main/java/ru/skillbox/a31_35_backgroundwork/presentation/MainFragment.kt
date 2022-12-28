@@ -18,6 +18,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.observeWork()
         bindViewModel()
         binding.downloadButton.setOnClickListener { startDownload() }
         binding.cancelDownload.setOnClickListener {

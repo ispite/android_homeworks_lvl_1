@@ -49,13 +49,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             .enqueueUniqueWork(DOWNLOAD_WORKER_ID, ExistingWorkPolicy.KEEP, workRequest)
 //            .enqueue(workRequest, ExistingWorkPolicy.KEEP)
 
-        WorkManager.getInstance(context)
+/*        WorkManager.getInstance(context)
             .getWorkInfoByIdLiveData(workRequest.id)
             .observeForever { it ->
                 _workInfo.postValue(it)
                 observer.onChanged(it)
 
-            }
+            }*/
 
 /*        WorkManager.getInstance(context)
             .enqueue(workRequest)*/
@@ -63,6 +63,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 //            .observe(, {  })
 
 
+    }
+
+    fun observeWork() {
+        val context = getApplication<Application>().applicationContext
+
+        WorkManager.getInstance(context)
+            .getWorkInfosForUniqueWorkLiveData(DOWNLOAD_WORKER_ID)
+            .observeForever { it ->
+                _workInfo.postValue(it.first())
+                observer.onChanged(it.first())
+            }
     }
 
 
