@@ -14,7 +14,6 @@ class DownloadWorker(private val context: Context, params: WorkerParameters) :
 
     override suspend fun doWork(): Result {
         val urlToDownload = inputData.getString(DOWNLOAD_URL_KEY) ?: ""
-//        Timber.d("doWork $urlToDownload")
         Timber.d("work started")
         download(urlToDownload)
         return Result.success()
@@ -32,7 +31,6 @@ class DownloadWorker(private val context: Context, params: WorkerParameters) :
                         .byteStream()
                         .use { inputStream ->
                             inputStream.copyTo(fileOutputStream)
-
                         }
                 }
             } catch (t: Throwable) {

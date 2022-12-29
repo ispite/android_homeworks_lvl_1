@@ -12,11 +12,6 @@ import timber.log.Timber
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = DownloadWorkerRepository()
-//    private val context = application.applicationContext
-
-/*    init {
-        val contextInInit = application.applicationContext
-    }*/
 
     private val _workInfo = MutableLiveData<WorkInfo>()
     val workInfo: LiveData<WorkInfo>
@@ -35,8 +30,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         // ограничение по размеру 10Кбайт
         val workData = workDataOf(DownloadWorker.DOWNLOAD_URL_KEY to urlToDownload)
 
-//        repository.startDownload(context, workData)
-
         val workConstraints = Constraints.Builder()
 //            .setRequiredNetworkType(NetworkType.UNMETERED)
             .setRequiredNetworkType(NetworkType.NOT_ROAMING)
@@ -47,25 +40,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
         WorkManager.getInstance(context)
             .enqueueUniqueWork(DOWNLOAD_WORKER_ID, ExistingWorkPolicy.KEEP, workRequest)
-//            .enqueue(workRequest, ExistingWorkPolicy.KEEP)
-
-/*        WorkManager.getInstance(context)
-            .getWorkInfoByIdLiveData(workRequest.id)
-            .observeForever { it ->
-                _workInfo.postValue(it)
-                observer.onChanged(it)
-
-            }*/
-
-/*        WorkManager.getInstance(context)
-            .enqueue(workRequest)*/
-
-//            .observe(, {  })
-
-
     }
 
     fun observeWork() {
+        val context = getApplication<Application>().applicationContext
+
+        WorkManager.getInstance(context)
+            .getWorkInfosForUniqueWorkLiveData(DOWNLOAD_WORKER_ID)
+            .observeForever { it ->
+                _workInfo.postValue(it.first())
+                observer.onChanged(it.first())
+            }
+    }
+
+    fun observePeriodicWork() {
         val context = getApplication<Application>().applicationContext
 
         WorkManager.getInstance(context)
@@ -90,12 +78,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         WorkManager.getInstance(context).cancelUniqueWork(DOWNLOAD_WORKER_ID)
     }
 
-/*    private fun handleWorkInfo(workInfo: WorkInfo) {
-        Timber.d("handleWorkInfo state=${workInfo.state}")
-        val isFinished = workInfo.state.isFinished
-    }*/
+    //TODO доделать 8й пункт: отмена задачи
+    fun periodicWork() {
+
+    }
 
     companion object {
         private const val DOWNLOAD_WORKER_ID = "download worker"
+        private const val PERIODIC_WORKER_ID = "periodic worker"
     }
 }

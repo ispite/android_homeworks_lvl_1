@@ -79,4 +79,14 @@
         app:layout_constraintTop_toBottomOf="@id/retryDownload"
         tools:visibility="visible" />
 
+<!--    <com.google.android.material.button.MaterialButton
+        android:id="@+id/periodicWork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="Запланировать работу"
+        app:layout_constraintTop_toBottomOf="@id/cancelDownload" />-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

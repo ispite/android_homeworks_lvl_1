@@ -19,25 +19,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.observeWork()
+
+        periodicStart()
         bindViewModel()
         binding.downloadButton.setOnClickListener { startDownload() }
         binding.cancelDownload.setOnClickListener {
             Timber.d("cancelDownload")
             cancelWork()
         }
+//        binding.periodicWork.setOnClickListener {  }
     }
 
     private fun startDownload() {
         val urlToDownload = binding.inputUrl.text.toString()
-
-
-
         viewModel.startDownload(urlToDownload)
-/*        val workRequest = OneTimeWorkRequestBuilder<DownloadWorker>()
-            .build()
-
-        WorkManager.getInstance(requireContext())
-            .enqueue(workRequest)*/
     }
 
     private fun bindViewModel() {
@@ -52,9 +47,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.errorTextView.isVisible = !isFinished
         Timber.d("workInfo.state=${workInfo.state}")
         when (workInfo.state) {
-/*            WorkInfo.State.BLOCKED -> {
-                binding.errorTextView.text = "Ждём подключение к Wi-fi"
-            } */
             WorkInfo.State.ENQUEUED -> {
                 binding.errorTextView.text = "Ждём подключение к Wi-fi"
                 binding.cancelDownload.isVisible = true
@@ -83,8 +75,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
     }
 
-    //TODO доделать 7й пункт: отмена задачи
     private fun cancelWork() {
         viewModel.cancelWork()
+    }
+
+    private fun periodicStart() {
+
     }
 }
