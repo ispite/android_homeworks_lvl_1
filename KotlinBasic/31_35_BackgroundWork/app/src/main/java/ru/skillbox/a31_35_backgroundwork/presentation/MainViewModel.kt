@@ -17,12 +17,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val workInfo: LiveData<WorkInfo>
         get() = _workInfo
 
+    private val _workPeriodicInfo = MutableLiveData<WorkInfo>()
+    val workPeriodicInfo: LiveData<WorkInfo>
+        get() = _workPeriodicInfo
+
     // https://stackoverflow.com/a/57090590
     private val observer = object : Observer<WorkInfo> {
         override fun onChanged(t: WorkInfo?) {
             Timber.d("observer $t")
         }
     }
+
+    private val periodicObserver = Observer<WorkInfo> { t -> Timber.d("observer $t") }
 
     fun startDownload(urlToDownload: String) {
         val context = getApplication<Application>().applicationContext
@@ -48,8 +54,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         WorkManager.getInstance(context)
             .getWorkInfosForUniqueWorkLiveData(DOWNLOAD_WORKER_ID)
             .observeForever { it ->
+//                Timber.d("it =$it")
+//                if (it.isNotEmpty()) {
                 _workInfo.postValue(it.first())
                 observer.onChanged(it.first())
+//                }
+//                it?.first()?.let { _workInfo.postValue(it) }
+//                it?.first()?.let { observer.onChanged(it) }
             }
     }
 
@@ -59,8 +70,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         WorkManager.getInstance(context)
             .getWorkInfosForUniqueWorkLiveData(DOWNLOAD_WORKER_ID)
             .observeForever { it ->
-                _workInfo.postValue(it.first())
-                observer.onChanged(it.first())
+                _workPeriodicInfo.postValue(it.first())
+                periodicObserver.onChanged(it.first())
             }
     }
 
@@ -80,7 +91,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     //TODO доделать 8й пункт: отмена задачи
     fun periodicWork() {
-
+        val context = getApplication<Application>().applicationContext
+        val periodicWorkRequest = repository.periodicWorkRequest()
+        WorkManager.getInstance(context)
+            .enqueueUniquePeriodicWork(
+                PERIODIC_WORKER_ID,
+                ExistingPeriodicWorkPolicy.REPLACE,
+                periodicWorkRequest
+            )
     }
 
     companion object {

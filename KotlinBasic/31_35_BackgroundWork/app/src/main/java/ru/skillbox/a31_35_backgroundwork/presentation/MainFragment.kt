@@ -19,6 +19,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.observeWork()
+        viewModel.observePeriodicWork()
 
         periodicStart()
         bindViewModel()
@@ -80,6 +81,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun periodicStart() {
-
+        viewModel.periodicWork()
     }
 }
