@@ -54,13 +54,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         WorkManager.getInstance(context)
             .getWorkInfosForUniqueWorkLiveData(DOWNLOAD_WORKER_ID)
             .observeForever { it ->
-//                Timber.d("it =$it")
-//                if (it.isNotEmpty()) {
-                _workInfo.postValue(it.first())
-                observer.onChanged(it.first())
-//                }
-//                it?.first()?.let { _workInfo.postValue(it) }
-//                it?.first()?.let { observer.onChanged(it) }
+                Timber.d("observeForever List=$it")
+                if (it.isNotEmpty()) {
+                    _workInfo.postValue(it.first())
+                    observer.onChanged(it.first())
+                }
             }
     }
 
@@ -68,28 +66,28 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val context = getApplication<Application>().applicationContext
 
         WorkManager.getInstance(context)
-            .getWorkInfosForUniqueWorkLiveData(DOWNLOAD_WORKER_ID)
+            .getWorkInfosForUniqueWorkLiveData(PERIODIC_WORKER_ID)
             .observeForever { it ->
-                _workPeriodicInfo.postValue(it.first())
-                periodicObserver.onChanged(it.first())
+                Timber.d("observeForever Periodic List=$it")
+                if (it.isNotEmpty()) {
+                    _workPeriodicInfo.postValue(it.first())
+                    periodicObserver.onChanged(it.first())
+                }
             }
     }
 
 
     override fun onCleared() {
         _workInfo.removeObserver(observer) // ???
-//        observer.
         super.onCleared()
     }
 
-    //TODO доделать 7й пункт: отмена задачи
     fun cancelWork() {
         val context = getApplication<Application>().applicationContext
         Timber.d("cancelWork")
         WorkManager.getInstance(context).cancelUniqueWork(DOWNLOAD_WORKER_ID)
     }
 
-    //TODO доделать 8й пункт: отмена задачи
     fun periodicWork() {
         val context = getApplication<Application>().applicationContext
         val periodicWorkRequest = repository.periodicWorkRequest()

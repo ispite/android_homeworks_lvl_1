@@ -14,9 +14,8 @@ class DownloadWorkerRepository {
             .setConstraints(workConstraints)
             .build()
 
-
     fun periodicWorkRequest() =
-        PeriodicWorkRequestBuilder<PeriodicWorker>(15, TimeUnit.DAYS)
+        PeriodicWorkRequestBuilder<PeriodicWorker>(15, TimeUnit.MINUTES)
             .build()
 
 }

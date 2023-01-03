@@ -13,6 +13,7 @@ import ru.skillbox.a31_35_backgroundwork.databinding.FragmentMainBinding
 import timber.log.Timber
 
 class MainFragment : Fragment(R.layout.fragment_main) {
+
     private val binding by viewBinding(FragmentMainBinding::bind)
     private val viewModel: MainViewModel by viewModels()
 
@@ -28,7 +29,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             Timber.d("cancelDownload")
             cancelWork()
         }
-//        binding.periodicWork.setOnClickListener {  }
     }
 
     private fun startDownload() {
@@ -38,6 +38,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun bindViewModel() {
         viewModel.workInfo.observe(viewLifecycleOwner) { handleWorkInfo(it) }
+        viewModel.workPeriodicInfo.observe(viewLifecycleOwner) {  }
     }
 
     private fun handleWorkInfo(workInfo: WorkInfo) {
@@ -57,7 +58,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 binding.cancelDownload.isVisible = true
             }
             WorkInfo.State.FAILED -> {
-                //TODO
                 // как сделать пункт 5.3 - FAILED?
                 binding.retryDownload.isVisible = true
                 binding.cancelDownload.isVisible = false

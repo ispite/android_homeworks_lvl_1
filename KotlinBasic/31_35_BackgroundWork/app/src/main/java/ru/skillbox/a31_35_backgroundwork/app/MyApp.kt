@@ -1,6 +1,7 @@
-package ru.skillbox.a31_35_backgroundwork
+package ru.skillbox.a31_35_backgroundwork.app
 
 import android.app.Application
+import ru.skillbox.a31_35_backgroundwork.BuildConfig
 import timber.log.Timber
 
 class MyApp : Application() {
