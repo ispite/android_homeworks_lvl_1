@@ -16,20 +16,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
-    <!--    <fragment
-            android:id="@+id/fragmentContainerView"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:defaultNavHost="true"
-            app:layout_constraintBottom_toTopOf="@id/activityBottomNavigationView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/nav_graph" />-->
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/activityBottomNavigationView"
+        style="@style/MyBottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:labelVisibilityMode="selected"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
 
