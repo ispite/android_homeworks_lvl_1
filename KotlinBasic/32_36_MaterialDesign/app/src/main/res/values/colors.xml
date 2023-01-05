@@ -13,4 +13,6 @@
 
     <color name="primaryTextColor">#212121</color>
     <color name="secondaryTextColor">#263238</color>
+
+    <color name="gray">#C8C8C8</color>
 </resources>

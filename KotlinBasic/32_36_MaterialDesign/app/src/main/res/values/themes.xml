@@ -12,10 +12,28 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="textAppearanceHeadline3">@style/MyTextAppearanceHeadline3</item>
+        <item name="materialCardViewStyle">@style/MyCardView</item>
+        <item name="android:textViewStyle">@style/MyTextAppearanceBody1</item>
+        <item name="bottomNavigationStyle">@style/MyBottomNavigationView</item>
     </style>
 
     <style name="MyBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemIconTint">@color/bottom_navigation_tint</item>
         <item name="itemTextColor">@color/bottom_navigation_tint</item>
     </style>
+
+    <style name="MyTextAppearanceHeadline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:textSize">40sp</item>
+    </style>
+
+    <style name="MyTextAppearanceBody1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="MyCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">20dp</item>
+        <item name="cardElevation">20dp</item>
+    </style>
+
 </resources>
