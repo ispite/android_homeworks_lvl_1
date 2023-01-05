@@ -10,6 +10,7 @@ class DownloadWorkerRepository {
     fun workRequest(workData: Data, workConstraints: Constraints) =
         OneTimeWorkRequestBuilder<DownloadWorker>()
             .setInputData(workData)
+            // ДЗ пункт 4
             .setBackoffCriteria(BackoffPolicy.LINEAR, 20, TimeUnit.SECONDS)
             .setConstraints(workConstraints)
             .build()

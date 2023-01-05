@@ -15,11 +15,15 @@ class DownloadWorker(private val context: Context, params: WorkerParameters) :
     override suspend fun doWork(): Result {
         val urlToDownload = inputData.getString(DOWNLOAD_URL_KEY) ?: ""
         Timber.d("work started")
-        download(urlToDownload)
-        return Result.success()
+        download(urlToDownload) { return if (it) Result.success() else Result.failure() }
+//        return Result.success()
     }
 
-    private suspend fun download(url: String) {
+    private suspend fun download(
+        url: String,
+        onResult: (Boolean) -> Unit
+        /*onSuccess: () -> Unit, onFailure: () -> Unit*/
+    ) {
         if (url.isEmpty()) return
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             val folder = context.getExternalFilesDir("Downloads")
@@ -33,9 +37,11 @@ class DownloadWorker(private val context: Context, params: WorkerParameters) :
                             inputStream.copyTo(fileOutputStream)
                         }
                 }
+                onResult(true)
             } catch (t: Throwable) {
                 file.delete()
                 Timber.e("file deleted", t)
+                onResult(false)
             }
         }
     }
