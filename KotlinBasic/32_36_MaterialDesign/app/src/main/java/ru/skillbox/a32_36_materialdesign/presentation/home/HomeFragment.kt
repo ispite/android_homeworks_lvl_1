@@ -12,7 +12,7 @@ import ru.skillbox.a32_36_materialdesign.utils.autoCleared
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    val binding by viewBinding(FragmentHomeBinding::bind)
+    private val binding by viewBinding(FragmentHomeBinding::bind)
 
     private var productAdapter: ProductAdapter by autoCleared()
 
