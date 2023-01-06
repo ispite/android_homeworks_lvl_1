@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">32_36_MaterialDesign</string>
+    <string name="email_card_transition_name">email_card_%1$s</string>
+    <string name="email_card_detail_transition_name">email_card_detail</string>
 </resources>

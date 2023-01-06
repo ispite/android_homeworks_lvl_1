@@ -3,6 +3,7 @@ package ru.skillbox.a32_36_materialdesign.presentation.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -10,7 +11,6 @@ import ru.skillbox.a32_36_materialdesign.R
 import ru.skillbox.a32_36_materialdesign.data.Product
 import ru.skillbox.a32_36_materialdesign.databinding.FragmentHomeBinding
 import ru.skillbox.a32_36_materialdesign.utils.autoCleared
-import timber.log.Timber
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -25,7 +25,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initList() {
-        productAdapter = ProductAdapter { transitionToProductFragment(it) }
+        // передаю view это нормально?
+        productAdapter =
+            ProductAdapter { product, view -> transitionToProductFragment(product, view) }
         with(binding.itemListRecyclerView) {
             adapter = productAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
@@ -75,10 +77,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun transitionToProductFragment(product: Product) {
-        Timber.d("id=$id")
-        findNavController().navigate(
-            HomeFragmentDirections.actionHomeFragmentToProductFragment(product)
-        )
+    private fun transitionToProductFragment(product: Product, view: View) {
+        val emailCardDetailTransitionName = getString(R.string.email_card_detail_transition_name)
+        val extras = FragmentNavigatorExtras(view to emailCardDetailTransitionName)
+        val directions = HomeFragmentDirections.actionHomeFragmentToProductFragment(product)
+        findNavController().navigate(directions, extras)
     }
 }
