@@ -9,7 +9,7 @@ import ru.skillbox.a32_36_materialdesign.databinding.ItemProductBinding
 import ru.skillbox.a32_36_materialdesign.utils.inflate
 import timber.log.Timber
 
-class ProductAdapter(private val onClick: (id: Long) -> Unit) :
+class ProductAdapter(private val onClick: (product: Product) -> Unit) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     private var productList: List<Product> = emptyList()
@@ -30,9 +30,12 @@ class ProductAdapter(private val onClick: (id: Long) -> Unit) :
         notifyDataSetChanged()
     }
 
-    class ProductViewHolder(private val binding: ItemProductBinding, onClick: (id: Long) -> Unit) :
+    class ProductViewHolder(
+        private val binding: ItemProductBinding,
+        onClick: (product: Product) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
-        private var currentProductId: Long? = null
+        private var currentProductId: Product? = null
 
         init {
             Timber.d("currentProductId=$currentProductId")
@@ -43,7 +46,7 @@ class ProductAdapter(private val onClick: (id: Long) -> Unit) :
         }
 
         fun bind(item: Product) {
-            currentProductId = item.id
+            currentProductId = item
             with(binding) {
                 titleTextView.text = item.title
                 descriptionTextView.text = item.description

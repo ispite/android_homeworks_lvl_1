@@ -75,10 +75,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun transitionToProductFragment(id: Long) {
+    private fun transitionToProductFragment(product: Product) {
         Timber.d("id=$id")
         findNavController().navigate(
-            HomeFragmentDirections.actionHomeFragmentToProductFragment(id)
+            HomeFragmentDirections.actionHomeFragmentToProductFragment(product)
         )
     }
 }

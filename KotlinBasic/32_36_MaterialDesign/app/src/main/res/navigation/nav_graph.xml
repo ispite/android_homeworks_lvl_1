@@ -35,8 +35,8 @@
         android:label="ProductFragment"
         tools:layout="@layout/fragment_product">
         <argument
-            android:name="productId"
-            app:argType="long" />
+            android:name="product"
+            app:argType="ru.skillbox.a32_36_materialdesign.data.Product" />
     </fragment>
 
 </navigation>
