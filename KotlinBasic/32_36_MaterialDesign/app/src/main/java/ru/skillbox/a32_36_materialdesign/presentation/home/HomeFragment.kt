@@ -3,12 +3,14 @@ package ru.skillbox.a32_36_materialdesign.presentation.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import ru.skillbox.a32_36_materialdesign.R
 import ru.skillbox.a32_36_materialdesign.data.Product
 import ru.skillbox.a32_36_materialdesign.databinding.FragmentHomeBinding
 import ru.skillbox.a32_36_materialdesign.utils.autoCleared
+import timber.log.Timber
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -23,7 +25,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initList() {
-        productAdapter = ProductAdapter()
+        productAdapter = ProductAdapter { transitionToProductFragment(it) }
         with(binding.itemListRecyclerView) {
             adapter = productAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
@@ -59,19 +61,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             "https://cdn1.ozone.ru/s3/multimedia-d/wc1000/6223322341.jpg"
         )
 
-        val list = (0..count).map {
-            val id = it.toLong()
-            val title = titles.random()
-            val description = descriptions.random()
-            val image = images.random()
-            Product(
-                id = id,
-                title = title,
-                description = description,
-                image = image,
-            )
-        }
-
         return (0..count).map {
             val id = it.toLong()
             val title = titles.random()
@@ -84,5 +73,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 image = image,
             )
         }
+    }
+
+    private fun transitionToProductFragment(id: Long) {
+        Timber.d("id=$id")
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToProductFragment(id)
+        )
     }
 }

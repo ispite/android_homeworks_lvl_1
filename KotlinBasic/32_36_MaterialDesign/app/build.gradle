@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -57,4 +59,7 @@ dependencies {
 
     // Glide - image loader framework
     implementation 'com.github.bumptech.glide:glide:4.14.2'
+
+    //Logging
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 }

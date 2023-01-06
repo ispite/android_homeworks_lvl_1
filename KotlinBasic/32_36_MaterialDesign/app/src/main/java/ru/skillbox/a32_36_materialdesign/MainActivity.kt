@@ -44,8 +44,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val constraintLayout = binding.root
 //        val constraintLayout = binding.mainActivityConstraintLayout
         val anchor = binding.activityBottomNavigationView
-        Snackbar.make(constraintLayout, "qweqwe", Snackbar.LENGTH_LONG)
-            .setAnchorView(anchor)
-            .show()
+        Snackbar.make(
+            constraintLayout,
+            "Соединение с сервером отсутствует, показаны сохранённые объекты",
+            Snackbar.LENGTH_LONG
+        ).setAction("Повторить") {
+                Snackbar.make(constraintLayout, "Список обновлён", Snackbar.LENGTH_LONG).show()
+            }.setAnchorView(anchor).show()
     }
 }
