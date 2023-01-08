@@ -1,7 +1,10 @@
 package ru.skillbox.a31_35_backgroundwork.presentation
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.work.*
 import ru.skillbox.a31_35_backgroundwork.DownloadWorker
 import ru.skillbox.a31_35_backgroundwork.data.DownloadWorkerRepository
@@ -25,7 +28,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private val periodicObserver = Observer<WorkInfo> { t -> Timber.d("observer $t") }
+    private val periodicObserver = Observer<WorkInfo> { t -> Timber.d("periodic observer $t") }
 
     fun startDownload(urlToDownload: String) {
         val context = getApplication<Application>().applicationContext
@@ -49,16 +52,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val context = getApplication<Application>().applicationContext
         WorkManager.getInstance(context)
             .getWorkInfosForUniqueWorkLiveData(DOWNLOAD_WORKER_ID)
-            .observe(viewModelScope) { list ->
+/*            .observe(viewModelScope) { list ->
                 Timber.d("observeForever Periodic List=$list")
-            }
-/*            .observeForever { it ->
+            }*/
+            .observeForever { it ->
                 Timber.d("observeForever List=$it")
                 if (it.isNotEmpty()) {
                     _workInfo.postValue(it.first())
                     observer.onChanged(it.first())
                 }
-            }*/
+            }
     }
 
     fun observePeriodicWork() {

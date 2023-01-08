@@ -29,6 +29,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             Timber.d("cancelDownload")
             cancelWork()
         }
+        // зачем эта кнопка?
+        binding.retryDownload.setOnClickListener { }
     }
 
     private fun startDownload() {
@@ -38,7 +40,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     private fun bindViewModel() {
         viewModel.workInfo.observe(viewLifecycleOwner) { handleWorkInfo(it) }
-        viewModel.workPeriodicInfo.observe(viewLifecycleOwner) {  }
+        viewModel.workPeriodicInfo.observe(viewLifecycleOwner) { }
     }
 
     private fun handleWorkInfo(workInfo: WorkInfo) {
@@ -51,14 +53,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         when (workInfo.state) {
             WorkInfo.State.ENQUEUED -> {
                 binding.errorTextView.text = "Ждём подключение к Wi-fi"
+                binding.retryDownload.isVisible = false
                 binding.cancelDownload.isVisible = true
             }
             WorkInfo.State.RUNNING -> {
                 binding.errorTextView.isVisible = false
+                binding.retryDownload.isVisible = false
                 binding.cancelDownload.isVisible = true
             }
             WorkInfo.State.FAILED -> {
-                // как сделать пункт 5.3 - FAILED?
                 binding.retryDownload.isVisible = true
                 binding.cancelDownload.isVisible = false
             }
@@ -68,6 +71,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     "work finished with state = ${workInfo.state}",
                     Toast.LENGTH_SHORT
                 ).show()
+                binding.retryDownload.isVisible = false
                 binding.cancelDownload.isVisible = false
             }
             else -> {

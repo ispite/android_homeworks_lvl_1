@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Environment
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import ru.skillbox.a31_35_backgroundwork.data.DownloadStatus
 import ru.skillbox.a31_35_backgroundwork.network.Networking
 import timber.log.Timber
 import java.io.File
@@ -15,20 +16,30 @@ class DownloadWorker(private val context: Context, params: WorkerParameters) :
     override suspend fun doWork(): Result {
         val urlToDownload = inputData.getString(DOWNLOAD_URL_KEY) ?: ""
         Timber.d("work started")
-        download(urlToDownload) { return if (it) Result.success() else Result.failure() }
-//        return Result.success()
+        return when (download(urlToDownload)) {
+            DownloadStatus.FAILED -> {
+                Timber.d("Result.failure()")
+                Result.failure()
+            }
+            DownloadStatus.SUCCESS -> {
+                Timber.d("Result.success()")
+                Result.success()
+            }
+            DownloadStatus.RETRY -> {
+                Timber.d("Result.retry()")
+                Result.retry()
+            }
+        }
     }
 
     private suspend fun download(
         url: String,
-        onResult: (Boolean) -> Unit
-        /*onSuccess: () -> Unit, onFailure: () -> Unit*/
-    ) {
-        if (url.isEmpty()) return
+    ): DownloadStatus {
+        if (url.isEmpty()) return DownloadStatus.FAILED
         if (Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED) {
             val folder = context.getExternalFilesDir("Downloads")
             val file = File(folder, getFileName(url))
-            try {
+            return try {
                 Timber.d("download started")
                 file.outputStream().use { fileOutputStream ->
                     Networking.api.getFile(url)
@@ -37,13 +48,13 @@ class DownloadWorker(private val context: Context, params: WorkerParameters) :
                             inputStream.copyTo(fileOutputStream)
                         }
                 }
-                onResult(true)
+                DownloadStatus.SUCCESS
             } catch (t: Throwable) {
                 file.delete()
                 Timber.e("file deleted", t)
-                onResult(false)
+                DownloadStatus.RETRY
             }
-        }
+        } else return DownloadStatus.FAILED
     }
 
     private fun getFileName(fileUrl: String): String {
