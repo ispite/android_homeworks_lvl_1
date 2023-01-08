@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DependencyInjection</string>
+    <string name="app_name">33_37_DependencyInjection</string>
     <string name="image_list_error">Load list error</string>
     <string name="image_list_delete_error">Image delete error</string>
     <string name="image_list_grant_permission">Grant permission</string>

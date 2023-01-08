@@ -9,7 +9,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "ru.skillbox.scopedstorage"
+        applicationId "ru.skillbox.a33_37_dependencyinjection"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
