@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import ru.skillbox.dependency_injection.data.Api
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -17,6 +18,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesOkHttpClient(): OkHttpClient {
+        Timber.tag("Logging").d("providesOkHttpClient")
         return OkHttpClient.Builder()
             .addNetworkInterceptor(
                 HttpLoggingInterceptor()
@@ -28,12 +30,14 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        Timber.tag("Logging").d("providesRetrofit")
         return Retrofit.Builder().baseUrl("https://google.com").client(okHttpClient).build()
     }
 
     @Provides
     @Singleton
     fun providesApi(retrofit: Retrofit): Api {
+        Timber.tag("Logging").d("providesApi")
         return retrofit.create(Api::class.java)
     }
 }

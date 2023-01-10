@@ -21,6 +21,9 @@ class ImageListViewModel @Inject constructor(
     private val imagesRepository: ImagesRepository
 ) : ViewModel() {
 
+    init {
+        Timber.tag("Logging").d("init ImageListViewModel")
+    }
 
     private val permissionsGrantedMutableLiveData = MutableLiveData(true)
     private val toastSingleLiveEvent = SingleLiveEvent<Int>()

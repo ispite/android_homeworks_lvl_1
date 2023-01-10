@@ -17,6 +17,10 @@ class AddImageViewModel @Inject constructor(
     private val imagesRepository: ImagesRepository
 ) : ViewModel() {
 
+    init {
+        Timber.tag("Logging").d("init AddImageViewModel")
+    }
+
     private val toastSingleLiveEvent = SingleLiveEvent<Int>()
     private val saveSuccessSingleLiveEvent = SingleLiveEvent<Unit>()
     private val loadingMutableLiveData = MutableLiveData<Boolean>(false)

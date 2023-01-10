@@ -11,12 +11,17 @@ import android.provider.MediaStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.skillbox.dependency_injection.utils.haveQ
+import timber.log.Timber
 import javax.inject.Inject
 
 class ImagesRepositoryImpl @Inject constructor(
     private val context: Application,
     private val api: Api,
 ) : ImagesRepository {
+
+    init {
+        Timber.tag("Logging").d("init ImagesRepositoryImpl")
+    }
 
     private var observer: ContentObserver? = null
 
