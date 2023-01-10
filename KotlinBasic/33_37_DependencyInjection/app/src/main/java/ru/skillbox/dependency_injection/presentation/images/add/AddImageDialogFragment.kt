@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import ru.skillbox.dependency_injection.databinding.DialogAddImageBinding
 import ru.skillbox.dependency_injection.utils.toast
 
+@AndroidEntryPoint
 class AddImageDialogFragment : BottomSheetDialogFragment() {
 
     private val viewModel: AddImageViewModel by viewModels()
