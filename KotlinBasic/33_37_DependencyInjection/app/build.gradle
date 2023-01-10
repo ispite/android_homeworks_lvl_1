@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id "androidx.navigation.safeargs.kotlin"
+    id "dagger.hilt.android.plugin"
 }
 
 android {
@@ -77,4 +78,8 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
 
     implementation "com.squareup.okhttp3:logging-interceptor:4.8.0"
+
+    //Dagger
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 }
