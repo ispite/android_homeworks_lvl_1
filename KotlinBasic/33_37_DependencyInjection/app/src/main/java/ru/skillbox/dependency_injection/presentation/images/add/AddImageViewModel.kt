@@ -14,12 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddImageViewModel @Inject constructor(
-//    app: Application
     private val imagesRepository: ImagesRepository
-//) : AndroidViewModel(app) {
 ) : ViewModel() {
-
-//    private val imagesRepository = ImagesRepository(app)
 
     private val toastSingleLiveEvent = SingleLiveEvent<Int>()
     private val saveSuccessSingleLiveEvent = SingleLiveEvent<Unit>()
