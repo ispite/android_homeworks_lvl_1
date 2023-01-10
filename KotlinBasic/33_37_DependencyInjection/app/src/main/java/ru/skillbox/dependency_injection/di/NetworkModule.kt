@@ -9,11 +9,26 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import ru.skillbox.dependency_injection.data.Api
 import timber.log.Timber
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class BindHttpLoggingInterceptor
 
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
+
+
+    @Provides
+    @Singleton
+    @BindHttpLoggingInterceptor
+    fun bindHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY)
+    }
 
     @Provides
     @Singleton
