@@ -39,7 +39,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     private fun bindViewModel() {
-        viewModel.workInfo.observe(viewLifecycleOwner) { handleWorkInfo(it) }
+        viewModel.workInfo.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) handleWorkInfo(it.first())
+        }
         viewModel.workPeriodicInfo.observe(viewLifecycleOwner) { }
     }
 

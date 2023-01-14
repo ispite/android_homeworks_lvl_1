@@ -7,23 +7,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.work.*
 import ru.skillbox.a31_35_backgroundwork.DownloadWorker
-import ru.skillbox.a31_35_backgroundwork.data.DownloadWorkerRepository
+import ru.skillbox.a31_35_backgroundwork.PeriodicWorker
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = DownloadWorkerRepository()
 
-    private val _workInfo = MutableLiveData<WorkInfo>()
-    val workInfo: LiveData<WorkInfo>
-        get() = _workInfo
+    private val workManager = WorkManager.getInstance(application.applicationContext)
+
+    val workInfo: LiveData<List<WorkInfo>> =
+        workManager.getWorkInfosForUniqueWorkLiveData(DOWNLOAD_WORKER_ID)
 
     private val _workPeriodicInfo = MutableLiveData<WorkInfo>()
     val workPeriodicInfo: LiveData<WorkInfo>
         get() = _workPeriodicInfo
 
     // https://stackoverflow.com/a/57090590
-    private val observer = object : Observer<WorkInfo> {
-        override fun onChanged(t: WorkInfo?) {
+    private val observer = object : Observer<List<WorkInfo>> {
+        override fun onChanged(t: List<WorkInfo>?) {
             Timber.d("observer $t")
         }
     }
@@ -42,26 +43,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             .setRequiresBatteryNotLow(true)
             .build()
 
-        val workRequest = repository.workRequest(workData, workConstraints)
+//        val workRequest = repository.workRequest(workData, workConstraints)
+        val workRequest =
+            OneTimeWorkRequestBuilder<DownloadWorker>()
+                .setInputData(workData)
+                // ДЗ пункт 4
+                .setBackoffCriteria(BackoffPolicy.LINEAR, 20, TimeUnit.SECONDS)
+                .setConstraints(workConstraints)
+                .build()
 
         WorkManager.getInstance(context)
             .enqueueUniqueWork(DOWNLOAD_WORKER_ID, ExistingWorkPolicy.KEEP, workRequest)
     }
 
     fun observeWork() {
-        val context = getApplication<Application>().applicationContext
-        WorkManager.getInstance(context)
-            .getWorkInfosForUniqueWorkLiveData(DOWNLOAD_WORKER_ID)
-/*            .observe(viewModelScope) { list ->
-                Timber.d("observeForever Periodic List=$list")
-            }*/
-            .observeForever { it ->
-                Timber.d("observeForever List=$it")
-                if (it.isNotEmpty()) {
-                    _workInfo.postValue(it.first())
-                    observer.onChanged(it.first())
-                }
-            }
+
+        workInfo.observeForever(observer)
+
     }
 
     fun observePeriodicWork() {
@@ -79,7 +77,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     override fun onCleared() {
-        _workInfo.removeObserver(observer) // ???
+        workInfo.removeObserver(observer)
         super.onCleared()
     }
 
@@ -91,7 +89,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun periodicWork() {
         val context = getApplication<Application>().applicationContext
-        val periodicWorkRequest = repository.periodicWorkRequest()
+//        val periodicWorkRequest = repository.periodicWorkRequest()
+        val periodicWorkRequest =
+            PeriodicWorkRequestBuilder<PeriodicWorker>(15, TimeUnit.MINUTES)
+                .build()
+
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(
                 PERIODIC_WORKER_ID,
