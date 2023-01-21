@@ -11,8 +11,9 @@ import android.provider.MediaStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.skillbox.dependency_injection.utils.haveQ
+import javax.inject.Inject
 
-class ImagesRepository(
+class ImagesRepository @Inject constructor(
     private val context: Context
 ) {
 
@@ -92,7 +93,7 @@ class ImagesRepository(
     }
 
     private fun makeImageVisible(imageUri: Uri) {
-        if(haveQ().not()) return
+        if (haveQ().not()) return
 
         val imageDetails = ContentValues().apply {
             put(MediaStore.Images.Media.IS_PENDING, 0)

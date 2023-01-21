@@ -3,10 +3,7 @@ package ru.skillbox.dependency_injection.presentation.images.list
 import android.app.Application
 import android.app.RecoverableSecurityException
 import android.app.RemoteAction
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import ru.skillbox.dependency_injection.R
 import ru.skillbox.dependency_injection.data.Image
@@ -14,12 +11,13 @@ import ru.skillbox.dependency_injection.data.ImagesRepository
 import ru.skillbox.dependency_injection.utils.SingleLiveEvent
 import ru.skillbox.dependency_injection.utils.haveQ
 import timber.log.Timber
+import javax.inject.Inject
 
-class ImageListViewModel(
-    app: Application
-) : AndroidViewModel(app) {
+class ImageListViewModel @Inject constructor(
+    private val imagesRepository: ImagesRepository
+) : ViewModel() {
 
-    private val imagesRepository = ImagesRepository(app)
+//    private val imagesRepository = ImagesRepository(app)
 
     private val permissionsGrantedMutableLiveData = MutableLiveData(true)
     private val toastSingleLiveEvent = SingleLiveEvent<Int>()
@@ -47,7 +45,7 @@ class ImageListViewModel(
     }
 
     fun updatePermissionState(isGranted: Boolean) {
-        if(isGranted) {
+        if (isGranted) {
             permissionsGranted()
         } else {
             permissionsDenied()
@@ -56,7 +54,7 @@ class ImageListViewModel(
 
     fun permissionsGranted() {
         loadImages()
-        if(isObservingStarted.not()) {
+        if (isObservingStarted.not()) {
             imagesRepository.observeImages { loadImages() }
             isObservingStarted = true
         }
@@ -74,7 +72,7 @@ class ImageListViewModel(
                 pendingDeleteId = null
             } catch (t: Throwable) {
                 Timber.e(t)
-                if(haveQ() && t is RecoverableSecurityException) {
+                if (haveQ() && t is RecoverableSecurityException) {
                     pendingDeleteId = id
                     recoverableActionMutableLiveData.postValue(t.userAction)
                 } else {

@@ -15,16 +15,21 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import ru.skillbox.dependency_injection.app.App
 import ru.skillbox.dependency_injection.databinding.FragmentImageListBinding
 import ru.skillbox.dependency_injection.utils.ViewBindingFragment
 import ru.skillbox.dependency_injection.utils.autoCleared
 import ru.skillbox.dependency_injection.utils.haveQ
 import ru.skillbox.dependency_injection.utils.toast
+import javax.inject.Inject
 
 class ImagesFragment :
     ViewBindingFragment<FragmentImageListBinding>(FragmentImageListBinding::inflate) {
 
-    private val viewModel: ImageListViewModel by viewModels()
+    //    private val viewModel: ImageListViewModel by viewModels()
+    @Inject
+    lateinit var viewModel: ImageListViewModel
+
     private var imagesAdapter: ImagesAdapter by autoCleared()
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
@@ -32,6 +37,7 @@ class ImagesFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (requireActivity().application as App).appComponent.inject(this)
         initPermissionResultListener()
         initRecoverableActionListener()
     }
@@ -105,9 +111,9 @@ class ImagesFragment :
     private fun initRecoverableActionListener() {
         recoverableActionLauncher = registerForActivityResult(
             ActivityResultContracts.StartIntentSenderForResult()
-        ) {  activityResult ->
+        ) { activityResult ->
             val isConfirmed = activityResult.resultCode == Activity.RESULT_OK
-            if(isConfirmed) {
+            if (isConfirmed) {
                 viewModel.confirmDelete()
             } else {
                 viewModel.declineDelete()
