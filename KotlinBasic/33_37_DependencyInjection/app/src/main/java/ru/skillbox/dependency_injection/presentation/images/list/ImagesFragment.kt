@@ -26,7 +26,9 @@ import javax.inject.Inject
 class ImagesFragment :
     ViewBindingFragment<FragmentImageListBinding>(FragmentImageListBinding::inflate) {
 
-    //    private val viewModel: ImageListViewModel by viewModels()
+    // Stores an instance of RegistrationComponent so that its Fragments can access it
+    lateinit var imagesComponent: ImagesComponent
+
     @Inject
     lateinit var viewModel: ImageListViewModel
 
@@ -37,7 +39,9 @@ class ImagesFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (requireActivity().application as App).appComponent.inject(this)
+        imagesComponent =
+            (requireActivity().application as App).appComponent.imagesComponent().create()
+        imagesComponent.inject(this)
         initPermissionResultListener()
         initRecoverableActionListener()
     }

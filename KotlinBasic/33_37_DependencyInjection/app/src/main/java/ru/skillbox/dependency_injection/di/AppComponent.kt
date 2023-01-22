@@ -3,12 +3,14 @@ package ru.skillbox.dependency_injection.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import ru.skillbox.dependency_injection.presentation.images.add.AddImageComponent
+import ru.skillbox.dependency_injection.presentation.images.list.ImagesComponent
 import ru.skillbox.dependency_injection.presentation.images.list.ImagesFragment
 import ru.skillbox.dependency_injection.presentation.main.MainActivity
 import javax.inject.Singleton
 
 @Singleton
-@Component
+@Component(modules = [AppSubcomponents::class])
 interface AppComponent {
 
     // Factory to create instances of the AppComponent
@@ -18,8 +20,13 @@ interface AppComponent {
         fun create(@BindsInstance context: Context): AppComponent
     }
 
+    fun imagesComponent(): ImagesComponent.Factory
+
+    fun addImagesComponent(): AddImageComponent.Factory
+
+
     // Classes that can be injected by this Component
 //    fun inject(activity: MainActivity)
 
-    fun inject(fragment: ImagesFragment)
+//    fun inject(fragment: ImagesFragment)
 }

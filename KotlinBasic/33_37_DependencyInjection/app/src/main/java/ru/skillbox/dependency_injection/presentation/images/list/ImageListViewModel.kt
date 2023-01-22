@@ -8,11 +8,13 @@ import kotlinx.coroutines.launch
 import ru.skillbox.dependency_injection.R
 import ru.skillbox.dependency_injection.data.Image
 import ru.skillbox.dependency_injection.data.ImagesRepository
+import ru.skillbox.dependency_injection.di.FragmentScope
 import ru.skillbox.dependency_injection.utils.SingleLiveEvent
 import ru.skillbox.dependency_injection.utils.haveQ
 import timber.log.Timber
 import javax.inject.Inject
 
+@FragmentScope
 class ImageListViewModel @Inject constructor(
     private val imagesRepository: ImagesRepository
 ) : ViewModel() {
