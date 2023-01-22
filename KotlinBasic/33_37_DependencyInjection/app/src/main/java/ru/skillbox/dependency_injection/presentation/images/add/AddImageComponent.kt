@@ -1,9 +1,11 @@
 package ru.skillbox.dependency_injection.presentation.images.add
 
 import dagger.Subcomponent
+import ru.skillbox.dependency_injection.di.FragmentScope
 import ru.skillbox.dependency_injection.presentation.images.list.ImagesComponent
 import ru.skillbox.dependency_injection.presentation.images.list.ImagesFragment
 
+@FragmentScope
 @Subcomponent
 interface AddImageComponent {
 

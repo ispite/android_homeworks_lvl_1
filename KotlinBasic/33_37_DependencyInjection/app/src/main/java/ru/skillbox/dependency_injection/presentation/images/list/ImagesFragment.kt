@@ -26,7 +26,7 @@ import javax.inject.Inject
 class ImagesFragment :
     ViewBindingFragment<FragmentImageListBinding>(FragmentImageListBinding::inflate) {
 
-    // Stores an instance of RegistrationComponent so that its Fragments can access it
+    // Stores an instance of ImagesComponent so that its Fragments can access it
     lateinit var imagesComponent: ImagesComponent
 
     @Inject

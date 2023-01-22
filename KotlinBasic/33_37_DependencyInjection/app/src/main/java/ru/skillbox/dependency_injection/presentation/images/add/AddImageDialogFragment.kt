@@ -7,17 +7,30 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import ru.skillbox.dependency_injection.app.App
 import ru.skillbox.dependency_injection.databinding.DialogAddImageBinding
 import ru.skillbox.dependency_injection.utils.toast
+import javax.inject.Inject
 
 class AddImageDialogFragment : BottomSheetDialogFragment() {
 
-    private val viewModel: AddImageViewModel by viewModels()
+    @Inject
+    lateinit var viewModel: AddImageViewModel
+
+    // Stores an instance of AddImageComponent so that its Fragments can access it
+    lateinit var addImageComponent: AddImageComponent
 
     private var _binding: DialogAddImageBinding? = null
 
     private val binding: DialogAddImageBinding
         get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        addImageComponent =
+            (requireActivity().application as App).appComponent.addImagesComponent().create()
+        addImageComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
