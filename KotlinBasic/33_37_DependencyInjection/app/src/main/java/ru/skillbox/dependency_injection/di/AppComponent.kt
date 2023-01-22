@@ -10,7 +10,7 @@ import ru.skillbox.dependency_injection.presentation.main.MainActivity
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppSubcomponents::class])
+@Component(modules = [NetworkModule::class, AppSubcomponents::class])
 interface AppComponent {
 
     // Factory to create instances of the AppComponent
