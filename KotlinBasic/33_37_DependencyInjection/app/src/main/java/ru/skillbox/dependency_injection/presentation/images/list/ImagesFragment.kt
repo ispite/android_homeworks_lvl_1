@@ -15,18 +15,23 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import dagger.hilt.android.AndroidEntryPoint
+import ru.skillbox.dependency_injection.app.App
 import ru.skillbox.dependency_injection.databinding.FragmentImageListBinding
 import ru.skillbox.dependency_injection.utils.ViewBindingFragment
 import ru.skillbox.dependency_injection.utils.autoCleared
 import ru.skillbox.dependency_injection.utils.haveQ
 import ru.skillbox.dependency_injection.utils.toast
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class ImagesFragment :
     ViewBindingFragment<FragmentImageListBinding>(FragmentImageListBinding::inflate) {
 
-    private val viewModel: ImageListViewModel by viewModels()
+    // Stores an instance of ImagesComponent so that its Fragments can access it
+    lateinit var imagesComponent: ImagesComponent
+
+    @Inject
+    lateinit var viewModel: ImageListViewModel
+
     private var imagesAdapter: ImagesAdapter by autoCleared()
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
@@ -34,6 +39,9 @@ class ImagesFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        imagesComponent =
+            (requireActivity().application as App).appComponent.imagesComponent().create()
+        imagesComponent.inject(this)
         initPermissionResultListener()
         initRecoverableActionListener()
     }

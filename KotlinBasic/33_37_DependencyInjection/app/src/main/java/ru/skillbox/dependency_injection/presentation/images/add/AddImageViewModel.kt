@@ -1,25 +1,25 @@
 package ru.skillbox.dependency_injection.presentation.images.add
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.skillbox.dependency_injection.R
 import ru.skillbox.dependency_injection.data.ImagesRepository
+import ru.skillbox.dependency_injection.di.FragmentScope
 import ru.skillbox.dependency_injection.utils.SingleLiveEvent
 import timber.log.Timber
 import javax.inject.Inject
 
-@HiltViewModel
+@FragmentScope
 class AddImageViewModel @Inject constructor(
     private val imagesRepository: ImagesRepository
 ) : ViewModel() {
 
-    init {
-        Timber.tag("Logging").d("init AddImageViewModel")
-    }
+//    private val imagesRepository = ImagesRepository(app)
 
     private val toastSingleLiveEvent = SingleLiveEvent<Int>()
     private val saveSuccessSingleLiveEvent = SingleLiveEvent<Unit>()
