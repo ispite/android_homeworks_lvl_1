@@ -14,7 +14,8 @@ import ru.skillbox.dependency_injection.utils.haveQ
 import javax.inject.Inject
 
 class ImagesRepository @Inject constructor(
-    private val context: Context
+    private val context: Context,
+    private val api: Api
 ) {
 
     private var observer: ContentObserver? = null
@@ -103,7 +104,7 @@ class ImagesRepository @Inject constructor(
 
     private suspend fun downloadImage(url: String, uri: Uri) {
         context.contentResolver.openOutputStream(uri)?.use { outputStream ->
-            Networking.api
+            api
                 .getFile(url)
                 .byteStream()
                 .use { inputStream ->
