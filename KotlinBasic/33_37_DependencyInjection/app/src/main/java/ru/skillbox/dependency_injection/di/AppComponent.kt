@@ -5,12 +5,10 @@ import dagger.BindsInstance
 import dagger.Component
 import ru.skillbox.dependency_injection.presentation.images.add.AddImageComponent
 import ru.skillbox.dependency_injection.presentation.images.list.ImagesComponent
-import ru.skillbox.dependency_injection.presentation.images.list.ImagesFragment
-import ru.skillbox.dependency_injection.presentation.main.MainActivity
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [NetworkModule::class, AppSubcomponents::class])
+@Component(modules = [NetworkModule::class, AppSubcomponents::class, ImagesModule::class])
 interface AppComponent {
 
     // Factory to create instances of the AppComponent
@@ -24,9 +22,4 @@ interface AppComponent {
 
     fun addImagesComponent(): AddImageComponent.Factory
 
-
-    // Classes that can be injected by this Component
-//    fun inject(activity: MainActivity)
-
-//    fun inject(fragment: ImagesFragment)
 }

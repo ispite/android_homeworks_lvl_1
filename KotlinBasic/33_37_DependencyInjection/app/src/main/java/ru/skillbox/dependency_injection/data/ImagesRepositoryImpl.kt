@@ -1,8 +1,8 @@
 package ru.skillbox.dependency_injection.data
 
-import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
+import android.content.Context
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
@@ -11,17 +11,12 @@ import android.provider.MediaStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.skillbox.dependency_injection.utils.haveQ
-import timber.log.Timber
 import javax.inject.Inject
 
 class ImagesRepositoryImpl @Inject constructor(
-    private val context: Application,
-    private val api: Api,
+    private val context: Context,
+    private val api: Api
 ) : ImagesRepository {
-
-    init {
-        Timber.tag("Logging").d("init ImagesRepositoryImpl")
-    }
 
     private var observer: ContentObserver? = null
 
@@ -79,13 +74,6 @@ class ImagesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteImage(id: Long) {
-        withContext(Dispatchers.IO) {
-            val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
-            context.contentResolver.delete(uri, null, null)
-        }
-    }
-
     private fun saveImageDetails(name: String): Uri {
         val volume = if (haveQ()) {
             MediaStore.VOLUME_EXTERNAL_PRIMARY
@@ -122,6 +110,13 @@ class ImagesRepositoryImpl @Inject constructor(
                 .use { inputStream ->
                     inputStream.copyTo(outputStream)
                 }
+        }
+    }
+
+    override suspend fun deleteImage(id: Long) {
+        withContext(Dispatchers.IO) {
+            val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+            context.contentResolver.delete(uri, null, null)
         }
     }
 }
