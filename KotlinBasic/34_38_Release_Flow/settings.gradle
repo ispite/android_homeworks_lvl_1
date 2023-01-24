@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "30_34_Flow"
+rootProject.name = "34_38_Release_Flow"
 include ':app'
